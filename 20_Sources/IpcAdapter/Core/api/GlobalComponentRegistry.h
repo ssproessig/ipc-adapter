@@ -34,3 +34,30 @@ namespace IpcAdapter
         };
     }
 }
+
+
+
+
+
+/**
+ * A helper macro to avoid "god registry" that needs to include all component headers. Instead,
+ * only include GlobalComponentRegistry.h and use this macro to publish your component.
+ *
+ * @param COMPONENT_ID  id of the component to register
+ */
+#define REGISTER_COMPONENT(COMPONENT_ID)															\
+namespace                                                                                           \
+{                                                                                                   \
+    struct RegisterComponent                                                                        \
+    {                                                                                               \
+        RegisterComponent()                                                                         \
+        {                                                                                           \
+            IpcAdapter::Core::GlobalComponentRegistry::get().addFactoryFor(                         \
+                #COMPONENT_ID,																		\
+				[]()->std::shared_ptr<IpcAdapter::Core::IComponent> {								\
+					return std::make_shared<COMPONENT_ID>();										\
+				});																					\
+        }                                                                                           \
+    } registerIt;																					\
+																									\
+}
