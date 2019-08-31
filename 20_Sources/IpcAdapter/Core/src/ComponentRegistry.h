@@ -35,7 +35,6 @@ namespace IpcAdapter
              * @retval  !=nullptr	if a factory was found for a component identified by `aComponentId`
              */
             FactoryFnc getFactoryFor(QString const& aComponentId) override;
-            /// @}
 
             /**
              * Adds a factory implementation of `aFactoryFunction` to the registry for a component identified by
@@ -48,6 +47,7 @@ namespace IpcAdapter
              * @retval  false		if inserting the factory failed (e.g. duplicate `aComponentId`)
              */
             bool addFactoryFor(QString const& aComponentId, FactoryFnc const& aFactoryFunction);
+            /// @}
         };
     }
 }

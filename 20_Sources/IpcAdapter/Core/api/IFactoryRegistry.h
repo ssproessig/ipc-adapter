@@ -39,6 +39,18 @@ namespace IpcAdapter
              */
             virtual FactoryFnc getFactoryFor(QString const& aComponentId) = 0;
 
+            /**
+             * Adds a factory implementation of `aFactoryFunction` to the registry for a component identified by
+             * `aComponentId`.
+             *
+             * @param aComponentId		component id we add the factory for
+             * @param aFactoryFunction	factory function to add
+             *
+             * @retval  true		if the factory was added for `aComponentId`
+             * @retval  false		if inserting the factory failed (e.g. duplicate `aComponentId`)
+             */
+            virtual bool addFactoryFor(QString const& aComponentId, FactoryFnc const& aFactoryFunction) = 0;
+
         };
     }
 }
