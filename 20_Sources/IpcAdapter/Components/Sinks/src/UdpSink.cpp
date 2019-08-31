@@ -2,6 +2,7 @@
 
 #include "Core/api/IConfigurable.h"
 #include "Core/api/IPipelineFrame.h"
+#include "Core/api/Logger.h"
 
 #include <QHostAddress>
 #include <QString>
@@ -17,6 +18,7 @@ namespace
     namespace Constants
     {
         DECLARE_CONST(QString, configHost, QStringLiteral("host"));
+        DECLARE_CONST(QString, configPort, QStringLiteral("port"));
     }
 }
 
@@ -33,27 +35,42 @@ struct UdpSink::Data
     {
         REALIZE_REQUIREMENT("R-IPCA-SINK-002");
 
+        LOG_DEBUG(this) << "doConfigure: " << aKey << ", " << aValue;
+
         if(aKey == Constants::configHost())
         {
-
+            hasValidHost = targetHost.setAddress(aValue);
+            return hasValidHost;
         }
-        else
+
+        if(aKey == Constants::configPort())
         {
-            return false;
+            bool conversionOk = false;
+            auto const& port = aValue.toInt(&conversionOk);
+            hasValidPort = conversionOk &&
+                           port >= std::numeric_limits<quint16>::min() && port <= std::numeric_limits<quint16>::max();
+
+            targetPort = static_cast<quint16>(port);
+
+            return hasValidPort;
         }
 
-        return true;
+        return false;
     }
 
     bool onConfigureEnd() override
     {
-        return false;
+        LOG_DEBUG(this) << "hasValidHost=" << hasValidHost << " hasValidPort=" << hasValidPort;
+        return hasValidHost && hasValidPort;
     }
     /// @}
 
 
     QHostAddress targetHost = QHostAddress::LocalHost;
-    quint16 port = 0;
+    quint16 targetPort = 0;
+
+    bool hasValidHost = false;
+    bool hasValidPort = false;
 };
 
 
