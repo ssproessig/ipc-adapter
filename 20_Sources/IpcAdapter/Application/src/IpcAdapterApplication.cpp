@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        auto runtime = Core::Runtime::createFrom(args.at(1));
+        auto runtime = IpcAdapter::Core::Runtime::createFrom(args.at(1));
 
         runtime->configure();
         runtime->serveForever();

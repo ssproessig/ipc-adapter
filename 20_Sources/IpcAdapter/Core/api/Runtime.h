@@ -5,16 +5,18 @@
 FORWARD_DECLARE(QString);
 
 
-
-namespace Core
+namespace IpcAdapter
 {
-
-    class Runtime
+    namespace Core
     {
-        STATIC_CLASS(Runtime);
-    public:
-        static std::unique_ptr<IRuntime> createFrom(QString const& aConfigurationFile);
 
-    };
+        class Runtime
+        {
+            STATIC_CLASS(Runtime);
+        public:
+            static std::unique_ptr<IRuntime> createFrom(QString const& aConfigurationFile);
 
+        };
+
+    }
 }

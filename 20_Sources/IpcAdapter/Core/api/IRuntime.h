@@ -3,16 +3,18 @@
 #include "Shared/api/ConvenienceMacros.h"
 
 
-
-namespace Core
+namespace IpcAdapter
 {
-    class IRuntime
+    namespace Core
     {
-    public:
-        INTERFACE_DESTRUCTOR(IRuntime);
+        class IRuntime
+        {
+        public:
+            INTERFACE_DESTRUCTOR(IRuntime);
 
-        virtual void configure() = 0;
+            virtual void configure() = 0;
 
-        virtual void serveForever() = 0;
-    };
+            virtual void serveForever() = 0;
+        };
+    }
 }

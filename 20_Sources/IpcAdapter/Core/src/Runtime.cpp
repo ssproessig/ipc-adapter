@@ -2,13 +2,14 @@
 #include "Core/api/Logger.h"
 
 
-using Core::Runtime;
+using IpcAdapter::Core::Runtime;
+using IpcAdapter::Core::IRuntime;
 
 
 
 namespace
 {
-    class RuntimeImpl: public Core::IRuntime
+    class RuntimeImpl: public IRuntime
     {
         void configure() override
         {
@@ -24,7 +25,7 @@ namespace
 
 
 
-std::unique_ptr<Core::IRuntime> Runtime::createFrom(QString const& aConfigurationFile)
+std::unique_ptr<IRuntime> Runtime::createFrom(QString const& aConfigurationFile)
 {
     LOG_DEBUG(nullptr) << "Creating Runtime from " << aConfigurationFile;
 
