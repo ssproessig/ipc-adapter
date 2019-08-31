@@ -20,6 +20,16 @@ namespace IpcAdapter
                 UdpSink();
                 virtual ~UdpSink();
 
+                /// @name IComponent realization
+                /// @{
+                Core::IConfigurable& getConfigurable() override;
+                /// @}
+
+                /// @name ISink realization
+                /// @{
+                void forwardTo(Core::IPipelineStep& aPipelineStep) override;
+                /// @}
+
                 PIMPLED_DATA(d);
             };
         }
