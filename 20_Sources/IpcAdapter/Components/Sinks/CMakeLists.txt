@@ -6,6 +6,11 @@ set(SRC
 )
 source_group("Sinks Sources" ${TST})
 
+set(DOC
+    doc/Sinks_MRS.md
+)
+source_group("Sinks Documents" ${DOC})
+
 set(TST
     tst/UdpSinkTest.cpp
     tst/UdpSinkTest.h
