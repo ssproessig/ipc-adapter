@@ -14,8 +14,8 @@ namespace IpcAdapter
          * @author Soeren Sproessig
          * @version 1
          */
-        class ComponentRegistry:
-            IFactoryRegistry
+        class ComponentRegistry
+            : public IFactoryRegistry
         {
             NONCOPYABLE(ComponentRegistry);
             PIMPLED_DATA(d);
