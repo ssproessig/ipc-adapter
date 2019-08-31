@@ -43,3 +43,21 @@ RabbitMQ SHALL be used as message broker between ESB solution and Legacy Systems
 - RabbitMQ supports durable exchanges and queues that guarantee message delivery
 - RabbitMQ supports flexible routing via "topic" exchanges and bound queues
 - RabbitMQ scales very good in case we need to scale the overall systems throughput
+
+
+## D-IPCA-005: Repository / Factory pattern usage
+Derived from D-IPCA-003: in order to make the pipeline configurable at startup time:
+
+- the system MUST be able to construct components via factories
+- the system MUST be able to look-up those factories from a central registry
+
+
+## D-IPCA-006: Deploy components statically linked
+Although we aim for a _modular_ components approach, the system SHALL be deployed as statically linked binary.
+
+Exception: Qt MAY be dynamically linked.
+
+### Rationale
+- deploying a binary that statically links all component registries is easier than invoking a dynamic loader
+- we may change to dynamically linking component registries at any later time if we need
+
