@@ -2,6 +2,7 @@
 
 #include "Core/api/IConfigurable.h"
 #include "Core/api/IPipelineFrame.h"
+#include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/Logger.h"
 
 #include <QHostAddress>
@@ -110,3 +111,8 @@ bool UdpSink::process(IpcAdapter::Core::IPipelineFrame& aPipelineStep)
 
     return false;
 }
+
+
+
+REGISTER_COMPONENT(UdpSink);
+
