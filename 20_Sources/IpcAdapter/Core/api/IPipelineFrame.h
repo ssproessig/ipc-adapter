@@ -2,6 +2,8 @@
 
 #include "Shared/api/ConvenienceMacros.h"
 
+FORWARD_DECLARE(QByteArray);
+
 
 
 namespace IpcAdapter
@@ -12,6 +14,8 @@ namespace IpcAdapter
         {
         public:
             INTERFACE_DESTRUCTOR(IPipelineFrame)
+
+            virtual QByteArray const& getData() const = 0;
         };
     }
 }
