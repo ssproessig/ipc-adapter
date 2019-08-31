@@ -22,7 +22,7 @@ We assume that we
 
 - [System Requirements](Documentation/System_Requirements.md)
 - [Design Decisions](Documentation/Design_Decisions.md)
-- [Coding Rules and Naming Conventions](Documentation/Coding_Rules_and_Naming_Conventions.md)
+- [Coding Rules](Documentation/Coding_Rules.md) and [Naming Conventions](Documentation/Naming_Conventions.md)
 
 ## Sources
 
