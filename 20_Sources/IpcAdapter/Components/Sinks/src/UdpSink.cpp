@@ -41,6 +41,7 @@ IpcAdapter::Core::IConfigurable& UdpSink::getConfigurable()
 }
 
 
-void UdpSink::forwardTo(IpcAdapter::Core::IPipelineStep& aPipelineStep)
+bool UdpSink::process(IpcAdapter::Core::IPipelineFrame& aPipelineStep)
 {
+    return false;
 }

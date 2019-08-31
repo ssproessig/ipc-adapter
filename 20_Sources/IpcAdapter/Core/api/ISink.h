@@ -10,7 +10,7 @@ namespace IpcAdapter
 {
     namespace Core
     {
-        FORWARD_DECLARE(IPipelineStep);
+        FORWARD_DECLARE(IPipelineFrame);
 
         class ISink
             : public IComponent
@@ -18,7 +18,7 @@ namespace IpcAdapter
         public:
             INTERFACE_DESTRUCTOR(ISink)
 
-            virtual void forwardTo(IPipelineStep& aPipelineStep) = 0;
+            virtual bool process(IPipelineFrame& aPipelineFrame) = 0;
 
         };
     }

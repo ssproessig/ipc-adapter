@@ -27,7 +27,7 @@ namespace IpcAdapter
 
                 /// @name ISink realization
                 /// @{
-                void forwardTo(Core::IPipelineStep& aPipelineStep) override;
+                bool process(Core::IPipelineFrame& aPipelineFrame) override;
                 /// @}
 
                 PIMPLED_DATA(d);
