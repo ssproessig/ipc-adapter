@@ -61,7 +61,8 @@ struct UdpSink::Data
     bool onConfigureEnd() override
     {
         LOG_DEBUG(this) << "hasValidHost=" << hasValidHost << " hasValidPort=" << hasValidPort;
-        return hasValidHost && hasValidPort;
+        configuredOk = hasValidHost && hasValidPort;
+        return configuredOk;
     }
     /// @}
 
@@ -69,6 +70,7 @@ struct UdpSink::Data
     QHostAddress targetHost = QHostAddress::LocalHost;
     quint16 targetPort = 0;
 
+    bool configuredOk = false;
     bool hasValidHost = false;
     bool hasValidPort = false;
 };
