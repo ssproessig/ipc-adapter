@@ -26,5 +26,5 @@ set(LNK
 add_library(${LIB_NAME} ${SRC})
 target_link_libraries(${LIB_NAME} ${LNK})
 
-add_executable(${LIB_NAME}Test ${SRC} ${TST})
+add_executable(${LIB_NAME}Test ${DOC} ${SRC} ${TST})
 target_link_libraries(${LIB_NAME}Test ${LNK} Qt5::Test)
