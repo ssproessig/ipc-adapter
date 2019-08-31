@@ -6,7 +6,7 @@
 
 #include <QHostAddress>
 #include <QString>
-
+#include <QUdpSocket>
 
 
 using IpcAdapter::Components::Sinks::UdpSink;
@@ -70,6 +70,8 @@ struct UdpSink::Data
     QHostAddress targetHost = QHostAddress::LocalHost;
     quint16 targetPort = 0;
 
+    std::unique_ptr<QUdpSocket> socket = std::make_unique<QUdpSocket>();
+
     bool configuredOk = false;
     bool hasValidHost = false;
     bool hasValidPort = false;
@@ -94,5 +96,13 @@ IpcAdapter::Core::IConfigurable& UdpSink::getConfigurable()
 
 bool UdpSink::process(IpcAdapter::Core::IPipelineFrame& aPipelineStep)
 {
+    if(d->configuredOk)
+    {
+        auto const& data = aPipelineStep.getData();
+        auto const bytesSent = d->socket->writeDatagram(data, d->targetHost, d->targetPort);
+
+        return bytesSent == data.length();
+    }
+
     return false;
 }
