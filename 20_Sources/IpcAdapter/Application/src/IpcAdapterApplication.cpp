@@ -13,15 +13,27 @@ int main(int argc, char* argv[])
 
     // Must be instantiated in order for QCoreApplication::arguments() to work
     QCoreApplication app(argc, argv);
+    auto const& args = QCoreApplication::arguments();
 
-    if(app.arguments().length() <= 1)
+    if(args.length() <= 1)
     {
-        std::cout << "Usage: " << qPrintable(app.arguments().at(0)) << " <config>" << std::endl;
+        std::cout << "Usage: " << qPrintable(args.at(0)) << " <config>" << std::endl;
         return 1;
     }
 
-    auto runtime = Core::Runtime::createFrom(app.arguments().at(1));
 
+    try
+    {
+        auto runtime = Core::Runtime::createFrom(args.at(1));
 
-    return app.exec();
+        runtime->configure();
+        runtime->serveForever();
+        return QCoreApplication::exec();
+    }
+    catch(std::exception const& anException)
+    {
+        std::cout << "Fatal error occurred: " << anException.what();
+        return 2;
+    }
 }
+
