@@ -29,7 +29,11 @@ struct UdpSink::Data
 {
     /// @name IConfigurable implementation
     /// @{
-    void onConfigureBegin() override {}
+    void onConfigureBegin() override
+    {
+        hasValidHost = false;
+        hasValidPort = false;
+    }
 
     bool doConfigure(QString const& aKey, QString const& aValue) override
     {
