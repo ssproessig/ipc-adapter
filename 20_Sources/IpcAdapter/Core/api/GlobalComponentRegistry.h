@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Shared/api/ConvenienceMacros.h"
+#include "Core/api/IFactoryRegistry.h"
 
 
 
@@ -8,8 +8,6 @@ namespace IpcAdapter
 {
     namespace Core
     {
-        FORWARD_DECLARE(IFactoryRegistry);
-
         /**
          * The global component registry following the Singleton pattern.
          *
