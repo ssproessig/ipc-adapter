@@ -52,7 +52,7 @@ namespace                                                                       
     {                                                                                               \
         RegisterComponent()                                                                         \
         {                                                                                           \
-            IpcAdapter::Core::GlobalComponentRegistry::get().addFactoryFor(                         \
+            IpcAdapter::Core::GlobalComponentRegistry::get().registerFactoryFor(                    \
                 #COMPONENT_ID,																		\
 				[]()->std::shared_ptr<IpcAdapter::Core::IComponent> {								\
 					return std::make_shared<COMPONENT_ID>();										\

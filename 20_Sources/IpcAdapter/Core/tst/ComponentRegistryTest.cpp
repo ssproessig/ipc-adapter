@@ -34,7 +34,7 @@ namespace
 
     bool addSampleComponentFactoryTo(ComponentRegistry& aRegistry)
     {
-        return aRegistry.addFactoryFor(Constants::componentId(), []()->std::shared_ptr<IpcAdapter::Core::IComponent>
+        return aRegistry.registerFactoryFor(Constants::componentId(), []()->std::shared_ptr<IpcAdapter::Core::IComponent>
         {
             return std::make_shared<SampleComponent>();
         });
