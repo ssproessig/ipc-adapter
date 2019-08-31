@@ -57,6 +57,20 @@ If specified, the numeric prefix SHALL have the same length for all directories 
 ### DIR-004 
 As an exception, "`_`" may be used as prefix to force a single file to the beginning of the directory listing. This "`_`" counts as uppercase character.
 
+### DIR-005
+Components SHALL follow the following directory layout
+
+| **directory**   | **usage**                                               |
+|-----------------|---------------------------------------------------------|
+| `api/`          | public API of the component; used from other components |
+| `cfg/`          | configuration artifacts of the component (e.g. XSDs)    |
+| `doc/`          | documentation of the component                          |
+| `res/`          | static resources of the component                       |
+| `src/`          | sources of the component                                |
+| `tst/`          | unit test sources of the component                      |
+
+Directories that are empty MAY be omitted.
+
 
 ## Code formatting
 ### CFMT-001
