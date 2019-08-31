@@ -1,5 +1,7 @@
 #include "Core/src/ComponentRegistry.h"
 
+#include "Core/api/Logger.h"
+
 #include <QMap>
 
 
@@ -23,9 +25,11 @@ ComponentRegistry::getFactoryFor(QString const& aComponentId)
 
     if(it != d->knownFactories.constEnd())
     {
+        LOG_DEBUG(this) << "Found factory for" <<  aComponentId;
         return *it;
     }
 
+    LOG_DEBUG(this) << "Component" << aComponentId << "is unknown!";
     return nullptr;
 }
 
@@ -36,9 +40,11 @@ bool ComponentRegistry::addFactoryFor(QString const& aComponentId, FactoryFnc co
 
     if(it == d->knownFactories.constEnd())
     {
+        LOG_DEBUG(this) << "Added " << aComponentId << " to registry";
         return d->knownFactories.insert(aComponentId, aFactoryFunction) != d->knownFactories.constEnd();
     }
 
+    LOG_DEBUG(this) << "Refusing to add " << aComponentId << " twice!";
     return false;
 }
 
