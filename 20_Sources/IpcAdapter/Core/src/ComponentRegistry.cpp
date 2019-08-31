@@ -17,6 +17,11 @@ ComponentRegistry::getFactoryFor(QString const& aComponentId)
 }
 
 
+bool ComponentRegistry::addFactoryFor(QString const& aComponentId, FactoryFnc aFactoryFunction)
+{
+    return false;
+}
+
 
 ComponentRegistry::ComponentRegistry(): d(std::make_unique<Data>()) {}
 ComponentRegistry::~ComponentRegistry() = default;

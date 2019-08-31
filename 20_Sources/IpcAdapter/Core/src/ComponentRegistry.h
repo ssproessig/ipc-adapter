@@ -23,6 +23,7 @@ namespace IpcAdapter
             FactoryFnc getFactoryFor(QString const& aComponentId) override;
             /// @}
 
+            bool addFactoryFor(QString const& aComponentId, FactoryFnc aFactoryFunction);
         };
     }
 }
