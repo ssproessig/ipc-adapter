@@ -30,7 +30,7 @@ ComponentRegistry::getFactoryFor(QString const& aComponentId)
 }
 
 
-bool ComponentRegistry::addFactoryFor(QString const& aComponentId, FactoryFnc aFactoryFunction)
+bool ComponentRegistry::addFactoryFor(QString const& aComponentId, FactoryFnc const& aFactoryFunction)
 {
     auto const& it = d->knownFactories.constFind(aComponentId);
 
