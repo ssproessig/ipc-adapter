@@ -9,6 +9,7 @@ include(${IPC_ADAPTER_PATH}/CMake/ProjectSettings.cmake)
 include_directories(IpcAdapter)
 
 add_subdirectory(IpcAdapter/Core)
+add_subdirectory(IpcAdapter/Components)
 add_subdirectory(IpcAdapter/Application)
 
 include(CPack)
