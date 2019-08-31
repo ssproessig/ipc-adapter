@@ -6,6 +6,7 @@ file(GLOB HDR src/*.h)
 set(SRC
     ${HDR}
     src/ComponentRegistry.cpp
+    src/GlobalComponentRegistry.cpp
     src/SimplePipelineFrame.cpp
     src/Runtime.cpp
 )

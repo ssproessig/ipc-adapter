@@ -4,6 +4,7 @@
 #include "Shared/tst/QTestConvenienceMacros.h"
 
 #include "Core/api/IComponent.h"
+#include "Core/api/GlobalComponentRegistry.h"
 
 #include <QString>
 
@@ -11,6 +12,7 @@
 
 using IpcAdapter::Core::ComponentRegistryTest;
 using IpcAdapter::Core::ComponentRegistry;
+using IpcAdapter::Core::GlobalComponentRegistry;
 
 
 
@@ -86,4 +88,12 @@ void ComponentRegistryTest::test_04_querying_known_component_factory_returns_fun
 
     EXECUTE(auto const component = factory();, "Ensure factory can be invoked");
     VERIFY(std::dynamic_pointer_cast<IComponent>(component) != nullptr, "ensure we got a IComponent from the factory");
+}
+
+
+
+void ComponentRegistryTest::test_99_global_component_registry_is_singleton()
+{
+    COMPARE(&GlobalComponentRegistry::get(), &GlobalComponentRegistry::get(),
+            "ensure global component registry is a singleton");
 }
