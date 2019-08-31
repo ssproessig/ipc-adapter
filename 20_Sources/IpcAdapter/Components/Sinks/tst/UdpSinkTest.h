@@ -23,6 +23,8 @@ namespace IpcAdapter
                 void test_03_configuration_fails_if_mandatory_parameter_is_missing();
                 void test_04_configuration_fails_for_invalid_port();
                 void test_05_configuration_fails_for_invalid_host();
+
+                void test_10_forwarding_pipeline_frame_succeeds_for_configured_sink();
             };
         }
     }

@@ -2,10 +2,13 @@
 
 #include "Components/Sinks/src/UdpSink.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/SimplePipelineFrame.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
 
-#include <functional>
+#include <QNetworkDatagram>
+#include <QUdpSocket>
 
+#include <functional>
 
 
 using IpcAdapter::Components::Sinks::UdpSinkTest;
@@ -87,4 +90,53 @@ void UdpSinkTest::test_05_configuration_fails_for_invalid_host()
     {
         COMPARE(configurable.doConfigure("host", ""), false, "configuration fails for invalid 'host' value");
     }, false, "configuration must fail in case faulty parameter was used");
+}
+
+
+
+void UdpSinkTest::test_10_forwarding_pipeline_frame_succeeds_for_configured_sink()
+{
+    TEST_ANNOTATION("Set up a local UDP listener and ensure that UdpSink forwards pipeline frames to it");
+    TEST_REQUIREMENT("R-IPCA-SINK-002");
+
+    QUdpSocket udpSocket;
+
+    QByteArray dataReceivedOnUdpSocket;
+    connect(&udpSocket, &QUdpSocket::readyRead, this, [&udpSocket, &dataReceivedOnUdpSocket]()
+    {
+        auto const datagram = udpSocket.receiveDatagram();
+        dataReceivedOnUdpSocket = datagram.data();
+    });
+
+    COMPARE(
+        udpSocket.bind(QHostAddress::LocalHost, 9876),
+        true, "binding to a random port must succeed");
+
+    auto uut = std::make_unique<UdpSink>();
+    auto& configurable = uut->getConfigurable();
+    configurable.onConfigureBegin();
+
+    COMPARE(
+        configurable.doConfigure("port", QString::number(udpSocket.localPort())),
+        true, "use the port of our test listener"
+    );
+    COMPARE(
+        configurable.doConfigure("host", udpSocket.localAddress().toString()),
+        true, "use the host of our test listener");
+    COMPARE(
+        configurable.onConfigureEnd(),
+        true, "configuration must have succeeded"
+    );
+
+    QByteArray const sampleData{"Test1234"};
+    Core::SimplePipelineFrame frame;
+    frame.setData(sampleData);
+
+    COMPARE(
+        uut->process(frame),
+        true, "frame shall be processed successfully");
+
+    QTest::qWait(1000);
+
+    COMPARE(dataReceivedOnUdpSocket, sampleData, "received data SHALL match what was processed by sink");
 }
