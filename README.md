@@ -2,6 +2,9 @@
 
 Study for an _inter-process adapter_ in C++/Qt 5.
 
+## Key words for use in RFCs to Indicate Requirement Levels
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document and other documents in this repository are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
 ## Big Picture / Solution to Realize
 ![ipc-adapter big picture](Documentation/big_picture.png)
 
