@@ -3,6 +3,7 @@ set(LIB_NAME IpcAdapterCore)
 file(GLOB API api/*.h)
 
 set(SRC
+    src/SimplePipelineFrame.cpp
     src/Runtime.cpp
 )
 
