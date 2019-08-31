@@ -26,7 +26,7 @@ We assume that we
 
 ## Sources
 
-Refer to XYZ.
+Refer to [20_Sources](20_Sources/).
 
 ## License
 
