@@ -130,3 +130,6 @@ T const& NAME()                             \
 #    define SANITY_CHECK(cond) ((!(cond)) ? qt_assert(#cond,__FILE__,__LINE__) : qt_noop())
 #  endif
 #endif
+
+// some macros we will use for later documentation generation -> no code is being created
+#define REALIZE_REQUIREMENT(requirement_id) qt_noop()
