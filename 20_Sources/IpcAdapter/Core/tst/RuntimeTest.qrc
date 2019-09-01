@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>RuntimeTest_00_broken_file.xml</file>
         <file>RuntimeTest_03_wrong_xml.xml</file>
+        <file>RuntimeTest_04_wrong_root_element.xml</file>
     </qresource>
 </RCC>

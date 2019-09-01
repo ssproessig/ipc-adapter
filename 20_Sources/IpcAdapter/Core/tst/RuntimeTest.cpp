@@ -48,3 +48,14 @@ void RuntimeTest::test_03_Runtime_initialization_fails_for_wrong_xml_used()
         "configuration has unsupported namespace ''!"
     );
 }
+
+
+
+void RuntimeTest::test_04_Runtime_initialization_fails_for_wrong_root_element()
+{
+    EXPECT_EXCEPTION(
+        Runtime::createFrom(":/RuntimeTest_04_wrong_root_element.xml");,
+        "creating Runtime from XML with correct schema but wrong root element must fail",
+        "configuration has wrong root element 'source'!"
+    );
+}
