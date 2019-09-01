@@ -1,4 +1,4 @@
-set(LIB_NAME IpcAdapterSource)
+set(LIB_NAME IpcAdapterSources)
 
 set(SRC
     src/UdpSource.cpp
