@@ -18,6 +18,7 @@ namespace
         DECLARE_CONST(QString, supportedNamespace, ("urn:ipca-configuration-v1"))
         DECLARE_CONST(QString, errorUnsupportedNamespace, ("configuration has unsupported namespace '%1'!"))
         DECLARE_CONST(QString, errorUnsupportedRootElement, ("configuration has wrong root element '%1'!"))
+        DECLARE_CONST(QString, errorWrongRootElementVersion, ("configuration has unsupported version '%1'!"))
     }
 
 
@@ -31,6 +32,13 @@ namespace
             if (localName != "configuration")
             {
                 throw std::runtime_error(qPrintable(Constants::errorUnsupportedRootElement().arg(localName)));
+            }
+
+            auto const& version = atts.value("version");
+
+            if (version != "1")
+            {
+                throw std::runtime_error(qPrintable(Constants::errorWrongRootElementVersion().arg(version)));
             }
 
             return true;
