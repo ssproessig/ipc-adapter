@@ -59,3 +59,14 @@ void RuntimeTest::test_04_Runtime_initialization_fails_for_wrong_root_element()
         "configuration has wrong root element 'source'!"
     );
 }
+
+
+
+void RuntimeTest::test_05_Runtime_initialization_fails_for_root_element_with_unsupported_version()
+{
+    EXPECT_EXCEPTION(
+        Runtime::createFrom(":/RuntimeTest_05_root_element_with_wrong_version.xml");,
+        "creating Runtime from XML with correct schema and root element, but unsupported version, must fail",
+        "configuration has unsupported version '2'!"
+    );
+}

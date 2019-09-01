@@ -20,6 +20,7 @@ namespace IpcAdapter
             void test_02_Runtime_initialization_fails_for_broken_file();
             void test_03_Runtime_initialization_fails_for_wrong_xml_used();
             void test_04_Runtime_initialization_fails_for_wrong_root_element();
+            void test_05_Runtime_initialization_fails_for_root_element_with_unsupported_version();
 
         };
     }
