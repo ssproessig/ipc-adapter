@@ -41,9 +41,11 @@ struct UdpSource::Data: Core::IConfigurable
 
         QObject::connect(&socket, &QUdpSocket::readyRead, [this]()
         {
-            EXIT_EARLY_IF(Q_UNLIKELY(!sourceTo),);
-
             auto const dataReceived = socket.receiveDatagram();
+            LOG_DEBUG(this) << "received: " << dataReceived.data().toHex();
+
+            EXIT_EARLY_IF(Q_UNLIKELY(!sourceTo),);
+            LOG_DEBUG(this) << "forwarding to: " << sourceTo.get();
 
             auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>();
             pipelineFrame->setData(dataReceived.data());
