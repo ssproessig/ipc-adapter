@@ -93,9 +93,9 @@ UdpSink::UdpSink()
 UdpSink::~UdpSink() = default;
 
 
-IpcAdapter::Core::IConfigurable& UdpSink::getConfigurable()
+IpcAdapter::Core::IConfigurable* UdpSink::getConfigurable()
 {
-    return *d;
+    return d.get();
 }
 
 

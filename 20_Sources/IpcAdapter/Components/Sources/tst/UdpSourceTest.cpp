@@ -34,7 +34,7 @@ namespace
     )
     {
         TEST_REQUIREMENT("R-IPCA-SOURCE-002");
-        auto& configurable = uut->getConfigurable();
+        auto& configurable = *uut->getConfigurable();
         {
             configurable.onConfigureBegin();
             configurationCallback(configurable);

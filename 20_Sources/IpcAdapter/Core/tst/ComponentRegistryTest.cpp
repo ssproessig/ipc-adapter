@@ -26,7 +26,7 @@ namespace
     class SampleComponent: public IpcAdapter::Core::IComponent
     {
     public:
-        IpcAdapter::Core::IConfigurable& getConfigurable() override
+        IpcAdapter::Core::IConfigurable* getConfigurable() override
         {
             throw std::logic_error("...shall not be called from test anyway");
         }

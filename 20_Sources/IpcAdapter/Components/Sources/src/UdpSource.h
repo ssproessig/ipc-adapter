@@ -36,7 +36,7 @@ namespace IpcAdapter
                  * - `host` to listen for UDP data at (defaults to `127.0.0.1`)
                  * - `port` to listen for UDP data at (defaults to `6789`)
                  */
-                Core::IConfigurable& getConfigurable() override;
+                Core::IConfigurable* getConfigurable() override;
                 /// @}
 
                 /// @name ISource realization

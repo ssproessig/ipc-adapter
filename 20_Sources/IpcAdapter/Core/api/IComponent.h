@@ -26,9 +26,12 @@ namespace IpcAdapter
             /**
              * Queries the component for its configuration means.
              *
-             * @return the component's configuration implementation
+             * May return `nullptr` if the component is not configurable.
+             *
+             * @retval !=nullptr    the component's configuration implementation
+             * @retval nullptr      the component's is not configurable
              */
-            virtual IConfigurable& getConfigurable() = 0;
+            virtual IConfigurable* getConfigurable() = 0;
 
         };
     }

@@ -20,9 +20,9 @@ namespace
         : IpcAdapter::Core::IComponent
         , IpcAdapter::Core::IConfigurable
     {
-        IConfigurable& getConfigurable() override
+        IConfigurable* getConfigurable() override
         {
-            return *this;
+            return this;
         }
         void onConfigureBegin() override {}
         bool doConfigure(QString const& aKey, QString const& aValue) override

@@ -36,7 +36,7 @@ namespace IpcAdapter
                  * - `host` to send the UDP data to
                  * - `port` to send the UDP data to
                  */
-                Core::IConfigurable& getConfigurable() override;
+                Core::IConfigurable* getConfigurable() override;
                 /// @}
 
                 /// @name ISink realization
