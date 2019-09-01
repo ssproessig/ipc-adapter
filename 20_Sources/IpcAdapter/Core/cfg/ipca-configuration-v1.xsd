@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ipca="urn:ipca-configuration-v1"
+  targetNamespace="urn:ipca-configuration-v1" elementFormDefault="qualified">
+  <xs:element name="configuration">
+    <xs:annotation>
+      <xs:documentation>root element for configuring the IpcAdapter</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="components">
+          <xs:annotation>
+            <xs:documentation>mandatory list of all components to create and configure</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="source" type="ipca:componentType"/>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="converter"
+                type="ipca:componentType"/>
+              <xs:element maxOccurs="unbounded" name="sink" type="ipca:componentType"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="todo-pipeine"/>
+      </xs:sequence>
+      <xs:attribute name="version" use="required">
+        <xs:annotation>
+          <xs:documentation>Version of the configuration schema in use.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:unsignedInt">
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="componentType">
+    <xs:annotation>
+      <xs:documentation>configurable component in the IpcAdapter</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="param">
+        <xs:annotation>
+          <xs:documentation>parameter given to the component when configuring</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:attribute name="key" use="required">
+            <xs:annotation>
+              <xs:documentation>configuration parameter id to set</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:minLength value="1"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+              <xs:documentation>configuration value to set</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required">
+      <xs:annotation>
+        <xs:documentation>ID used for referencing this instance of the component.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="UdpSink"/>
+          <xs:enumeration value="UdpSource"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>
