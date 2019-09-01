@@ -15,6 +15,11 @@ using IpcAdapter::Core::IRuntime;
 
 namespace
 {
+    namespace Constants
+    {
+        DECLARE_CONST(QString, exceptionFileNotFound, QStringLiteral("Given configuration '%1' not found!"))
+    }
+
     struct RuntimeImpl: IRuntime
     {
         void configure(QString const& aConfigurationFile)
@@ -28,6 +33,12 @@ namespace
             reader.setErrorHandler(&handler);
 
             QFile xmlFile(aConfigurationFile);
+
+            if (!xmlFile.exists())
+            {
+                throw std::runtime_error(qPrintable(Constants::exceptionFileNotFound().arg(aConfigurationFile)));
+            }
+
             QXmlInputSource source(&xmlFile);
 
             if (reader.parse(source))
