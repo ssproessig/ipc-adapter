@@ -17,7 +17,46 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="todo-pipeine"/>
+        <xs:element name="pipelines">
+          <xs:annotation>
+            <xs:documentation>mandatory list of pipelines to configure</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="pipeline">
+                <xs:annotation>
+                  <xs:documentation>a pipeline to setup</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="source"
+                      type="ipca:componentReferenceType">
+                      <xs:annotation>
+                        <xs:documentation>a source reference</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="converter"
+                      type="ipca:componentReferenceType">
+                      <xs:annotation>
+                        <xs:documentation>a converter reference</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" name="sink" type="ipca:componentReferenceType">
+                      <xs:annotation>
+                        <xs:documentation>a sink reference</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:ID" use="required">
+                    <xs:annotation>
+                      <xs:documentation>unique identification of the pipeline</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
       <xs:attribute name="version" use="required">
         <xs:annotation>
@@ -67,7 +106,7 @@
     <xs:attribute name="type" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="ReverseBytes"/>
+          <xs:enumeration value="ReverseBytesConverter"/>
           <xs:enumeration value="UdpSink"/>
           <xs:enumeration value="UdpSource"/>
         </xs:restriction>
