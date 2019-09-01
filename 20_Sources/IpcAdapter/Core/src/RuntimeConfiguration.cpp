@@ -1,5 +1,6 @@
 #include "Core/src/RuntimeConfiguration.h"
 #include "Core/api/IComponent.h"
+#include "Core/api/Logger.h"
 
 #include <QMap>
 #include <QString>
@@ -38,5 +39,6 @@ bool RuntimeConfiguration::containsComponentCalled(QString const& aComponentId)
 
 void RuntimeConfiguration::addComponent(QString const& aComponentId, IpcAdapter::Core::ComponentPtr const& aComponent)
 {
+    LOG_DEBUG(this) << "added component " << aComponentId << "=" << aComponent.get();
     d->components.insert(aComponentId, aComponent);
 }
