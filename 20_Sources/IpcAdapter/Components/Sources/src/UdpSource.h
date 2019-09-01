@@ -41,7 +41,7 @@ namespace IpcAdapter
 
                 /// @name ISource realization
                 /// @{
-
+                void sourceTo(Core::PipelineStepPtr const& aPipelineStep) override;
                 /// @}
 
             };

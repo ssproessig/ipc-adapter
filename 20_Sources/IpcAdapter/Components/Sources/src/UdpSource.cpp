@@ -49,4 +49,10 @@ IpcAdapter::Core::IConfigurable& UdpSource::getConfigurable()
 }
 
 
+void UdpSource::sourceTo(IpcAdapter::Core::PipelineStepPtr const& aPipelineStep)
+{
+}
+
+
+
 REGISTER_COMPONENT(UdpSource);
