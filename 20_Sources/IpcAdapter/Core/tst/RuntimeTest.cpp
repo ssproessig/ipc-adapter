@@ -182,8 +182,8 @@ void RuntimeTest::test_10_Runtime_initialization_succeeds()
 
     auto const c1 = std::dynamic_pointer_cast<TestComponent>(components["id1"]);
     QVERIFY(c1 != nullptr);
-    COMPARE(c1->key, "aKey", "correct key shall be used");
-    COMPARE(c1->value, "aValue", "param shall be set");
+    COMPARE(c1->key, QString("aKey"), "correct key shall be used");
+    COMPARE(c1->value, QString("aValue"), "param shall be set");
 
     auto const c2 = std::dynamic_pointer_cast<TestComponent>(components["id2"]);
     QVERIFY(c2 != nullptr);
