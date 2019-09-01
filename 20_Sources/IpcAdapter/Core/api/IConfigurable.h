@@ -15,7 +15,7 @@ namespace IpcAdapter
         class IConfigurable
         {
         public:
-            INTERFACE_DESTRUCTOR(IConfigurable)
+            INTERFACE_DESTRUCTOR(IConfigurable);
 
             virtual void onConfigureBegin() = 0;
 

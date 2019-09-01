@@ -14,7 +14,7 @@ namespace IpcAdapter
             : public IComponent
         {
         public:
-            INTERFACE_DESTRUCTOR(ISource)
+            INTERFACE_DESTRUCTOR(ISource);
         };
     }
 }

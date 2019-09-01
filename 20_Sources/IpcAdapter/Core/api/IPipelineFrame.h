@@ -13,7 +13,7 @@ namespace IpcAdapter
         class IPipelineFrame
         {
         public:
-            INTERFACE_DESTRUCTOR(IPipelineFrame)
+            INTERFACE_DESTRUCTOR(IPipelineFrame);
 
             virtual QByteArray const& getData() const = 0;
         };

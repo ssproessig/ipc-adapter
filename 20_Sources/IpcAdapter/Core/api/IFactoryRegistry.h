@@ -23,7 +23,7 @@ namespace IpcAdapter
         class IFactoryRegistry
         {
         public:
-            INTERFACE_DESTRUCTOR(IFactoryRegistry)
+            INTERFACE_DESTRUCTOR(IFactoryRegistry);
 
         public:
             /// a function that creates a shared_ptr of a component

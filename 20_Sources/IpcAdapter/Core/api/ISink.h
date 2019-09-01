@@ -16,7 +16,7 @@ namespace IpcAdapter
             : public IComponent
         {
         public:
-            INTERFACE_DESTRUCTOR(ISink)
+            INTERFACE_DESTRUCTOR(ISink);
 
             virtual bool process(IPipelineFrame& aPipelineFrame) = 0;
 

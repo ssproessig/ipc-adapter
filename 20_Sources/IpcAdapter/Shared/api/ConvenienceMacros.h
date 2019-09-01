@@ -99,22 +99,22 @@ T const& NAME()                             \
 #define STRINGIFY(s) #s
 
 // we want to have a readable version of the "interface" destructor
-#define INTERFACE_DESTRUCTOR(iface) virtual ~iface() = default;
-#define INTERFACE_DESTRUCTOR_NOEXCEPT(iface) virtual ~iface() noexcept = default;
+#define INTERFACE_DESTRUCTOR(iface) virtual ~iface() = default
+#define INTERFACE_DESTRUCTOR_NOEXCEPT(iface) virtual ~iface() noexcept = default
 
 
 #define INTERFACE_CONSTRUCTOR(iface) \
     iface() = default;               \
-    iface(iface const&) = default;
+    iface(iface const&) = default
 
 #define INTERFACE_NONCOPYABLE(iface) \
     iface() = default;               \
-    iface(iface const&) = delete;
+    iface(iface const&) = delete
 
 // No copy constructor
 #define NONCOPYABLE(clazz) \
     clazz(clazz const&) = delete; \
-    clazz& operator=(clazz const&) = delete;
+    clazz& operator=(clazz const&) = delete
 
 // Static utility class. May not be instantiated
 #define STATIC_CLASS(clazz) \

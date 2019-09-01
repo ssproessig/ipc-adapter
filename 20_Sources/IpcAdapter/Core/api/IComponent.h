@@ -15,7 +15,7 @@ namespace IpcAdapter
         class IComponent
         {
         public:
-            INTERFACE_DESTRUCTOR(IComponent)
+            INTERFACE_DESTRUCTOR(IComponent);
 
             virtual IConfigurable& getConfigurable() = 0;
 
