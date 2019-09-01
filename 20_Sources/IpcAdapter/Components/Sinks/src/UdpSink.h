@@ -24,7 +24,7 @@ namespace IpcAdapter
             public:
 
                 UdpSink();
-                virtual ~UdpSink();
+                virtual ~UdpSink() override;
 
                 /// @name IComponent realization
                 /// @{

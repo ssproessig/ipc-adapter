@@ -22,7 +22,7 @@ namespace IpcAdapter
 
         public:
             ComponentRegistry();
-            virtual ~ComponentRegistry();
+            virtual ~ComponentRegistry() override;
 
             /// @name IFactoryRegistry realization
             /// @{
@@ -46,7 +46,7 @@ namespace IpcAdapter
              * @retval  true		if the factory was added for `aComponentId`
              * @retval  false		if inserting the factory failed (e.g. duplicate `aComponentId`)
              */
-            bool registerFactoryFor(QString const& aComponentId, FactoryFnc const& aFactoryFunction);
+            bool registerFactoryFor(QString const& aComponentId, FactoryFnc const& aFactoryFunction) override;
             /// @}
         };
     }

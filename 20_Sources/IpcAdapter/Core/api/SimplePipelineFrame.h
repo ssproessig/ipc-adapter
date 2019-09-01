@@ -16,7 +16,7 @@ namespace IpcAdapter
 
         public:
             SimplePipelineFrame();
-            virtual ~SimplePipelineFrame();
+            virtual ~SimplePipelineFrame() override;
 
             void setData(QByteArray const& aRawDataBuffer);
 
