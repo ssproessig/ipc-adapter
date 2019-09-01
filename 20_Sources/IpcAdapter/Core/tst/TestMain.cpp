@@ -1,6 +1,7 @@
 #include "Shared/tst/QTestLibInvocation.h"
 
-#include "Core/tst/ComponentRegistryTest.h"
+#include "ComponentRegistryTest.h"
+#include "RuntimeTest.h"
 
 
 
@@ -15,6 +16,7 @@ int main(int argc, char* argv[])
     prepareEnv(argc, argv, outputDir, arguments, filters);
 
     runTest<IpcAdapter::Core::ComponentRegistryTest>(outputDir, arguments, filters);
+    runTest<IpcAdapter::Core::RuntimeTest>(outputDir, arguments, filters);
 
     return 0;
 }

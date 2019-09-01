@@ -15,6 +15,8 @@ set(SRC
 set(TST
     tst/ComponentRegistryTest.h
     tst/ComponentRegistryTest.cpp
+    tst/RuntimeTest.h
+    tst/RuntimeTest.cpp
     tst/TestMain.cpp
 )
 
