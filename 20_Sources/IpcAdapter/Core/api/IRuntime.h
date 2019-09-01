@@ -12,8 +12,6 @@ namespace IpcAdapter
         public:
             INTERFACE_DESTRUCTOR(IRuntime);
 
-            virtual void configure() = 0;
-
             virtual void serveForever() = 0;
         };
     }

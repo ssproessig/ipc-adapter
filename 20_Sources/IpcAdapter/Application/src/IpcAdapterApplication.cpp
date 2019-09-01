@@ -25,8 +25,6 @@ int main(int argc, char* argv[])
     try
     {
         auto runtime = IpcAdapter::Core::Runtime::createFrom(args.at(1));
-
-        runtime->configure();
         runtime->serveForever();
         return QCoreApplication::exec();
     }
