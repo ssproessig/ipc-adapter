@@ -4,5 +4,8 @@
         <file>RuntimeTest_03_wrong_xml.xml</file>
         <file>RuntimeTest_04_wrong_root_element.xml</file>
         <file>RuntimeTest_05_root_element_with_wrong_version.xml</file>
+        <file>RuntimeTest_06_unknown_component.xml</file>
+        <file>RuntimeTest_07_duplicate_component_id.xml</file>
+        <file>RuntimeTest_08_two_components.xml</file>
     </qresource>
 </RCC>
