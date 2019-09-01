@@ -10,3 +10,6 @@
 
 #define LOG_DEBUG(instanceId) \
 	qDebug() << LOG_IMPL(instanceId)
+
+#define LOG_ERROR(instanceId) \
+	qCritical() << LOG_IMPL(instanceId)
