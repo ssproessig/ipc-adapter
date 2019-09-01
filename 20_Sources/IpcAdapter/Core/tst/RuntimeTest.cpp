@@ -22,7 +22,7 @@ namespace
     {
         IConfigurable* getConfigurable() override
         {
-            return this;
+            return isConfigurable ? this : nullptr;
         }
         void onConfigureBegin() override {}
         bool doConfigure(QString const& aKey, QString const& aValue) override
@@ -41,10 +41,12 @@ namespace
 
         static bool acceptParameter;
         static bool acceptConfiguration;
+        static bool isConfigurable;
     };
 
     bool TestComponent::acceptConfiguration = true;
     bool TestComponent::acceptParameter = true;
+    bool TestComponent::isConfigurable = true;
 
     REGISTER_COMPONENT(TestComponent)
 }
@@ -63,6 +65,7 @@ void RuntimeTest::init()
 {
     TestComponent::acceptConfiguration = true;
     TestComponent::acceptParameter = true;
+    TestComponent::isConfigurable = true;
 }
 
 
@@ -189,4 +192,14 @@ void RuntimeTest::test_10_Runtime_initialization_succeeds()
     QVERIFY(c2 != nullptr);
     VERIFY(c2->key.isEmpty(), "2nd component shall not be configured");
     VERIFY(c2->value.isEmpty(), "2nd component shall not be configured");
+}
+
+
+
+void RuntimeTest::test_11_Runtime_initialization_works_for_component_that_is_not_configurable()
+{
+    TestComponent::isConfigurable = false;
+
+    auto const uut = Runtime::createFrom(":/RuntimeTest_08_two_components.xml");
+    COMPARE(uut->getRuntimeConfiguration().getComponents().count(), 2, "we shall still have configured two components");
 }
