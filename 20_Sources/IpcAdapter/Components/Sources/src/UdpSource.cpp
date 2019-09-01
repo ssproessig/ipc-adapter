@@ -17,17 +17,16 @@ struct UdpSource::Data: Core::IConfigurable
     /// @{
     void onConfigureBegin() override
     {
-        throw std::logic_error("The method or operation is not implemented.");
     }
 
     bool doConfigure(QString const& aKey, QString const& aValue) override
     {
-        throw std::logic_error("The method or operation is not implemented.");
+        return false;
     }
 
     bool onConfigureEnd() override
     {
-        throw std::logic_error("The method or operation is not implemented.");
+        return false;
     }
     /// @}
 };
