@@ -14,10 +14,15 @@ namespace IpcAdapter
             public QXmlDefaultHandler
         {
             NONCOPYABLE(ConfigurationHandler);
+            PIMPLED_DATA(d);
 
         public:
-            ConfigurationHandler() = default;
-            virtual ~ConfigurationHandler() = default;
+            ConfigurationHandler();
+            virtual ~ConfigurationHandler() override;
+
+
+            bool fatalError(const QXmlParseException& exception) override;
+            QString errorString() const override;
 
         };
 
