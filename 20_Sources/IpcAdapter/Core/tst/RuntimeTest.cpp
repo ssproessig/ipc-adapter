@@ -46,7 +46,7 @@ namespace
     bool TestComponent::acceptConfiguration = true;
     bool TestComponent::acceptParameter = true;
 
-    REGISTER_COMPONENT(TestComponent);
+    REGISTER_COMPONENT(TestComponent)
 }
 
 
