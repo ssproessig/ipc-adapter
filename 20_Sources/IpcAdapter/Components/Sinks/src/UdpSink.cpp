@@ -42,13 +42,13 @@ struct UdpSink::Data
 
         LOG_DEBUG(this) << "doConfigure: " << aKey << ", " << aValue;
 
-        if(aKey == Constants::configHost())
+        if (aKey == Constants::configHost())
         {
             hasValidHost = targetHost.setAddress(aValue);
             return hasValidHost;
         }
 
-        if(aKey == Constants::configPort())
+        if (aKey == Constants::configPort())
         {
             bool conversionOk = false;
             auto const& port = aValue.toInt(&conversionOk);
@@ -101,7 +101,7 @@ IpcAdapter::Core::IConfigurable* UdpSink::getConfigurable()
 
 bool UdpSink::process(IpcAdapter::Core::IPipelineFrame& aPipelineStep)
 {
-    if(d->configuredOk)
+    if (d->configuredOk)
     {
         auto const& data = aPipelineStep.getData();
         auto const bytesSent = d->socket->writeDatagram(data, d->targetHost, d->targetPort);
