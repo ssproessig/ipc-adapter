@@ -1,8 +1,8 @@
 ﻿<configuration version="1" xmlns="urn:ipca-configuration-v1">
     <components>
-        <source id="id1" type="TestComponent">
+        <component id="id1" type="TestComponent">
             <param key="aKey" value="aValue"/>            
-        </source>
-        <source id="id2" type="TestComponent"/>
+        </component>
+        <component id="id2" type="TestComponent"/>
     </components>   
 </configuration>

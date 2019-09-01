@@ -13,10 +13,7 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="source" type="ipca:componentType"/>
-              <xs:element maxOccurs="unbounded" minOccurs="0" name="converter"
-                type="ipca:componentType"/>
-              <xs:element maxOccurs="unbounded" name="sink" type="ipca:componentType"/>
+              <xs:element maxOccurs="unbounded" name="component" type="ipca:componentType"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

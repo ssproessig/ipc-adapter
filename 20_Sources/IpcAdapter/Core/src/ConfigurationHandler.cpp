@@ -101,7 +101,7 @@ namespace
 
         bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes& atts) override
         {
-            if (localName == "source")
+            if (localName == "component")
             {
                 return context.createNewComponent(atts);
             }
@@ -116,7 +116,7 @@ namespace
 
         bool endElement(const QString&, const QString& localName, const QString&) override
         {
-            if (localName == "source" && context.currentComponent)
+            if (localName == "component" && context.currentComponent)
             {
                 if (!context.currentComponent->getConfigurable().onConfigureEnd())
                 {

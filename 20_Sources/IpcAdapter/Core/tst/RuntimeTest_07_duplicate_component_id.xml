@@ -1,6 +1,6 @@
 ﻿<configuration version="1" xmlns="urn:ipca-configuration-v1">
     <components>
-        <source id="id1" type="TestComponent"/>
-        <source id="id1" type="TestComponent"/>
+        <component id="id1" type="TestComponent"/>
+        <component id="id1" type="TestComponent"/>
     </components>   
 </configuration>

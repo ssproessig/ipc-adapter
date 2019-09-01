@@ -4,14 +4,14 @@
     xsi:schemaLocation="urn:ipca-configuration-v1 ipca-configuration-v1.xsd">
 
     <components>
-        <source id="udpSource" type="UdpSource">
+        <component id="udpSource" type="UdpSource">
             <param key="host" value="0.0.0.0"/>
             <param key="port" value="9999"/>
-        </source>
-        <sink id="udpSink" type="UdpSink">
+        </component>
+        <component id="udpSink" type="UdpSink">
             <param key="host" value="127.0.0.1"/>
             <param key="port" value="9998"/>           
-        </sink>
+        </component>
     </components>
 
     <todo-pipeine/>
