@@ -72,6 +72,7 @@
     }                                                                               \
     catch(std::exception const& anException) {                                      \
         QString const& aWhat = anException.what();                                  \
+        LOG_TEST_STEP("  exception seen      ", qPrintable(aWhat));                 \
         for (auto const& contains : {__VA_ARGS__})  {                               \
             if (!aWhat.contains(contains)) {                                        \
                 QByteArray const exception =                                        \
