@@ -15,9 +15,11 @@ struct SimplePipelineFrame::Data
 
 
 
-SimplePipelineFrame::SimplePipelineFrame()
-    : d(std::make_unique<Data>())
+SimplePipelineFrame::SimplePipelineFrame(): d(std::make_unique<Data>()) {}
+
+SimplePipelineFrame::SimplePipelineFrame(QByteArray const& anInitialDataBuffer): d(std::make_unique<Data>())
 {
+    d->rawData = anInitialDataBuffer;
 }
 
 SimplePipelineFrame::~SimplePipelineFrame() = default;

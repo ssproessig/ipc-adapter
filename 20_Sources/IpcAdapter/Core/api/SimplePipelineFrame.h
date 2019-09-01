@@ -27,6 +27,13 @@ namespace IpcAdapter
             virtual ~SimplePipelineFrame() override;
 
             /**
+             * Override constructor that allows initializing the data buffer directly
+             *
+             * @param anInitialDataBuffer  the buffer to initialize the pipeline frame with
+             */
+            explicit SimplePipelineFrame(QByteArray const& anInitialDataBuffer);
+
+            /**
              * Updates the frame's raw data to `aRawDataBuffer`.
              *
              * @param aRawDataBuffer    raw data to update the frame with
