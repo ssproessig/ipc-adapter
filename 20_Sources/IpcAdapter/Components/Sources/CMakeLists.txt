@@ -23,7 +23,7 @@ set(LNK
     Qt5::Network
 )
 
-add_library(${LIB_NAME} ${SRC})
+add_library(${LIB_NAME} OBJECT ${SRC})
 target_link_libraries(${LIB_NAME} ${LNK})
 
 add_executable(${LIB_NAME}Test ${DOC} ${SRC} ${TST})
