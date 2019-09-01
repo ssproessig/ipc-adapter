@@ -6,4 +6,16 @@ set(SRC
 
 source_group(Sources ${SRC})
 add_executable(${APP_NAME} ${SRC})
-target_link_libraries(${APP_NAME} IpcAdapterCore IpcAdapterSinks Qt5::Core Qt5::Network Qt5::Xml)
+
+set(LNK_LIBS
+	IpcAdapterCore
+	$<TARGET_OBJECTS:IpcAdapterSinks>
+	$<TARGET_OBJECTS:IpcAdapterSources>
+)
+
+set(LNK ${LNK_LIBS}
+    Qt5::Core
+    Qt5::Network
+    Qt5::Xml
+)
+target_link_libraries(${APP_NAME} ${LNK})
