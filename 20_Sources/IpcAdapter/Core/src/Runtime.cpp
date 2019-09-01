@@ -1,6 +1,12 @@
 #include "Core/api/Runtime.h"
 #include "Core/api/Logger.h"
 
+#include "Core/src/ConfigurationHandler.h"
+
+#include <QFile>
+#include <QXmlSimpleReader>
+
+
 
 using IpcAdapter::Core::Runtime;
 using IpcAdapter::Core::IRuntime;
@@ -9,11 +15,30 @@ using IpcAdapter::Core::IRuntime;
 
 namespace
 {
-    class RuntimeImpl: public IRuntime
+    struct RuntimeImpl: IRuntime
     {
-        void configure() override
+        void configure(QString const& aConfigurationFile)
         {
-            LOG_DEBUG(this) << "Runtime configuring...";
+            LOG_DEBUG(this) << "Runtime configuring from" << aConfigurationFile;
+
+            IpcAdapter::Core::ConfigurationHandler handler;
+
+            QXmlSimpleReader reader;
+            reader.setContentHandler(&handler);
+            reader.setErrorHandler(&handler);
+
+            QFile xmlFile(aConfigurationFile);
+            QXmlInputSource source(&xmlFile);
+
+            if (reader.parse(source))
+            {
+                // FIXME: create pipeline
+            }
+            else
+            {
+                // TODO: check if we need to embed the parser error in more context
+                throw std::runtime_error(qPrintable(handler.errorString()));
+            }
         }
 
         void serveForever() override
@@ -29,5 +54,7 @@ std::unique_ptr<IRuntime> Runtime::createFrom(QString const& aConfigurationFile)
 {
     LOG_DEBUG(nullptr) << "Creating Runtime from " << aConfigurationFile;
 
-    return std::make_unique<RuntimeImpl>();
+    auto runtime = std::make_unique<RuntimeImpl>();
+    runtime->configure(aConfigurationFile);
+    return runtime;
 }
