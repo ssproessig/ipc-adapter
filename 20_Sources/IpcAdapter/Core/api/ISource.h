@@ -11,12 +11,23 @@ namespace IpcAdapter
 {
     namespace Core
     {
+        /**
+         * An IpcAdapter component specialization that sources pipeline frame to a pipeline.
+         *
+         * @author Soeren Sproessig
+         * @version 1
+         */
         class ISource
             : public IComponent
         {
         public:
             INTERFACE_DESTRUCTOR(ISource);
 
+            /**
+             * Configures the source to "source" its pipeline frames to the given `aPipelineStep`.
+             *
+             * @param aPipelineStep     pipeline step to source to
+             */
             virtual void sourceTo(PipelineStepPtr const& aPipelineStep) = 0;
         };
     }
