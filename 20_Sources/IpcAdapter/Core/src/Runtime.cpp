@@ -67,5 +67,5 @@ std::unique_ptr<IRuntime> Runtime::createFrom(QString const& aConfigurationFile)
 
     auto runtime = std::make_unique<RuntimeImpl>();
     runtime->configure(aConfigurationFile);
-    return runtime;
+    return std::move(runtime);
 }
