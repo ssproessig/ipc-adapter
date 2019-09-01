@@ -3,6 +3,7 @@
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/Logger.h"
 #include "Core/src/RuntimeConfiguration.h"
 
 #include <QMap>
@@ -42,6 +43,7 @@ namespace
 
         std::shared_ptr<IComponent> currentComponent;
         QString currentId;
+        IConfigurable* currentConfigurable = nullptr;
 
         explicit HandlerContext(RuntimeConfiguration& aConfiguration): configuration(aConfiguration) {}
 
@@ -63,13 +65,27 @@ namespace
             }
 
             currentComponent = factory();
-            currentComponent->getConfigurable().onConfigureBegin();
+            onConfigureBegin();
             return true;
         }
 
-        bool configureComponent(QString const& aKey, QString const& aValue)
+        void onConfigureBegin()
         {
-            if (!currentComponent->getConfigurable().doConfigure(aKey, aValue))
+            currentConfigurable = currentComponent->getConfigurable();
+
+            EXIT_EARLY_IF(!currentConfigurable,);
+            currentConfigurable->onConfigureBegin();
+        }
+
+        bool doConfigure(QString const& aKey, QString const& aValue)
+        {
+            if (!currentConfigurable)
+            {
+                LOG_WARN(this) << "trying to configure a non-configurable component with " << aKey << "=" << aValue;
+                return true;
+            }
+
+            if (!currentConfigurable->doConfigure(aKey, aValue))
             {
                 throw std::runtime_error(
                     qPrintable(Constants::errorParamRejected().arg(currentId, aKey, aValue)));
@@ -78,12 +94,19 @@ namespace
             return true;
         }
 
+        bool onConfigureEnd()
+        {
+            EXIT_EARLY_IF(!currentConfigurable, true);
+            return currentConfigurable->onConfigureEnd();
+        }
+
         void storeComponentAndClearContextForNext()
         {
             configuration.addComponent(currentId, currentComponent);
 
             currentId.clear();
             currentComponent.reset();
+            currentConfigurable = nullptr;
         }
     };
 
@@ -108,7 +131,7 @@ namespace
 
             if (localName == "param" && context.currentComponent)
             {
-                return context.configureComponent(atts.value("key"), atts.value("value"));
+                return context.doConfigure(atts.value("key"), atts.value("value"));
             }
 
             return true;
@@ -118,7 +141,7 @@ namespace
         {
             if (localName == "component" && context.currentComponent)
             {
-                if (!context.currentComponent->getConfigurable().onConfigureEnd())
+                if (!context.onConfigureEnd())
                 {
                     throw std::runtime_error(
                         qPrintable(Constants::errorFinishingConfiguration().arg(context.currentId)));
