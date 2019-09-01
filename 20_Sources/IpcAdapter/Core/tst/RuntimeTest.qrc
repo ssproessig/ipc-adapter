@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>RuntimeTest_00_broken_file.xml</file>
+    </qresource>
+</RCC>

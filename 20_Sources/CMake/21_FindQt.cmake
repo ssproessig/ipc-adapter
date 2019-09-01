@@ -18,3 +18,4 @@ list(GET QT_VERSION_LIST 2 QT_VERSION_PATCH)
 
 # per default: we enable auto-mocing and include those generated Qt files automatically
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)

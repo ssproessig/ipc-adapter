@@ -17,6 +17,7 @@ set(TST
     tst/ComponentRegistryTest.cpp
     tst/RuntimeTest.h
     tst/RuntimeTest.cpp
+    tst/RuntimeTest.qrc
     tst/TestMain.cpp
 )
 
