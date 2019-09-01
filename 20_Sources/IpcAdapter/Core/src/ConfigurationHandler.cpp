@@ -1,10 +1,22 @@
 #include "ConfigurationHandler.h"
 
+#include <QString>
 #include <QXmlParseException>
 
 
 
 using IpcAdapter::Core::ConfigurationHandler;
+
+
+
+namespace
+{
+    namespace Constants
+    {
+        DECLARE_CONST(QString, supportedNamespace, ("urn:ipca-configuration-v1"))
+        DECLARE_CONST(QString, errorUnsupportedNamespace, ("configuration has unsupported namespace '%1'!"))
+    }
+}
 
 
 struct ConfigurationHandler::Data
@@ -31,6 +43,19 @@ bool ConfigurationHandler::fatalError(const QXmlParseException& exception)
 QString ConfigurationHandler::errorString() const
 {
     return d->errorString;
+}
+
+
+
+bool ConfigurationHandler::startElement
+(const QString& namespaceURI, const QString& localName, const QString& qName, const QXmlAttributes& atts)
+{
+    if (namespaceURI != Constants::supportedNamespace())
+    {
+        throw std::runtime_error(qPrintable(Constants::errorUnsupportedNamespace().arg(namespaceURI)));
+    }
+
+    return false;
 }
 
 

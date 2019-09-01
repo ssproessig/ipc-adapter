@@ -24,6 +24,12 @@ namespace IpcAdapter
             bool fatalError(const QXmlParseException& exception) override;
             QString errorString() const override;
 
+            bool startElement
+            (
+                const QString& namespaceURI, const QString& localName,
+                const QString& qName, const QXmlAttributes& atts
+            ) override;
+
         };
 
     }
