@@ -67,10 +67,21 @@
     <xs:attribute name="type" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:string">
+          <xs:enumeration value="ReverseBytes"/>
           <xs:enumeration value="UdpSink"/>
           <xs:enumeration value="UdpSource"/>
         </xs:restriction>
       </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="componentReferenceType">
+    <xs:annotation>
+      <xs:documentation>a reference to a configured component</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="ref" use="required">
+      <xs:annotation>
+        <xs:documentation>component to reference</xs:documentation>
+      </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 </xs:schema>
