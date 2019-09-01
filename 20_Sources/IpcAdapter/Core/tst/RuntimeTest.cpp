@@ -37,3 +37,14 @@ void RuntimeTest::test_02_Runtime_initialization_fails_for_broken_file()
         "fatalError [1,1]: error occurred while parsing element"
     );
 }
+
+
+
+void RuntimeTest::test_03_Runtime_initialization_fails_for_wrong_xml_used()
+{
+    EXPECT_EXCEPTION(
+        Runtime::createFrom(":/RuntimeTest_03_wrong_xml.xml");,
+        "creating Runtime from XML with wrong schema must fail",
+        "configuration has unsupported namespace ''!"
+    );
+}
