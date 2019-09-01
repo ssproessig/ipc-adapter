@@ -10,6 +10,7 @@ set(SRC
     src/GlobalComponentRegistry.cpp
     src/SimplePipelineFrame.cpp
     src/Runtime.cpp
+    src/RuntimeConfiguration.cpp
 )
 
 set(TST

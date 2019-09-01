@@ -3,6 +3,7 @@
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/src/RuntimeConfiguration.h"
 
 #include <QMap>
 #include <QStack>
@@ -14,6 +15,7 @@
 using IpcAdapter::Core::ConfigurationHandler;
 using IpcAdapter::Core::IComponent;
 using IpcAdapter::Core::IConfigurable;
+using IpcAdapter::Core::RuntimeConfiguration;
 using HandlerStack = QStack<QXmlDefaultHandler*>;
 
 
@@ -35,12 +37,13 @@ namespace
 
     struct HandlerContext
     {
+        RuntimeConfiguration& configuration;
         HandlerStack handlerStack;
-        QMap<QString, std::shared_ptr<IComponent>> components;
 
         std::shared_ptr<IComponent> currentComponent;
         QString currentId;
 
+        explicit HandlerContext(RuntimeConfiguration& aConfiguration): configuration(aConfiguration) {}
 
         bool createNewComponent(const QXmlAttributes& atts)
         {
@@ -54,7 +57,7 @@ namespace
 
             currentId = atts.value("id");
 
-            if (components.constFind(currentId) != components.constEnd())
+            if (configuration.containsComponentCalled(currentId))
             {
                 throw std::runtime_error(qPrintable(Constants::errorDuplicateComponentId().arg(type, currentId)));
             }
@@ -77,12 +80,11 @@ namespace
 
         void storeComponentAndClearContextForNext()
         {
-            components.insert(currentId, currentComponent);
+            configuration.addComponent(currentId, currentComponent);
 
             currentId.clear();
             currentComponent.reset();
         }
-
     };
 
 
@@ -159,7 +161,8 @@ namespace
 
 struct ConfigurationHandler::Data
 {
-    Data()
+    explicit Data(RuntimeConfiguration& aConfiguration):
+        context(aConfiguration)
     {
         context.handlerStack.append(new RootElementHandler(context));
     }
@@ -214,5 +217,6 @@ bool ConfigurationHandler::endElement(const QString& namespaceURI, const QString
 
 
 
-ConfigurationHandler::ConfigurationHandler() : d(std::make_unique<Data>()) {}
+ConfigurationHandler::ConfigurationHandler(RuntimeConfiguration& aConfiguration)
+    : d(std::make_unique<Data>(aConfiguration)) {}
 ConfigurationHandler::~ConfigurationHandler() = default;

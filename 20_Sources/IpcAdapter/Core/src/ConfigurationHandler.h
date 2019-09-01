@@ -10,6 +10,8 @@ namespace IpcAdapter
 {
     namespace Core
     {
+        FORWARD_DECLARE(RuntimeConfiguration);
+
         class ConfigurationHandler:
             public QXmlDefaultHandler
         {
@@ -17,7 +19,7 @@ namespace IpcAdapter
             PIMPLED_DATA(d);
 
         public:
-            ConfigurationHandler();
+            explicit ConfigurationHandler(RuntimeConfiguration& aConfiguration);
             virtual ~ConfigurationHandler() override;
 
 

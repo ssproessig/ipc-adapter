@@ -2,6 +2,7 @@
 #include "Core/api/Logger.h"
 
 #include "Core/src/ConfigurationHandler.h"
+#include "Core/src/RuntimeConfiguration.h"
 
 #include <QFile>
 #include <QXmlSimpleReader>
@@ -26,7 +27,7 @@ namespace
         {
             LOG_DEBUG(this) << "Runtime configuring from" << aConfigurationFile;
 
-            IpcAdapter::Core::ConfigurationHandler handler;
+            IpcAdapter::Core::ConfigurationHandler handler(configuration);
 
             QXmlSimpleReader reader;
             reader.setContentHandler(&handler);
@@ -52,10 +53,17 @@ namespace
             }
         }
 
+        IpcAdapter::Core::IRuntimeConfiguration const& getRuntimeConfiguration() const
+        {
+            return configuration;
+        }
+
         void serveForever() override
         {
             LOG_DEBUG(this) << "Runtime serving forever...";
         }
+
+        IpcAdapter::Core::RuntimeConfiguration configuration;
     };
 }
 
