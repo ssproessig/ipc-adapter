@@ -8,9 +8,9 @@ source_group(Sources ${SRC})
 add_executable(${APP_NAME} ${SRC})
 
 set(LNK_LIBS
-	IpcAdapterCore
 	$<TARGET_OBJECTS:IpcAdapterSinks>
 	$<TARGET_OBJECTS:IpcAdapterSources>
+	IpcAdapterCore
 )
 
 set(LNK ${LNK_LIBS}
