@@ -56,8 +56,8 @@ namespace
 
         };
 
-        auto const pipelineStep = std::make_shared<RecordingPipelineStep>();
-        uut->sourceTo(pipelineStep);
+        RecordingPipelineStep pipelineStep;
+        uut->sourceTo(&pipelineStep);
 
         QUdpSocket socket;
         auto const bytesWritten = socket.writeDatagram(Constants::sampleData(), aHostAddress, aPort);
@@ -65,8 +65,8 @@ namespace
 
         QTest::qWait(250);
 
-        COMPARE(pipelineStep->data.count(), 1, "Ensure we received a message");
-        COMPARE(pipelineStep->data.at(0), Constants::sampleData(), "Ensure we received correct data");
+        COMPARE(pipelineStep.data.count(), 1, "Ensure we received a message");
+        COMPARE(pipelineStep.data.at(0), Constants::sampleData(), "Ensure we received correct data");
     }
 }
 

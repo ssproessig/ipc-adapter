@@ -28,7 +28,7 @@ namespace IpcAdapter
              *
              * @param aPipelineStep     pipeline step to source to
              */
-            virtual void sourceTo(PipelineStepPtr const& aPipelineStep) = 0;
+            virtual void sourceTo(IPipelineStep* aPipelineStep) = 0;
         };
     }
 }

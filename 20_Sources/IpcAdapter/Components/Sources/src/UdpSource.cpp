@@ -45,7 +45,7 @@ struct UdpSource::Data: Core::IConfigurable
             LOG_DEBUG(this) << "received: " << dataReceived.data().toHex();
 
             EXIT_EARLY_IF(Q_UNLIKELY(!sourceTo),);
-            LOG_DEBUG(this) << "forwarding to: " << sourceTo.get();
+            LOG_DEBUG(this) << "forwarding to: " << sourceTo;
 
             auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>();
             pipelineFrame->setData(dataReceived.data());
@@ -119,7 +119,7 @@ struct UdpSource::Data: Core::IConfigurable
     QHostAddress targetHost = QHostAddress::LocalHost;
     quint16 targetPort = 0;
 
-    Core::PipelineStepPtr sourceTo;
+    Core::IPipelineStep* sourceTo = nullptr;
     QUdpSocket socket;
 
     bool configuredOk = false;
@@ -145,7 +145,7 @@ IpcAdapter::Core::IConfigurable* UdpSource::getConfigurable()
 
 
 
-void UdpSource::sourceTo(IpcAdapter::Core::PipelineStepPtr const& aPipelineStep)
+void UdpSource::sourceTo(IpcAdapter::Core::IPipelineStep* aPipelineStep)
 {
     d->sourceTo = aPipelineStep;
 }
