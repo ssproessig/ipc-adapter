@@ -29,23 +29,23 @@ namespace
         {
             key = aKey;
             value = aValue;
-            return acceptParameter;
+            return acceptedParameter;
         }
         bool onConfigureEnd() override
         {
-            return acceptConfiguration;
+            return acceptedConfiguration;
         }
 
         QString key;
         QString value;
 
-        static bool acceptParameter;
-        static bool acceptConfiguration;
+        static bool acceptedParameter;
+        static bool acceptedConfiguration;
         static bool isConfigurable;
     };
 
-    bool TestComponent::acceptConfiguration = true;
-    bool TestComponent::acceptParameter = true;
+    bool TestComponent::acceptedConfiguration = true;
+    bool TestComponent::acceptedParameter = true;
     bool TestComponent::isConfigurable = true;
 
     REGISTER_COMPONENT(TestComponent)
@@ -63,8 +63,8 @@ RuntimeTest::RuntimeTest()
 
 void RuntimeTest::init()
 {
-    TestComponent::acceptConfiguration = true;
-    TestComponent::acceptParameter = true;
+    TestComponent::acceptedConfiguration = true;
+    TestComponent::acceptedParameter = true;
     TestComponent::isConfigurable = true;
 }
 
@@ -149,7 +149,7 @@ void RuntimeTest::test_07_Runtime_initialization_fails_if_duplicate_component_sh
 
 void RuntimeTest::test_08_Runtime_initialization_fails_if_component_fails_to_configure()
 {
-    TestComponent::acceptConfiguration = false;
+    TestComponent::acceptedConfiguration = false;
 
     EXPECT_EXCEPTION(
         Runtime::createFrom(":/RuntimeTest_08_two_components.xml");,
@@ -162,7 +162,7 @@ void RuntimeTest::test_08_Runtime_initialization_fails_if_component_fails_to_con
 
 void RuntimeTest::test_09_Runtime_initialization_fails_if_component_rejects_parameter()
 {
-    TestComponent::acceptParameter = false;
+    TestComponent::acceptedParameter = false;
 
     EXPECT_EXCEPTION(
         Runtime::createFrom(":/RuntimeTest_08_two_components.xml");,
