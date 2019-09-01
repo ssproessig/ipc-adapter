@@ -9,6 +9,8 @@ set(SRC
     src/ConfigurationHandler.cpp
     src/GlobalComponentRegistry.cpp
     src/SimplePipelineFrame.cpp
+    src/Pipeline.h
+    src/Pipeline.cpp
     src/Runtime.cpp
     src/RuntimeConfiguration.cpp
 )
@@ -16,6 +18,8 @@ set(SRC
 set(TST
     tst/ComponentRegistryTest.h
     tst/ComponentRegistryTest.cpp
+    tst/PipelineTest.h
+    tst/PipelineTest.cpp
     tst/RuntimeTest.h
     tst/RuntimeTest.cpp
     tst/RuntimeTest.qrc

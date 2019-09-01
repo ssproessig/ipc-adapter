@@ -8,6 +8,8 @@ namespace IpcAdapter
 {
     namespace Core
     {
+        FORWARD_DECLARE(ISource);
+
         /**
          * Concrete realization of the Runtime Configuration.
          *
@@ -53,6 +55,8 @@ namespace IpcAdapter
              * @param   aComponent      component to store in the configuration
              */
             void addComponent(QString const& aComponentId, ComponentPtr const& aComponent);
+
+            ISource* getSourceMultiplexFor(QString const& aComponentId);
         };
     }
 }

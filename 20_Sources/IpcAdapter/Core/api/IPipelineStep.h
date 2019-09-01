@@ -31,10 +31,7 @@ namespace IpcAdapter
              * @retval true     if the frame was processed successfully
              * @retval false    if the frame failed to be processed
              */
-            virtual bool process(PipelineFramePtr aPipelineFrame) = 0;
+            virtual bool process(PipelineFramePtr const& aPipelineFrame) = 0;
         };
-
-        /// smart pointer carrying a shared abstract pipeline step
-        using PipelineStepPtr = std::shared_ptr<IPipelineStep>;
     }
 }
