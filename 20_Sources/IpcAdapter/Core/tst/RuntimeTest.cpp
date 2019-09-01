@@ -2,6 +2,7 @@
 
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/IRuntimeConfiguration.h"
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/Runtime.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
@@ -24,14 +25,19 @@ namespace
             return *this;
         }
         void onConfigureBegin() override {}
-        bool doConfigure(QString const&, QString const&) override
+        bool doConfigure(QString const& aKey, QString const& aValue) override
         {
+            key = aKey;
+            value = aValue;
             return acceptParameter;
         }
         bool onConfigureEnd() override
         {
             return acceptConfiguration;
         }
+
+        QString key;
+        QString value;
 
         static bool acceptParameter;
         static bool acceptConfiguration;
@@ -160,4 +166,27 @@ void RuntimeTest::test_09_Runtime_initialization_fails_if_component_rejects_para
         "creating Runtime from configuration must fail if component rejects a parameter",
         "component 'id1' rejects parameter 'aKey' with value 'aValue'!"
     );
+}
+
+
+
+void RuntimeTest::test_10_Runtime_initialization_succeeds()
+{
+    auto const uut = Runtime::createFrom(":/RuntimeTest_08_two_components.xml");
+    auto const& configuration = uut->getRuntimeConfiguration();
+    auto const& components = configuration.getComponents();
+
+    COMPARE(components.count(), 2, "we shall have configured two components");
+    COMPARE(components.contains("id1"), true, "we shall have component 'id1'");
+    COMPARE(components.contains("id2"), true, "we shall have component 'id2'");
+
+    auto const c1 = std::dynamic_pointer_cast<TestComponent>(components["id1"]);
+    QVERIFY(c1 != nullptr);
+    COMPARE(c1->key, "aKey", "correct key shall be used");
+    COMPARE(c1->value, "aValue", "param shall be set");
+
+    auto const c2 = std::dynamic_pointer_cast<TestComponent>(components["id2"]);
+    QVERIFY(c2 != nullptr);
+    VERIFY(c2->key.isEmpty(), "2nd component shall not be configured");
+    VERIFY(c2->value.isEmpty(), "2nd component shall not be configured");
 }

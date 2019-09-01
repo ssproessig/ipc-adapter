@@ -28,6 +28,7 @@ namespace IpcAdapter
             void test_08_Runtime_initialization_fails_if_component_fails_to_configure();
             void test_09_Runtime_initialization_fails_if_component_rejects_parameter();
 
+            void test_10_Runtime_initialization_succeeds();
         };
     }
 }
