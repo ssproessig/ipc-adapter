@@ -11,16 +11,16 @@
 
 
 // private data implementation; real internal data structure must be added in implementation
-#define PIMPLED_TEST_DATA(className)												\
-    private:																		\
-        struct Data;																\
+#define PIMPLED_TEST_DATA(className)                                                \
+    private:                                                                        \
+        struct Data;                                                                \
         Data* d = nullptr
 
 
 
 // some macros for later log-step catching
-#define LOG_TEST_STEP(TYPE, TEXT)													\
-	std::cout << TYPE << TEXT << std::endl;
+#define LOG_TEST_STEP(TYPE, TEXT)                                                   \
+    std::cout << TYPE << TEXT << std::endl
 
 #define TEST_SPEC_META_INFORMATION(author)
 
@@ -29,43 +29,44 @@
     LOG_TEST_STEP("Requirement tested    ", requirement_id)                         \
 
 #define TEST_ANNOTATION(some_description_what_is_being_tested)                      \
-    LOG_TEST_STEP("                      ", some_description_what_is_being_tested)  \
-    LOG_DEBUG(nullptr) << some_description_what_is_being_tested;
+    LOG_TEST_STEP("                      ", some_description_what_is_being_tested); \
+    LOG_DEBUG(nullptr) << some_description_what_is_being_tested
 
 #define FUTURE_REALIZE_REQUIREMENT(requirement_id)                                  \
-    LOG_DEBUG(nullptr) << "Future requirement    " << requirement_id;
+    LOG_DEBUG(nullptr) << "Future requirement    " << requirement_id
 
 #define FUTURE_TEST(some_description_of_what_shall_be_tested_later)                 \
-    LOG_TEST_STEP("Future test                  ",									\
-		some_description_of_what_shall_be_tested_later)								\
-    LOG_DEBUG(nullptr) << "Future test step      " <<								\
+    LOG_TEST_STEP("Future test                  ",                                  \
+        some_description_of_what_shall_be_tested_later);                            \
+    LOG_DEBUG(nullptr) << "Future test step      " <<                               \
         some_description_of_what_shall_be_tested_later;
 
 #define EXECUTE(expression, step)                                                   \
-    LOG_TEST_STEP("Step                  ", step)                                   \
-    LOG_TEST_STEP("  execute             ", #expression)                            \
-    expression
+    LOG_TEST_STEP("Step                  ", step);                                  \
+    LOG_TEST_STEP("  execute             ", #expression);                           \
+    expression                                                                      \
+    qt_noop()
 
 #define VERIFY(expression, expectation)                                             \
-    LOG_TEST_STEP("  expectation         ", expectation)                            \
-    LOG_TEST_STEP("  verify that         ", #expression)                            \
+    LOG_TEST_STEP("  expectation         ", expectation);                           \
+    LOG_TEST_STEP("  verify that         ", #expression);                           \
     QVERIFY2(expression, expectation)
 
 
 
 #define COMPARE(actual, expected, expectation)                                      \
-    LOG_TEST_STEP("Expectation           ", expectation)                            \
-    LOG_TEST_STEP("  actual value        ", #actual)                                \
-    LOG_TEST_STEP("  expected value      ", #expected)								\
+    LOG_TEST_STEP("Expectation           ", expectation);                           \
+    LOG_TEST_STEP("  actual value        ", #actual);                               \
+    LOG_TEST_STEP("  expected value      ", #expected);                             \
     QCOMPARE(actual, expected)
 
 
 
 #define EXPECT_EXCEPTION(expression, expectation, ...)                              \
     try {                                                                           \
-        LOG_TEST_STEP("Expected exception    ", expectation)                        \
-        LOG_TEST_STEP("  execute             ", #expression)                        \
-        LOG_TEST_STEP("  exception contains  ", #__VA_ARGS__)                       \
+        LOG_TEST_STEP("Expected exception    ", expectation);                       \
+        LOG_TEST_STEP("  execute             ", #expression);                       \
+        LOG_TEST_STEP("  exception contains  ", #__VA_ARGS__);                      \
         expression                                                                  \
         QVERIFY2(false, "Expected exception not thrown!");                          \
     }                                                                               \
@@ -81,10 +82,10 @@
         }                                                                           \
     }
 
-#define EXPECT_NO_EXCEPTION(expression, step)										\
+#define EXPECT_NO_EXCEPTION(expression, step)                                       \
     try {                                                                           \
-        LOG_TEST_STEP("Step                  ", expectation)                        \
-        LOG_TEST_STEP("  exectue             ", #expression)                        \
+        LOG_TEST_STEP("Step                  ", expectation);                       \
+        LOG_TEST_STEP("  exectue             ", #expression);                       \
         expression                                                                  \
     }                                                                               \
     catch(std::exception const& anException) {                                      \
