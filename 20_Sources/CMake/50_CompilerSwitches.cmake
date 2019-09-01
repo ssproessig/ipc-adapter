@@ -1,6 +1,8 @@
 # settings to apply to all compilers
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# we aim for C++14
+set(CMAKE_CXX_STANDARD 14)
 
 # define some empty function stubs that some compilers may overwrite
 function(_disable_warning_for_unsecure_function_calls FILE_NAME)
