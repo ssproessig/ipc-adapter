@@ -30,6 +30,8 @@ namespace IpcAdapter
                 const QString& qName, const QXmlAttributes& atts
             ) override;
 
+            bool endElement(const QString& namespaceURI, const QString& localName, const QString& qName) override;
+
         };
 
     }
