@@ -55,7 +55,7 @@ void ComponentRegistryTest::test_01_querying_unknown_component_factory_returns_n
 {
     ComponentRegistry uut;
 
-    COMPARE(uut.getFactoryFor("unknown"), nullptr, "Unknown component SHALL return no factory");
+    VERIFY(uut.getFactoryFor("unknown") == nullptr, "Unknown component SHALL return no factory");
 }
 
 
