@@ -49,7 +49,7 @@ namespace IpcAdapter
                  * @retval	true    if data could be sent to `host` and `port` configured
                  * @retval      false   if data could not be sent successfully
                  */
-                bool process(Core::IPipelineFrame& aPipelineFrame) override;
+                bool process(Core::IPipelineFrame const& aPipelineFrame) override;
                 /// @}
 
                 PIMPLED_DATA(d);

@@ -48,7 +48,7 @@ namespace
         {
             QList<QByteArray> data;
 
-            bool process(IpcAdapter::Core::PipelineFramePtr aPipelineFrame) override
+            bool process(IpcAdapter::Core::PipelineFramePtr const& aPipelineFrame) override
             {
                 data.append(aPipelineFrame->getData());
                 return true;

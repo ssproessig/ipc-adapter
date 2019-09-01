@@ -32,7 +32,7 @@ namespace IpcAdapter
              * @retval true     passed pipeline frame was successfully processed in the sink
              * @retval false    processing the pipeline frame in the sink failed
              */
-            virtual bool process(IPipelineFrame& aPipelineFrame) = 0;
+            virtual bool process(IPipelineFrame const& aPipelineFrame) = 0;
         };
     }
 }

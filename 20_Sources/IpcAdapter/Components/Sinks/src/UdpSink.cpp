@@ -99,7 +99,7 @@ IpcAdapter::Core::IConfigurable* UdpSink::getConfigurable()
 }
 
 
-bool UdpSink::process(IpcAdapter::Core::IPipelineFrame& aPipelineStep)
+bool UdpSink::process(IpcAdapter::Core::IPipelineFrame const& aPipelineStep)
 {
     if (d->configuredOk)
     {
