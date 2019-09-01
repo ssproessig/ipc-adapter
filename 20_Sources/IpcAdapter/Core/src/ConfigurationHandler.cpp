@@ -118,6 +118,17 @@ namespace
     };
 
 
+    struct PipelineHandler: BaseHandler
+    {
+        explicit PipelineHandler(HandlerContext& aContext) : BaseHandler(aContext) {}
+
+        bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes& atts) override
+        {
+            return true;
+        }
+    };
+
+
     struct ComponentHandler : BaseHandler
     {
         explicit ComponentHandler(HandlerContext& aContext) : BaseHandler(aContext) {}
@@ -148,6 +159,13 @@ namespace
                 }
 
                 context.storeComponentAndClearContextForNext();
+
+                return true;
+            }
+
+            if (localName == "components")
+            {
+                context.handlerStack.push(new PipelineHandler(context));
             }
 
             return true;
