@@ -41,10 +41,7 @@ struct UdpSource::Data: Core::IConfigurable
 
         QObject::connect(&socket, &QUdpSocket::readyRead, [this]()
         {
-            if (!sourceTo)
-            {
-                return;
-            }
+            EXIT_EARLY_IF(!sourceTo,);
 
             auto const dataReceived = socket.receiveDatagram();
 

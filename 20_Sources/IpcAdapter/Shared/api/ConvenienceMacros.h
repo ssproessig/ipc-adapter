@@ -133,3 +133,6 @@ T const& NAME()                             \
 
 // some macros we will use for later documentation generation -> no code is being created
 #define REALIZE_REQUIREMENT(requirement_id) qt_noop()
+
+// readability helper to exit a function early if a precondition is not matches
+#define EXIT_EARLY_IF(CONDITION, RESULT_TO_RETURN) if ((CONDITION)) return RESULT_TO_RETURN
