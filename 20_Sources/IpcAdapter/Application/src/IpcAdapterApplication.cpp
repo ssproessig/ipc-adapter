@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     QCoreApplication app(argc, argv);
     auto const& args = QCoreApplication::arguments();
 
-    if(args.length() <= 1)
+    if (args.length() <= 1)
     {
         std::cout << "Usage: " << qPrintable(args.at(0)) << " <config>" << std::endl;
         return 1;
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         runtime->serveForever();
         return QCoreApplication::exec();
     }
-    catch(std::exception const& anException)
+    catch (std::exception const& anException)
     {
         std::cout << "Fatal error occurred: " << anException.what();
         return 2;
