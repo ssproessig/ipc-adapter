@@ -53,7 +53,7 @@ namespace
             }
         }
 
-        IpcAdapter::Core::IRuntimeConfiguration const& getRuntimeConfiguration() const
+        IpcAdapter::Core::IRuntimeConfiguration const& getRuntimeConfiguration() const override
         {
             return configuration;
         }
