@@ -173,7 +173,7 @@ void RuntimeTest::test_09_Runtime_initialization_fails_if_component_rejects_para
 
 
 
-void RuntimeTest::test_10_Runtime_initialization_succeeds()
+void RuntimeTest::test_98_Runtime_initialization_succeeds()
 {
     auto const uut = Runtime::createFrom(":/RuntimeTest_08_two_components.xml");
     auto const& configuration = uut->getRuntimeConfiguration();
@@ -196,7 +196,7 @@ void RuntimeTest::test_10_Runtime_initialization_succeeds()
 
 
 
-void RuntimeTest::test_11_Runtime_initialization_works_for_component_that_is_not_configurable()
+void RuntimeTest::test_99_Runtime_initialization_works_for_component_that_is_not_configurable()
 {
     TestComponent::isConfigurable = false;
 
