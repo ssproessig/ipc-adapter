@@ -7,5 +7,6 @@
         <file>RuntimeTest_06_unknown_component.xml</file>
         <file>RuntimeTest_07_duplicate_component_id.xml</file>
         <file>RuntimeTest_08_two_components.xml</file>
+        <file>RuntimeTest_09_duplicate_pipeline_id.xml</file>
     </qresource>
 </RCC>

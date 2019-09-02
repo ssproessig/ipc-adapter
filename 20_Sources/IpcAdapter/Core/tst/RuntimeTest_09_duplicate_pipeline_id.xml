@@ -1,0 +1,13 @@
+﻿<configuration version="1" xmlns="urn:ipca-configuration-v1">
+    <components>
+        <component id="source" type="TestSource"/>
+        <component id="sink" type="TestSink"/>
+    </components>
+    <pipelines>
+        <pipeline id="id1">
+            <source ref="source"/>
+            <sink ref="sink"/>
+        </pipeline>
+        <pipeline id="id1"/>
+    </pipelines>
+</configuration>

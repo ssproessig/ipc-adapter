@@ -3,14 +3,16 @@
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
 #include "Core/api/IRuntimeConfiguration.h"
+#include "Core/api/ISink.h"
+#include "Core/api/ISource.h"
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/Runtime.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
 
 
-
 using IpcAdapter::Core::Runtime;
 using IpcAdapter::Core::RuntimeTest;
+using IpcAdapter::Core::IConfigurable;
 
 
 
@@ -43,12 +45,39 @@ namespace
         static bool acceptedConfiguration;
         static bool isConfigurable;
     };
+    REGISTER_COMPONENT_IMPL(TestComponent, TC1, tc1)
 
     bool TestComponent::acceptedConfiguration = true;
     bool TestComponent::acceptedParameter = true;
     bool TestComponent::isConfigurable = true;
 
-    REGISTER_COMPONENT(TestComponent)
+    struct TestSource : IpcAdapter::Core::ISource
+    {
+        IConfigurable* getConfigurable() override
+        {
+            return nullptr;
+        }
+
+        void sourceTo(IpcAdapter::Core::IPipelineStep* aPipelineStep) override
+        {
+            throw std::logic_error("The method or operation is not implemented.");
+        }
+    };
+    REGISTER_COMPONENT_IMPL(TestSource, TC2, tc2)
+
+    struct TestSink : IpcAdapter::Core::ISink
+    {
+        IConfigurable* getConfigurable() override
+        {
+            return nullptr;
+        }
+
+        bool process(IpcAdapter::Core::IPipelineFrame const& aPipelineFrame)
+        {
+            return false;
+        }
+    };
+    REGISTER_COMPONENT_IMPL(TestSink, TC3, tc3)
 }
 
 
@@ -171,6 +200,16 @@ void RuntimeTest::test_09_Runtime_initialization_fails_if_component_rejects_para
     )
 }
 
+
+
+void RuntimeTest::test_20_Runtime_initialization_fails_if_duplicate_pipeline_id_is_used()
+{
+    EXPECT_EXCEPTION(
+        Runtime::createFrom(":/RuntimeTest_09_duplicate_pipeline_id.xml");,
+        "creating Runtime from configuration must fail if pipeline reuses id",
+        "trying to redefine pipeline 'id1'!"
+    )
+}
 
 
 void RuntimeTest::test_98_Runtime_initialization_succeeds()
