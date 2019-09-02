@@ -37,6 +37,12 @@ namespace IpcAdapter
 
 
 
+/**
+ * Helper macro to simplify the registration of one component in a source file
+ */
+#define REGISTER_COMPONENT(COMPONENT_ID)                                                            \
+    REGISTER_COMPONENT_IMPL(COMPONENT_ID, RegisterComponent, registerIt)
+
 
 
 /**
@@ -45,19 +51,19 @@ namespace IpcAdapter
  *
  * @param COMPONENT_ID  id of the component to register
  */
-#define REGISTER_COMPONENT(COMPONENT_ID)															\
+#define REGISTER_COMPONENT_IMPL(COMPONENT_ID, CLAZZ, INSTANCE)                                      \
 namespace                                                                                           \
 {                                                                                                   \
-    struct RegisterComponent                                                                        \
+    struct CLAZZ                                                                                    \
     {                                                                                               \
-        RegisterComponent()                                                                         \
+        CLAZZ()                                                                                     \
         {                                                                                           \
             IpcAdapter::Core::GlobalComponentRegistry::get().registerFactoryFor(                    \
-                #COMPONENT_ID,																		\
-				[]()->std::shared_ptr<IpcAdapter::Core::IComponent> {								\
-					return std::make_shared<COMPONENT_ID>();										\
-				});																					\
+                #COMPONENT_ID,                                                                      \
+                []()->std::shared_ptr<IpcAdapter::Core::IComponent> {                               \
+                    return std::make_shared<COMPONENT_ID>();                                        \
+                });                                                                                 \
         }                                                                                           \
-    } registerIt;																					\
-																									\
+    } INSTANCE;                                                                                     \
+                                                                                                    \
 }
