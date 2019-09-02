@@ -42,7 +42,7 @@ namespace
         RuntimeConfiguration& configuration;
         HandlerStack handlerStack;
 
-        std::shared_ptr<IpcAdapter::Core::IPipeline> currentPipeline;
+        std::shared_ptr<IpcAdapter::Core::Pipeline> currentPipeline;
 
         std::shared_ptr<IComponent> currentComponent;
         QString currentId;
