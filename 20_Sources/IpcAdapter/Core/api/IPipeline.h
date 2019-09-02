@@ -9,7 +9,7 @@ namespace IpcAdapter
     namespace Core
     {
         /**
-         *
+         * An abstraction to interact with pipelines.
          *
          * @author Soeren Sproessig
          * @version 1
