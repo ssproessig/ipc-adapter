@@ -43,6 +43,8 @@ namespace IpcAdapter
              * @return map of all dynamically created components
              */
             virtual ComponentMap const& getComponents() const = 0;
+
+            virtual ComponentPtr getComponent(QString const& aComponentId) const = 0;
         };
     }
 }

@@ -74,6 +74,15 @@ IpcAdapter::Core::ComponentMap const& RuntimeConfiguration::getComponents() cons
 
 
 
+IpcAdapter::Core::ComponentPtr RuntimeConfiguration::getComponent(QString const& aComponentId) const
+{
+    auto const& it = d->components.constFind(aComponentId);
+
+    return (it != d->components.constEnd()) ? *it : nullptr;
+}
+
+
+
 bool RuntimeConfiguration::containsComponentCalled(QString const& aComponentId)
 {
     return d->components.contains(aComponentId);

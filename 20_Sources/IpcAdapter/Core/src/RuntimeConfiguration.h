@@ -36,6 +36,8 @@ namespace IpcAdapter
              * @return map of all dynamically created components
              */
             ComponentMap const& getComponents() const override;
+
+            ComponentPtr getComponent(QString const& aComponentId) const;
             /// @}
 
             /**
