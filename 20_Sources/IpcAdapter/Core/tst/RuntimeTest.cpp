@@ -2,17 +2,22 @@
 
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/IConverter.h"
 #include "Core/api/IRuntimeConfiguration.h"
 #include "Core/api/ISink.h"
 #include "Core/api/ISource.h"
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/Runtime.h"
+#include "Core/api/SimplePipelineFrame.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
+
 
 
 using IpcAdapter::Core::Runtime;
 using IpcAdapter::Core::RuntimeTest;
 using IpcAdapter::Core::IConfigurable;
+using IpcAdapter::Core::PipelineFramePtr;
+using IpcAdapter::Core::SimplePipelineFrame;
 
 
 
@@ -74,12 +79,41 @@ namespace
             return nullptr;
         }
 
-        bool process(IpcAdapter::Core::IPipelineFrame const& aPipelineFrame)
+        bool process(IpcAdapter::Core::IPipelineFrame const& aPipelineFrame) override
         {
+            framesSeen.append(std::make_shared<SimplePipelineFrame>(aPipelineFrame.getData()));
             return false;
         }
+
+        QList<PipelineFramePtr> framesSeen;
     };
     REGISTER_COMPONENT_IMPL(TestSink, TC3, tc3)
+
+    struct TestConverter : IpcAdapter::Core::IConverter
+    {
+        TestConverter()
+        {
+            index = ++creationCounter;
+        }
+
+        IConfigurable* getConfigurable() override
+        {
+            return nullptr;
+        }
+
+        PipelineFramePtr convert(PipelineFramePtr const& anInput) override
+        {
+            auto data = anInput->getData();
+            data.append(QString("::HelloWorld:%1").arg(index));
+            return std::make_shared<SimplePipelineFrame>(data);
+        }
+
+        int index;
+        static int creationCounter;
+    };
+    int TestConverter::creationCounter = 0;
+
+    REGISTER_COMPONENT_IMPL(TestConverter, TC4, tc4)
 }
 
 
@@ -239,23 +273,20 @@ void RuntimeTest::test_22_Runtime_initialization_fails_if_pipeline_uses_non_conv
 
 void RuntimeTest::test_98_Runtime_initialization_succeeds()
 {
-    auto const uut = Runtime::createFrom(":/RuntimeTest_08_two_components.xml");
+    auto const uut = Runtime::createFrom(":/RuntimeTest_99_all_features.xml");
     auto const& configuration = uut->getRuntimeConfiguration();
     auto const& components = configuration.getComponents();
 
-    COMPARE(components.count(), 2, "we shall have configured two components");
-    COMPARE(components.contains("id1"), true, "we shall have component 'id1'");
-    COMPARE(components.contains("id2"), true, "we shall have component 'id2'");
+    COMPARE(components.count(), 4, "we shall have configured four components");
+    COMPARE(components.contains("cmp"), true, "we shall have component 'cmp'");
+    COMPARE(components.contains("src"), true, "we shall have component 'src'");
+    COMPARE(components.contains("snk"), true, "we shall have component 'snk'");
+    COMPARE(components.contains("cnv"), true, "we shall have component 'cnv'");
 
-    auto const c1 = std::dynamic_pointer_cast<TestComponent>(components["id1"]);
+    auto const c1 = std::dynamic_pointer_cast<TestComponent>(components["cmp"]);
     QVERIFY(c1 != nullptr);
     COMPARE(c1->key, QString("aKey"), "correct key shall be used");
     COMPARE(c1->value, QString("aValue"), "param shall be set");
-
-    auto const c2 = std::dynamic_pointer_cast<TestComponent>(components["id2"]);
-    QVERIFY(c2 != nullptr);
-    VERIFY(c2->key.isEmpty(), "2nd component shall not be configured");
-    VERIFY(c2->value.isEmpty(), "2nd component shall not be configured");
 }
 
 

@@ -1,0 +1,25 @@
+﻿<configuration version="1" xmlns="urn:ipca-configuration-v1">
+    <!-- using Test* components that are only defined in IpcAdapterCoreTest -->
+    <components>
+        <component id="cmp" type="TestComponent">
+            <param key="aKey" value="aValue"/>
+        </component>
+        <component id="src" type="TestSource"/>
+        <component id="snk" type="TestSink"/>
+        <component id="cnv" type="TestConverter"/>
+    </components>
+    <pipelines>
+        <!-- one simple pipeline with just source to sink -->
+        <pipeline id="p1">
+            <source ref="src"/>
+            <sink ref="snk"/>
+        </pipeline>
+        <!-- complex pipeline with two converter invocation before sink -->
+        <pipeline id="p2">
+            <source ref="src"/>
+            <converter ref="cnv"/>
+            <converter ref="cnv"/>
+            <sink ref="snk"/>
+        </pipeline>
+    </pipelines>
+</configuration>
