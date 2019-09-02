@@ -281,6 +281,17 @@ void RuntimeTest::test_98_Runtime_initialization_succeeds()
     QVERIFY(c1 != nullptr);
     COMPARE(c1->key, QString("aKey"), "correct key shall be used");
     COMPARE(c1->value, QString("aValue"), "param shall be set");
+
+    COMPARE(configuration.getPipelines().count(), 2, "we shall have configured two pipelines");
+
+    auto const src = std::dynamic_pointer_cast<TestSource>(components["src"]);
+    auto const snk = std::dynamic_pointer_cast<TestSink>(components["snk"]);
+
+    src->forwardTo->process(std::make_shared<SimplePipelineFrame>("Test123"));
+
+    COMPARE(snk->framesSeen.count(), 2, "the sink shall have received two frame: one from id1 and one from i2");
+    COMPARE(snk->framesSeen.at(0)->getData(), QByteArray("Test123"), "id1 only forwards");
+    COMPARE(snk->framesSeen.at(1)->getData(), QByteArray("Test123+1+2"), "id2 forwards the frame through 'cnv' twice");
 }
 
 
