@@ -89,16 +89,16 @@ void RuntimeConfiguration::addComponent(QString const& aComponentId, IpcAdapter:
 
 
 
-IpcAdapter::Core::ISource* RuntimeConfiguration::getSourceMultiplexFor(QString const& aComponentId)
+IpcAdapter::Core::ISource* RuntimeConfiguration::getSourceMultiplexFor(QString const& aSourceId)
 {
-    auto const& multiplexIt = d->sourceMultiplexes.constFind(aComponentId);
+    auto const& multiplexIt = d->sourceMultiplexes.constFind(aSourceId);
 
     if (multiplexIt != d->sourceMultiplexes.constEnd())
     {
         return multiplexIt.value().get();
     }
 
-    auto const& sourceIt = d->components.constFind(aComponentId);
+    auto const& sourceIt = d->components.constFind(aSourceId);
 
     if (sourceIt != d->components.constEnd())
     {
@@ -107,7 +107,7 @@ IpcAdapter::Core::ISource* RuntimeConfiguration::getSourceMultiplexFor(QString c
         if (asSource)
         {
             auto const multiplex = std::make_shared<SourceMultiplex>();
-            d->sourceMultiplexes.insert(aComponentId, multiplex);
+            d->sourceMultiplexes.insert(aSourceId, multiplex);
 
             auto const multiplexPtr = multiplex.get();
             asSource->sourceTo(multiplexPtr);
@@ -115,7 +115,7 @@ IpcAdapter::Core::ISource* RuntimeConfiguration::getSourceMultiplexFor(QString c
         }
     }
 
-    throw std::logic_error(qPrintable(Constants::errorUnknownSource().arg(aComponentId)));
+    throw std::logic_error(qPrintable(Constants::errorUnknownSource().arg(aSourceId)));
 }
 
 

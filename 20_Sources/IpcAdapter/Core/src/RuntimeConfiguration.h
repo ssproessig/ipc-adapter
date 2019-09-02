@@ -56,8 +56,30 @@ namespace IpcAdapter
              */
             void addComponent(QString const& aComponentId, ComponentPtr const& aComponent);
 
-            ISource* getSourceMultiplexFor(QString const& aComponentId);
+            /**
+             * Queries the runtime configuration for the multiplex of the source identified with `aSourceId`.
+             *
+             * It no source exists by that name (or the component is no source) a `std::logic_error` is thrown.
+             *
+             * Otherwise always the same multiplex for that source will be returned, creating it on the first call.
+             *
+             * @param aSourceId     source id to get the multiplex for
+             *
+             * @return  multiplex source for the requested source
+             *
+             * @throws std::logic_error
+             */
+            ISource* getSourceMultiplexFor(QString const& aSourceId);
 
+
+            /**
+             * Adds the `aPipeline` instance to the RuntimeConfiguration, identified by `aPipelineId`.
+             *
+             * @param   aPipelineId    pipeline id to reference the pipeline under
+             * @param   aPipeline      pipeline to store in the configuration
+             *
+             * @throws std::logic_error  if existing `aPipelineId` is reused
+             */
             void addPipeline(QString const& aPipelineId, PipelinePtr const& aPipeline);
         };
     }
