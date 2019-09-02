@@ -36,7 +36,7 @@ namespace
         DECLARE_CONST(QString, errorDuplicateComponentId, ("unable to create '%1' again for id '%2'!"))
         DECLARE_CONST(QString, errorParamRejected, ("component '%1' rejects parameter '%2' with value '%3'!"))
         DECLARE_CONST(QString, errorFinishingConfiguration, ("unable to finish configuring '%1'!"))
-        DECLARE_CONST(QString, errorNoSink, ("component '%1' referenced in '%2' is no sink!"))
+        DECLARE_CONST(QString, errorWrongComponentType, ("component '%1' referenced in '%2' is no %3!"))
     }
 
 
@@ -160,7 +160,7 @@ namespace
                 if (!asSink)
                 {
                     throw std::runtime_error(
-                        qPrintable(Constants::errorNoSink().arg(ref, context.currentId)));
+                        qPrintable(Constants::errorWrongComponentType().arg(ref, context.currentId, localName)));
                 }
 
                 context.currentPipeline->addSink(asSink.get());
