@@ -140,6 +140,12 @@ namespace
                 context.currentPipeline = std::make_shared<IpcAdapter::Core::Pipeline>();
             }
 
+            else if (localName == "source")
+            {
+                auto sourceMultiplex = context.configuration.getSourceMultiplexFor(atts.value("ref"));
+                sourceMultiplex->sourceTo(context.currentPipeline.get());
+            }
+
             return true;
         }
 
