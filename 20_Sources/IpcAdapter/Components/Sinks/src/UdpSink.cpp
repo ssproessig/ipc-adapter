@@ -106,6 +106,8 @@ bool UdpSink::process(IpcAdapter::Core::IPipelineFrame const& aPipelineStep)
         auto const& data = aPipelineStep.getData();
         auto const bytesSent = d->socket->writeDatagram(data, d->targetHost, d->targetPort);
 
+        LOG_DEBUG(this) << "send" << data << "to" << d->targetHost << ":" << d->targetPort;
+
         return bytesSent == data.length();
     }
 

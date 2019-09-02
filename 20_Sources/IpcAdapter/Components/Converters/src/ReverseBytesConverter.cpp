@@ -27,6 +27,8 @@ PipelineFramePtr ReverseBytesConverter::convert(PipelineFramePtr const& anInput)
     QByteArray reversed = anInput->getData();
     std::reverse(reversed.begin(), reversed.end());
 
+    LOG_DEBUG(this) << "reversing " << anInput->getData() << "to" << reversed;
+
     return std::make_shared<Core::SimplePipelineFrame>(reversed);
 }
 

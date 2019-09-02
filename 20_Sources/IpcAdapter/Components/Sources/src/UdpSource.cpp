@@ -45,10 +45,11 @@ struct UdpSource::Data: Core::IConfigurable
             LOG_DEBUG(this) << "received: " << dataReceived.data().toHex();
 
             EXIT_EARLY_IF(Q_UNLIKELY(!sourceTo),);
-            LOG_DEBUG(this) << "forwarding to: " << sourceTo;
 
             auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>();
             pipelineFrame->setData(dataReceived.data());
+
+            LOG_DEBUG(this) << "forwarding to " << sourceTo << " " << pipelineFrame->getData();
 
             sourceTo->process(pipelineFrame);
         });
