@@ -8,6 +8,7 @@ namespace IpcAdapter
 {
     namespace Core
     {
+        FORWARD_DECLARE(IConverter);
         FORWARD_DECLARE(ISink);
 
         /**
@@ -28,6 +29,8 @@ namespace IpcAdapter
         public:
             Pipeline();
             virtual ~Pipeline() override;
+
+            void addConverter(IConverter* aConverter);
 
             /**
              * Adds a sink to the pipeline.  Sink will be added at the end of the sink list and will be processed

@@ -178,7 +178,7 @@ namespace
                         qPrintable(Constants::errorWrongComponentType().arg(ref, context.currentId, localName)));
                 }
 
-                // FIXME: store converter in pipeline
+                context.currentPipeline->addConverter(asConverter.get());
             }
 
             return true;
