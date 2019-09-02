@@ -12,12 +12,19 @@ namespace IpcAdapter
     namespace Core
     {
         FORWARD_DECLARE(IComponent);
+        FORWARD_DECLARE(IPipeline);
 
         /// smart pointer carrying a shared component
         using ComponentPtr = std::shared_ptr<IComponent>;
 
         /// mapping of componentId to its instance
         using ComponentMap = QMap<QString, ComponentPtr>;
+
+        /// smart pointer carrying a shared pipeline
+        using PipelinePtr = std::shared_ptr<IPipeline>;
+
+        /// mapping of pipelineId to its instance
+        using PipelineMap = QMap<QString, PipelinePtr>;
 
         /**
          * An interface used to read the dynamic runtime configuration.

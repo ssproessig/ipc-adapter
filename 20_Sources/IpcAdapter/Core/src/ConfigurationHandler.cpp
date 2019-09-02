@@ -4,6 +4,7 @@
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
 #include "Core/api/Logger.h"
+#include "Core/src/Pipeline.h"
 #include "Core/src/RuntimeConfiguration.h"
 
 #include <QMap>
@@ -40,6 +41,8 @@ namespace
     {
         RuntimeConfiguration& configuration;
         HandlerStack handlerStack;
+
+        std::shared_ptr<IpcAdapter::Core::IPipeline> currentPipeline;
 
         std::shared_ptr<IComponent> currentComponent;
         QString currentId;
@@ -108,6 +111,13 @@ namespace
             currentComponent.reset();
             currentConfigurable = nullptr;
         }
+
+        void storePipelineAndClearContextForNext()
+        {
+            configuration.addPipeline(currentId, currentPipeline);
+            currentId.clear();
+            currentPipeline.reset();
+        }
     };
 
 
@@ -124,6 +134,22 @@ namespace
 
         bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes& atts) override
         {
+            if (localName == "pipeline")
+            {
+                context.currentId = atts.value("id");
+                context.currentPipeline = std::make_shared<IpcAdapter::Core::Pipeline>();
+            }
+
+            return true;
+        }
+
+        bool endElement(const QString&, const QString& localName, const QString&) override
+        {
+            if (localName == "pipeline" && context.currentPipeline)
+            {
+                context.storePipelineAndClearContextForNext();
+            }
+
             return true;
         }
     };

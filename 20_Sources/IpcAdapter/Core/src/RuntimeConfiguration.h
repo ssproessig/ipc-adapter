@@ -57,6 +57,8 @@ namespace IpcAdapter
             void addComponent(QString const& aComponentId, ComponentPtr const& aComponent);
 
             ISource* getSourceMultiplexFor(QString const& aComponentId);
+
+            void addPipeline(QString const& aPipelineId, PipelinePtr const& aPipeline);
         };
     }
 }

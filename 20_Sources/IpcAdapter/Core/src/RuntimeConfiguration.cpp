@@ -1,5 +1,6 @@
 #include "Core/src/RuntimeConfiguration.h"
 #include "Core/api/IComponent.h"
+#include "Core/api/IPipeline.h"
 #include "Core/api/ISource.h"
 #include "Core/api/Logger.h"
 
@@ -18,6 +19,7 @@ namespace
     namespace Constants
     {
         DECLARE_CONST(QString, errorUnknownSource, ("trying to multiplex unknown source '%1'!"))
+        DECLARE_CONST(QString, errorDuplicatePipelineId, ("trying to redefine pipeline '%1'!"))
     }
 
     struct SourceMultiplex
@@ -55,6 +57,7 @@ struct RuntimeConfiguration::Data
     QMap<QString, std::shared_ptr<IpcAdapter::Core::ISource>> sourceMultiplexes;
 
     ComponentMap components;
+    PipelineMap pipelines;
 };
 
 
@@ -113,4 +116,16 @@ IpcAdapter::Core::ISource* RuntimeConfiguration::getSourceMultiplexFor(QString c
     }
 
     throw std::logic_error(qPrintable(Constants::errorUnknownSource().arg(aComponentId)));
+}
+
+
+void RuntimeConfiguration::addPipeline(QString const& aPipelineId, IpcAdapter::Core::PipelinePtr const& aPipeline)
+{
+    if (d->pipelines.contains(aPipelineId))
+    {
+        throw std::logic_error(qPrintable(Constants::errorDuplicatePipelineId().arg(aPipelineId)));
+    }
+
+    LOG_DEBUG(this) << "added pipeline " << aPipelineId << "=" << aPipeline.get();
+    d->pipelines.insert(aPipelineId, aPipeline);
 }
