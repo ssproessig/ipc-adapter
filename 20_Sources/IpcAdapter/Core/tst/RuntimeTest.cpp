@@ -226,6 +226,17 @@ void RuntimeTest::test_21_Runtime_initialization_fails_if_pipeline_uses_non_sink
 
 
 
+void RuntimeTest::test_22_Runtime_initialization_fails_if_pipeline_uses_non_converter_as_converter()
+{
+    EXPECT_EXCEPTION(
+        Runtime::createFrom(":/RuntimeTest_11_pipeline_with_wrong_component_as_converter.xml");,
+        "creating Runtime from configuration must fail if pipeline uses non-converter as <converter/>",
+        "component 'source' referenced in 'id1' is no converter!"
+    )
+}
+
+
+
 void RuntimeTest::test_98_Runtime_initialization_succeeds()
 {
     auto const uut = Runtime::createFrom(":/RuntimeTest_08_two_components.xml");

@@ -9,5 +9,6 @@
         <file>RuntimeTest_08_two_components.xml</file>
         <file>RuntimeTest_09_duplicate_pipeline_id.xml</file>
         <file>RuntimeTest_10_pipeline_with_wrong_component_as_sink.xml</file>
+        <file>RuntimeTest_11_pipeline_with_wrong_component_as_converter.xml</file>
     </qresource>
 </RCC>

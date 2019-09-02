@@ -3,6 +3,7 @@
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/IConverter.h"
 #include "Core/api/ISink.h"
 #include "Core/api/ISource.h"
 #include "Core/api/Logger.h"
@@ -164,6 +165,20 @@ namespace
                 }
 
                 context.currentPipeline->addSink(asSink.get());
+            }
+
+            else if (localName == "converter")
+            {
+                auto const component = context.configuration.getComponent(ref);
+                auto const asConverter = std::dynamic_pointer_cast<IpcAdapter::Core::IConverter>(component);
+
+                if (!asConverter)
+                {
+                    throw std::runtime_error(
+                        qPrintable(Constants::errorWrongComponentType().arg(ref, context.currentId, localName)));
+                }
+
+                // FIXME: store converter in pipeline
             }
 
             return true;
