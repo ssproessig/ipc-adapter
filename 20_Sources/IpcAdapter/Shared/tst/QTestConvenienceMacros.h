@@ -83,7 +83,7 @@
         }                                                                           \
     }
 
-#define EXPECT_NO_EXCEPTION(expression, step)                                       \
+#define EXPECT_NO_EXCEPTION(expression, expectation)                                \
     try {                                                                           \
         LOG_TEST_STEP("Step                  ", expectation);                       \
         LOG_TEST_STEP("  exectue             ", #expression);                       \
