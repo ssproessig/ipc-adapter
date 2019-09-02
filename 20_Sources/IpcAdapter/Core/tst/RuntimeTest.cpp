@@ -60,8 +60,10 @@ namespace
 
         void sourceTo(IpcAdapter::Core::IPipelineStep* aPipelineStep) override
         {
-            throw std::logic_error("The method or operation is not implemented.");
+            forwardTo = aPipelineStep;
         }
+
+        IpcAdapter::Core::IPipelineStep* forwardTo = nullptr;
     };
     REGISTER_COMPONENT_IMPL(TestSource, TC2, tc2)
 
