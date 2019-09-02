@@ -29,6 +29,7 @@ namespace IpcAdapter
             void test_09_Runtime_initialization_fails_if_component_rejects_parameter();
 
             void test_20_Runtime_initialization_fails_if_duplicate_pipeline_id_is_used();
+            void test_21_Runtime_initialization_fails_if_pipeline_uses_non_sink_as_sink();
 
             void test_98_Runtime_initialization_succeeds();
             void test_99_Runtime_initialization_works_for_component_that_is_not_configurable();

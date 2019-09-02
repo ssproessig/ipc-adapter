@@ -214,6 +214,18 @@ void RuntimeTest::test_20_Runtime_initialization_fails_if_duplicate_pipeline_id_
 }
 
 
+
+void RuntimeTest::test_21_Runtime_initialization_fails_if_pipeline_uses_non_sink_as_sink()
+{
+    EXPECT_EXCEPTION(
+        Runtime::createFrom(":/RuntimeTest_10_pipeline_with_wrong_component_as_sink.xml");,
+        "creating Runtime from configuration must fail if pipeline uses non-sink as <sink/>",
+        "component 'source' referenced in 'id1' is no sink!"
+    )
+}
+
+
+
 void RuntimeTest::test_98_Runtime_initialization_succeeds()
 {
     auto const uut = Runtime::createFrom(":/RuntimeTest_08_two_components.xml");
