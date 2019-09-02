@@ -141,23 +141,26 @@ namespace
             {
                 context.currentId = atts.value("id");
                 context.currentPipeline = std::make_shared<IpcAdapter::Core::Pipeline>();
+                return true;
             }
 
-            else if (localName == "source")
+            auto const& ref = atts.value("ref");
+
+            if (localName == "source")
             {
-                auto sourceMultiplex = context.configuration.getSourceMultiplexFor(atts.value("ref"));
+                auto sourceMultiplex = context.configuration.getSourceMultiplexFor(ref);
                 sourceMultiplex->sourceTo(context.currentPipeline.get());
             }
 
             else if (localName == "sink")
             {
-                auto const component = context.configuration.getComponent(atts.value("ref"));
+                auto const component = context.configuration.getComponent(ref);
                 auto const asSink = std::dynamic_pointer_cast<IpcAdapter::Core::ISink>(component);
 
                 if (!asSink)
                 {
                     throw std::runtime_error(
-                        qPrintable(Constants::errorNoSink().arg(atts.value("ref"), context.currentId)));
+                        qPrintable(Constants::errorNoSink().arg(ref, context.currentId)));
                 }
 
                 context.currentPipeline->addSink(asSink.get());
