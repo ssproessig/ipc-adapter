@@ -83,6 +83,8 @@ namespace IpcAdapter
              * @throws std::logic_error  if existing `aPipelineId` is reused
              */
             void addPipeline(QString const& aPipelineId, PipelinePtr const& aPipeline);
+
+            PipelineMap const& getPipelines() const;
         };
     }
 }

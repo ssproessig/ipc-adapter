@@ -138,3 +138,10 @@ void RuntimeConfiguration::addPipeline(QString const& aPipelineId, IpcAdapter::C
     LOG_DEBUG(this) << "added pipeline " << aPipelineId << "=" << aPipeline.get();
     d->pipelines.insert(aPipelineId, aPipeline);
 }
+
+
+
+IpcAdapter::Core::PipelineMap const& RuntimeConfiguration::getPipelines() const
+{
+    return d->pipelines;
+}

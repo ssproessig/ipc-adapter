@@ -45,6 +45,8 @@ namespace IpcAdapter
             virtual ComponentMap const& getComponents() const = 0;
 
             virtual ComponentPtr getComponent(QString const& aComponentId) const = 0;
+
+            virtual PipelineMap const& getPipelines() const = 0;
         };
     }
 }
