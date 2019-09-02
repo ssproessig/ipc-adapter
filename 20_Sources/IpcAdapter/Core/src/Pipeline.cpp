@@ -14,14 +14,19 @@ struct Pipeline::Data
 {
     bool process(PipelineFramePtr const& aPipelineFrame)
     {
+        bool successfullyProcessed = true;
+
         IPipelineFrame const& frame = *aPipelineFrame.get();
 
         for (auto& sink : sinks)
         {
-            sink->process(frame);
+            if (!sink->process(frame))
+            {
+                successfullyProcessed = false;
+            }
         }
 
-        return false;
+        return successfullyProcessed;
     }
 
     QList<ISink*> sinks;
