@@ -117,7 +117,7 @@
     <xs:annotation>
       <xs:documentation>a reference to a configured component</xs:documentation>
     </xs:annotation>
-    <xs:attribute name="ref" use="required">
+    <xs:attribute name="ref" use="required" type="xs:IDREF">
       <xs:annotation>
         <xs:documentation>component to reference</xs:documentation>
       </xs:annotation>
