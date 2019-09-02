@@ -104,12 +104,36 @@ void PipelineTest::test_02_dont_create_multiplex_for_unknown_source()
 {
     RuntimeConfiguration config;
 
-    auto const multiplex = config.getSourceMultiplexFor("source");
-    VERIFY(multiplex == nullptr, "without configuring a 'source' there is no multiplex");
+    EXPECT_EXCEPTION(
+        config.getSourceMultiplexFor("source");,
+        "without configuring a 'source' there is no multiplex",
+        "trying to multiplex unknown source 'source'!"
+    )
 }
 
 
-void PipelineTest::test_03_source_multiplex_uses_all_pipelines()
+
+void PipelineTest::test_03_known_source_returns_the_same_multiplex_all_the_time()
+{
+    RuntimeConfiguration config;
+
+    auto const source = std::make_shared<DummySource>();
+    config.addComponent("source", source);
+
+    EXPECT_NO_EXCEPTION(
+        config.getSourceMultiplexFor("source");,
+        "querying a known source shall not throw");
+
+    COMPARE(
+        config.getSourceMultiplexFor("source"),
+        config.getSourceMultiplexFor("source"),
+        "shall return the same multiplex everytime"
+    );
+}
+
+
+
+void PipelineTest::test_04_source_multiplex_uses_all_pipelines()
 {
     RuntimeConfiguration config;
 
@@ -117,7 +141,6 @@ void PipelineTest::test_03_source_multiplex_uses_all_pipelines()
     config.addComponent("source", source);
 
     auto multiplex = config.getSourceMultiplexFor("source");
-    VERIFY(multiplex != nullptr, "we must be able to get a multiplex for 'source'");
 
     Pipeline pipeline1;
     multiplex->sourceTo(&pipeline1);

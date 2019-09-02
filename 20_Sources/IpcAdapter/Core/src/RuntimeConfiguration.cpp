@@ -15,6 +15,11 @@ using IpcAdapter::Core::IPipelineStep;
 
 namespace
 {
+    namespace Constants
+    {
+        DECLARE_CONST(QString, errorUnknownSource, ("trying to multiplex unknown source '%1'!"))
+    }
+
     struct SourceMultiplex
         : IpcAdapter::Core::ISource
         , IPipelineStep
@@ -105,11 +110,7 @@ IpcAdapter::Core::ISource* RuntimeConfiguration::getSourceMultiplexFor(QString c
             asSource->sourceTo(multiplexPtr);
             return multiplexPtr;
         }
-        else
-        {
-            throw std::logic_error("Not a source");
-        }
     }
 
-    return nullptr;
+    throw std::logic_error(qPrintable(Constants::errorUnknownSource().arg(aComponentId)));
 }
