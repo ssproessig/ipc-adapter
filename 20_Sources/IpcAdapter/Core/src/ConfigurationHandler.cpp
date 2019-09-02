@@ -3,6 +3,8 @@
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/ISink.h"
+#include "Core/api/ISource.h"
 #include "Core/api/Logger.h"
 #include "Core/src/Pipeline.h"
 #include "Core/src/RuntimeConfiguration.h"
@@ -34,6 +36,7 @@ namespace
         DECLARE_CONST(QString, errorDuplicateComponentId, ("unable to create '%1' again for id '%2'!"))
         DECLARE_CONST(QString, errorParamRejected, ("component '%1' rejects parameter '%2' with value '%3'!"))
         DECLARE_CONST(QString, errorFinishingConfiguration, ("unable to finish configuring '%1'!"))
+        DECLARE_CONST(QString, errorNoSink, ("component '%1' referenced in '%2' is no sink!"))
     }
 
 
@@ -144,6 +147,20 @@ namespace
             {
                 auto sourceMultiplex = context.configuration.getSourceMultiplexFor(atts.value("ref"));
                 sourceMultiplex->sourceTo(context.currentPipeline.get());
+            }
+
+            else if (localName == "sink")
+            {
+                auto const component = context.configuration.getComponent(atts.value("ref"));
+                auto const asSink = std::dynamic_pointer_cast<IpcAdapter::Core::ISink>(component);
+
+                if (!asSink)
+                {
+                    throw std::runtime_error(
+                        qPrintable(Constants::errorNoSink().arg(atts.value("ref"), context.currentId)));
+                }
+
+                context.currentPipeline->addSink(asSink.get());
             }
 
             return true;
