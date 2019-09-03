@@ -20,6 +20,7 @@ namespace IpcAdapter
                 : public Core::ISink
             {
                 NONCOPYABLE(UdpSink);
+                PIMPLED_DATA(d);
 
             public:
                 UdpSink();
@@ -50,8 +51,6 @@ namespace IpcAdapter
                  */
                 bool process(Core::IPipelineFrame const& aPipelineFrame) override;
                 /// @}
-
-                PIMPLED_DATA(d);
             };
         }
     }
