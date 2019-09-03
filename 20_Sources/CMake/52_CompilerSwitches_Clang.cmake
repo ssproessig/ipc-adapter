@@ -30,7 +30,8 @@ else()
         -Wno-documentation-unknown-command
         -Wno-used-but-marked-unused
         -Wno-gnu-zero-variadic-macro-arguments
-        -Wno-disabled-macro-expansion        
+        -Wno-disabled-macro-expansion
+	-Wno-global-constructors
     )
 
     # clang 3.9 introduced a new warning that needs to be checked - apple clang does not yet support it
