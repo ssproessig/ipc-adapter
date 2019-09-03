@@ -42,13 +42,8 @@ namespace
 
             QXmlInputSource source(&xmlFile);
 
-            if (reader.parse(source))
+            if (!reader.parse(source))
             {
-                // FIXME: create pipeline
-            }
-            else
-            {
-                // TODO: check if we need to embed the parser error in more context
                 THROW(handler.errorString());
             }
         }
