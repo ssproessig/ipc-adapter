@@ -41,6 +41,11 @@ namespace IpcAdapter
 
                 /// @name ISource realization
                 /// @{
+                /**
+                 * Configures the source to "source" its pipeline frames to the given `aPipelineStep`.
+                 *
+                 * @param aPipelineStep     pipeline step to source to
+                 */
                 void sourceTo(Core::IPipelineStep* aPipelineStep) override;
                 /// @}
             };
