@@ -46,7 +46,6 @@ namespace IpcAdapter
              * @retval false if the component failed to configured itself
              */
             virtual bool onConfigureEnd() = 0;
-
         };
     }
 }

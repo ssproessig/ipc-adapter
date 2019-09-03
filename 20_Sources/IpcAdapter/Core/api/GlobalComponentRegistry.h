@@ -30,7 +30,6 @@ namespace IpcAdapter
              * @return one-and-only factory registry in the Core.
              */
             static IFactoryRegistry& get();
-
         };
     }
 }

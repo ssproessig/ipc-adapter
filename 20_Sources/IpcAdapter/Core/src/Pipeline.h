@@ -53,6 +53,5 @@ namespace IpcAdapter
             bool process(PipelineFramePtr const& aPipelineFrame) override;
             /// @}
         };
-
     }
 }

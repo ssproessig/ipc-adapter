@@ -32,7 +32,6 @@ namespace IpcAdapter
              * @retval nullptr      the component's is not configurable
              */
             virtual IConfigurable* getConfigurable() = 0;
-
         };
     }
 }

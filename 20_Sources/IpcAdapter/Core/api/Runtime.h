@@ -5,6 +5,7 @@
 FORWARD_DECLARE(QString);
 
 
+
 namespace IpcAdapter
 {
     namespace Core

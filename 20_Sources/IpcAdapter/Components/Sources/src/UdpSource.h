@@ -43,7 +43,6 @@ namespace IpcAdapter
                 /// @{
                 void sourceTo(Core::IPipelineStep* aPipelineStep) override;
                 /// @}
-
             };
         }
     }

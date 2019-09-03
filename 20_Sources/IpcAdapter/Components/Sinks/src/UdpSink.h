@@ -22,7 +22,6 @@ namespace IpcAdapter
                 NONCOPYABLE(UdpSink);
 
             public:
-
                 UdpSink();
                 virtual ~UdpSink() override;
 

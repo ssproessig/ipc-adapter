@@ -50,7 +50,6 @@ namespace IpcAdapter
              * @retval  false		if inserting the factory failed (e.g. duplicate `aComponentId`)
              */
             virtual bool registerFactoryFor(QString const& aComponentId, FactoryFnc const& aFactoryFunction) = 0;
-
         };
     }
 }

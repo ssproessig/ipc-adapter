@@ -37,7 +37,6 @@ namespace IpcAdapter
              */
             ComponentMap const& getComponents() const override;
 
-
             /**
              * Queries the runtime configuration for a component by its `aComponentId`
              *
@@ -81,7 +80,6 @@ namespace IpcAdapter
              * @throws std::runtime_error  if `aSourceId` does not exist
              */
             ISource* getSourceMultiplexFor(QString const& aSourceId);
-
 
             /**
              * Adds the `aPipeline` instance to the RuntimeConfiguration, identified by `aPipelineId`.
