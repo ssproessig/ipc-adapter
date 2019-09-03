@@ -122,6 +122,21 @@ namespace
             currentId.clear();
             currentPipeline.reset();
         }
+
+        template <class T>
+        T* getComponentAs(QString const& aRef, QString const& anXmlElementName)
+        {
+            auto const component = configuration.getComponent(aRef);
+            auto const typedComponent = std::dynamic_pointer_cast<T>(component);
+
+            if (!typedComponent)
+            {
+                throw std::runtime_error(
+                    qPrintable(Constants::errorWrongComponentType().arg(aRef, currentId, anXmlElementName)));
+            }
+
+            return typedComponent.get();
+        }
     };
 
 
@@ -155,30 +170,14 @@ namespace
 
             else if (localName == "sink")
             {
-                auto const component = context.configuration.getComponent(ref);
-                auto const asSink = std::dynamic_pointer_cast<IpcAdapter::Core::ISink>(component);
-
-                if (!asSink)
-                {
-                    throw std::runtime_error(
-                        qPrintable(Constants::errorWrongComponentType().arg(ref, context.currentId, localName)));
-                }
-
-                context.currentPipeline->addSink(asSink.get());
+                auto const sink = context.getComponentAs<IpcAdapter::Core::ISink>(ref, localName);
+                context.currentPipeline->addSink(sink);
             }
 
             else if (localName == "converter")
             {
-                auto const component = context.configuration.getComponent(ref);
-                auto const asConverter = std::dynamic_pointer_cast<IpcAdapter::Core::IConverter>(component);
-
-                if (!asConverter)
-                {
-                    throw std::runtime_error(
-                        qPrintable(Constants::errorWrongComponentType().arg(ref, context.currentId, localName)));
-                }
-
-                context.currentPipeline->addConverter(asConverter.get());
+                auto const converter = context.getComponentAs<IpcAdapter::Core::IConverter>(ref, localName);
+                context.currentPipeline->addConverter(converter);
             }
 
             return true;
