@@ -25,9 +25,8 @@ namespace IpcAdapter
         public:
             INTERFACE_DESTRUCTOR(IFactoryRegistry);
 
-        public:
             /// a function that creates a shared_ptr of a component
-            using FactoryFnc = std::function<std::shared_ptr<IComponent>(void)>;
+            using FactoryFnc = std::function<std::shared_ptr<IComponent>()>;
 
             /**
              * Queries the factory for component `aComponentId`.
