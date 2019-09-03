@@ -15,8 +15,6 @@ namespace IpcAdapter
          * A concrete implementation of a pipeline.  Every frame received will be forwarded to all sinks
          * in order of their addition.
          *
-         * TODO: add converter support
-         *
          * @author Soeren Sproessig
          * @version 1
          */
