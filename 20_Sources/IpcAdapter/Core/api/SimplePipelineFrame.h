@@ -55,6 +55,13 @@ namespace IpcAdapter
              * @return raw data stored in the frame
              */
             RawData const& getData() const override;
+
+            /**
+             * Queries the frame's meta data.
+             *
+             * @return meta information of the frame
+             */
+            MetaDataMap const& getMetaData() const override;
             /// @}
         };
     }

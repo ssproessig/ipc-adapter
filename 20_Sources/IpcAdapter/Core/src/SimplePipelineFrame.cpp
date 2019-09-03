@@ -1,6 +1,9 @@
 #include "Core/api/SimplePipelineFrame.h"
 
 #include <QByteArray>
+#include <QMap>
+#include <QString>
+#include <QVariant>
 
 
 
@@ -11,6 +14,7 @@ using IpcAdapter::Core::SimplePipelineFrame;
 
 struct SimplePipelineFrame::Data
 {
+    IPipelineFrame::MetaDataMap metaData;
     IPipelineFrame::RawData rawData;
 };
 
@@ -29,6 +33,7 @@ SimplePipelineFrame::SimplePipelineFrame
     : d(std::make_unique<Data>())
 {
     d->rawData = anotherPipelineFrame->getData();
+    d->metaData = anotherPipelineFrame->getMetaData();
 }
 
 SimplePipelineFrame::~SimplePipelineFrame() = default;
@@ -38,6 +43,12 @@ SimplePipelineFrame::~SimplePipelineFrame() = default;
 IPipelineFrame::RawData const& SimplePipelineFrame::getData() const
 {
     return d->rawData;
+}
+
+
+IPipelineFrame::MetaDataMap const& SimplePipelineFrame::getMetaData() const
+{
+    return d->metaData;
 }
 
 
