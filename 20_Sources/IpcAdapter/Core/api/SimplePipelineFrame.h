@@ -47,6 +47,17 @@ namespace IpcAdapter
              */
             void setData(RawData const& aRawDataBuffer);
 
+            /**
+             * Updates new meta-data key=value pair in the frame.
+             *
+             * If an entry for `aKey` does not yet exist, it is added. If it did, it will be overwritten.
+             *
+             * @param   aKey    meta-data to write
+             * @param   aValue  meta-value to write
+             */
+            void updateMetaData(QString const& aKey, QVariant const& aValue);
+
+
             /// @name IPipelineFramer realization
             /// @{
             /**

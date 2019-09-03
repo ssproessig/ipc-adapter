@@ -57,3 +57,10 @@ void SimplePipelineFrame::setData(IPipelineFrame::RawData const& aRawDataBuffer)
 {
     d->rawData = aRawDataBuffer;
 }
+
+
+
+void SimplePipelineFrame::updateMetaData(QString const& aKey, QVariant const& aValue)
+{
+    d->metaData[aKey] = aValue;
+}
