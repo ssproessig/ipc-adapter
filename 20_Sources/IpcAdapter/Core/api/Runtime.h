@@ -26,7 +26,7 @@ namespace IpcAdapter
              *
              * May throw `std::runtime_error` if parsing the configuration fails.
              *
-             * @throw std::runtime_error
+             * @throw std::runtime_error  in case parsing fails
              *
              * @return  Runtime created after parsing `aConfigurationFile`
              */

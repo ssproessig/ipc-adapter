@@ -61,14 +61,14 @@ namespace
 
             if (!factory)
             {
-                throw std::runtime_error(qPrintable(Constants::errorUnknownComponent().arg(type)));
+                THROW(Constants::errorUnknownComponent().arg(type));
             }
 
             currentId = atts.value("id");
 
             if (configuration.containsComponentCalled(currentId))
             {
-                throw std::runtime_error(qPrintable(Constants::errorDuplicateComponentId().arg(type, currentId)));
+                THROW(Constants::errorDuplicateComponentId().arg(type, currentId));
             }
 
             currentComponent = factory();
@@ -94,8 +94,7 @@ namespace
 
             if (!currentConfigurable->doConfigure(aKey, aValue))
             {
-                throw std::runtime_error(
-                    qPrintable(Constants::errorParamRejected().arg(currentId, aKey, aValue)));
+                THROW(Constants::errorParamRejected().arg(currentId, aKey, aValue));
             }
 
             return true;
@@ -131,8 +130,7 @@ namespace
 
             if (!typedComponent)
             {
-                throw std::runtime_error(
-                    qPrintable(Constants::errorWrongComponentType().arg(aRef, currentId, anXmlElementName)));
+                THROW(Constants::errorWrongComponentType().arg(aRef, currentId, anXmlElementName));
             }
 
             return typedComponent.get();
@@ -220,8 +218,7 @@ namespace
             {
                 if (!context.onConfigureEnd())
                 {
-                    throw std::runtime_error(
-                        qPrintable(Constants::errorFinishingConfiguration().arg(context.currentId)));
+                    THROW(Constants::errorFinishingConfiguration().arg(context.currentId));
                 }
 
                 context.storeComponentAndClearContextForNext();
@@ -247,14 +244,14 @@ namespace
         {
             if (localName != "configuration")
             {
-                throw std::runtime_error(qPrintable(Constants::errorUnsupportedRootElement().arg(localName)));
+                THROW(Constants::errorUnsupportedRootElement().arg(localName));
             }
 
             auto const& version = atts.value("version");
 
             if (version != "1")
             {
-                throw std::runtime_error(qPrintable(Constants::errorWrongRootElementVersion().arg(version)));
+                THROW(Constants::errorWrongRootElementVersion().arg(version));
             }
 
             context.handlerStack.push(new ComponentHandler(context));
@@ -311,7 +308,7 @@ bool ConfigurationHandler::startElement
 {
     if (namespaceURI != Constants::supportedNamespace())
     {
-        throw std::runtime_error(qPrintable(Constants::errorUnsupportedNamespace().arg(namespaceURI)));
+        THROW(Constants::errorUnsupportedNamespace().arg(namespaceURI));
     }
 
     return d->context.handlerStack.top()->startElement(namespaceURI, localName, qName, atts);

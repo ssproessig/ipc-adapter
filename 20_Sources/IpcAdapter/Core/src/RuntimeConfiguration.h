@@ -69,7 +69,7 @@ namespace IpcAdapter
              *
              * @return  multiplex source for the requested source
              *
-             * @throws std::logic_error
+             * @throws std::runtime_error  if `aSourceId` does not exist
              */
             ISource* getSourceMultiplexFor(QString const& aSourceId);
 
@@ -80,7 +80,7 @@ namespace IpcAdapter
              * @param   aPipelineId    pipeline id to reference the pipeline under
              * @param   aPipeline      pipeline to store in the configuration
              *
-             * @throws std::logic_error  if existing `aPipelineId` is reused
+             * @throws std::runtime_error  if existing `aPipelineId` is reused
              */
             void addPipeline(QString const& aPipelineId, PipelinePtr const& aPipeline);
 

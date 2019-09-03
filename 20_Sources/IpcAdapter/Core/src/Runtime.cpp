@@ -37,7 +37,7 @@ namespace
 
             if (!xmlFile.exists())
             {
-                throw std::runtime_error(qPrintable(Constants::exceptionFileNotFound().arg(aConfigurationFile)));
+                THROW(Constants::exceptionFileNotFound().arg(aConfigurationFile));
             }
 
             QXmlInputSource source(&xmlFile);
@@ -49,7 +49,7 @@ namespace
             else
             {
                 // TODO: check if we need to embed the parser error in more context
-                throw std::runtime_error(qPrintable(handler.errorString()));
+                THROW(handler.errorString());
             }
         }
 

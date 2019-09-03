@@ -124,7 +124,7 @@ IpcAdapter::Core::ISource* RuntimeConfiguration::getSourceMultiplexFor(QString c
         }
     }
 
-    throw std::logic_error(qPrintable(Constants::errorUnknownSource().arg(aSourceId)));
+    THROW(Constants::errorUnknownSource().arg(aSourceId));
 }
 
 
@@ -132,7 +132,7 @@ void RuntimeConfiguration::addPipeline(QString const& aPipelineId, IpcAdapter::C
 {
     if (d->pipelines.contains(aPipelineId))
     {
-        throw std::logic_error(qPrintable(Constants::errorDuplicatePipelineId().arg(aPipelineId)));
+        THROW(Constants::errorDuplicatePipelineId().arg(aPipelineId));
     }
 
     LOG_DEBUG(this) << "added pipeline " << aPipelineId << "=" << aPipeline.get();
