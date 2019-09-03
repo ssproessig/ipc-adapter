@@ -9,6 +9,7 @@
 #include <QNetworkDatagram>
 #include <QString>
 #include <QUdpSocket>
+#include <QVariant>
 
 
 
@@ -47,6 +48,10 @@ struct UdpSource::Data: Core::IConfigurable
             EXIT_EARLY_IF(Q_UNLIKELY(!sourceTo),);
 
             auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>(dataReceived.data());
+
+            REALIZE_REQUIREMENT("R-IPCA-SOURCE-004");
+            pipelineFrame->updateMetaData("UdpSource:host", dataReceived.senderAddress().toString());
+            pipelineFrame->updateMetaData("UdpSource:port", dataReceived.senderPort());
 
             LOG_DEBUG(this) << "forwarding to " << sourceTo << " " << pipelineFrame->getData();
 
