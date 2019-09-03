@@ -30,11 +30,22 @@ namespace IpcAdapter
             Pipeline();
             virtual ~Pipeline() override;
 
+            /**
+             * Adds a converter to the pipeline.  Converter will be added at the end of the converter list and
+             * will be processed after all other converters already on the list, receiving the already converted
+             * data from its predecessor.
+             *
+             * NOTE: the pipeline does not take over the ownership of this raw pointer and will not clean up.
+             *
+             * @param aConverter  converter to add to the list of sinks
+             */
             void addConverter(IConverter* aConverter);
 
             /**
              * Adds a sink to the pipeline.  Sink will be added at the end of the sink list and will be processed
              * after all other sinks already on the list.
+             *
+             * NOTE: the pipeline does not take over the ownership of this raw pointer and will not clean up.
              *
              * @param aSink  sink to add to the list of sinks
              */

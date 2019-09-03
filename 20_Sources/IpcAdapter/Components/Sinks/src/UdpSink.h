@@ -46,7 +46,7 @@ namespace IpcAdapter
                  * @param	aPipelineFrame	pipeline frame to extract the data from to send
                  *
                  * @retval	true    if data could be sent to `host` and `port` configured
-                 * @retval      false   if data could not be sent successfully
+                 * @retval  false   if data could not be sent successfully
                  */
                 bool process(Core::IPipelineFrame const& aPipelineFrame) override;
                 /// @}

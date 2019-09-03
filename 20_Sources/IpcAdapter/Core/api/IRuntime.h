@@ -27,6 +27,11 @@ namespace IpcAdapter
              */
             virtual IRuntimeConfiguration const& getRuntimeConfiguration() const = 0;
 
+            /**
+             * Switches the Runtime from configuration-time to run-time.
+             *
+             * No more configuration or exceptions SHALL happen from now.
+             */
             virtual void serveForever() = 0;
         };
     }

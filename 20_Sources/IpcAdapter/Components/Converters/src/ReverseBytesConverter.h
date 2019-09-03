@@ -30,7 +30,7 @@ namespace IpcAdapter
                 /**
                  * ReverseBytesConverter is not configurable
                  *
-                 * @return nullptr  no configurable
+                 * @return nullptr  there is no configurable to call
                  */
                 Core::IConfigurable* getConfigurable() override;
                 /// @}

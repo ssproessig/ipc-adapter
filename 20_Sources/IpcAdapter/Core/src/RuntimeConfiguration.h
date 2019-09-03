@@ -48,6 +48,8 @@ namespace IpcAdapter
             ComponentPtr getComponent(QString const& aComponentId) const override;
             /// @}
 
+            /// @name Component management
+            /// @{
             /**
              * Queries the RuntimeConfiguration it a component identified by `aComponentId` already exists.
              *
@@ -80,7 +82,10 @@ namespace IpcAdapter
              * @throws std::runtime_error  if `aSourceId` does not exist
              */
             ISource* getSourceMultiplexFor(QString const& aSourceId);
+            /// @}
 
+            /// @name Pipeline management
+            /// @{
             /**
              * Adds the `aPipeline` instance to the RuntimeConfiguration, identified by `aPipelineId`.
              *
@@ -97,6 +102,7 @@ namespace IpcAdapter
              * @return map of all dynamically created pipelines
              */
             PipelineMap const& getPipelines() const override;
+            /// @}
         };
     }
 }
