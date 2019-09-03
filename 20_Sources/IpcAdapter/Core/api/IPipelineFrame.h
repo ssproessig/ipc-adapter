@@ -16,6 +16,10 @@ namespace IpcAdapter
         /**
          * An interface used to represent a frame on a pipeline.
          *
+         * A frame carries
+         * - raw data
+         * - meta-info as key-value pairs
+         *
          * @author Soeren Sproessig
          * @version 1
          */
