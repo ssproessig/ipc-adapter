@@ -99,11 +99,11 @@ IpcAdapter::Core::IConfigurable* UdpSink::getConfigurable()
 }
 
 
-bool UdpSink::process(IpcAdapter::Core::IPipelineFrame const& aPipelineStep)
+bool UdpSink::process(IpcAdapter::Core::IPipelineFrame const& aPipelineFrame)
 {
     if (d->configuredOk)
     {
-        auto const& data = aPipelineStep.getData();
+        auto const& data = aPipelineFrame.getData();
         auto const bytesSent = d->socket->writeDatagram(data, d->targetHost, d->targetPort);
 
         LOG_DEBUG(this) << "send" << data << "to" << d->targetHost << ":" << d->targetPort;
