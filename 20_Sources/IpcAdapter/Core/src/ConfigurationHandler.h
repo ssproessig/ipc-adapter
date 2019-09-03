@@ -31,7 +31,7 @@ namespace IpcAdapter
              * @param   aConfiguration  Runtime Configuration to fill from this handler
              */
             explicit ConfigurationHandler(RuntimeConfiguration& aConfiguration);
-            virtual ~ConfigurationHandler() override;
+            ~ConfigurationHandler() override;
 
             /// @name QXmlDefaultHandler error handling specialization
             /// @{

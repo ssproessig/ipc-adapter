@@ -24,7 +24,7 @@ namespace IpcAdapter
 
         public:
             SimplePipelineFrame();
-            virtual ~SimplePipelineFrame() override;
+            ~SimplePipelineFrame() override;
 
             /**
              * Override constructor that allows initializing the data buffer directly

@@ -22,7 +22,7 @@ namespace IpcAdapter
 
         public:
             ComponentRegistry();
-            virtual ~ComponentRegistry() override;
+            ~ComponentRegistry() override;
 
             /// @name IFactoryRegistry realization
             /// @{

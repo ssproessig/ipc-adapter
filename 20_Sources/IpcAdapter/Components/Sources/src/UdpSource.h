@@ -24,7 +24,7 @@ namespace IpcAdapter
 
             public:
                 UdpSource();
-                virtual ~UdpSource() override;
+                ~UdpSource() override;
 
                 /// @name IComponent realization
                 /// @{

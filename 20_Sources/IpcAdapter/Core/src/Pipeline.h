@@ -28,7 +28,7 @@ namespace IpcAdapter
 
         public:
             Pipeline();
-            virtual ~Pipeline() override;
+            ~Pipeline() override;
 
             /**
              * Adds a converter to the pipeline.  Converter will be added at the end of the converter list and

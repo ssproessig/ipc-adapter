@@ -26,7 +26,7 @@ namespace IpcAdapter
 
         public:
             RuntimeConfiguration();
-            virtual ~RuntimeConfiguration() override;
+            ~RuntimeConfiguration() override;
 
             /// @name IRuntimeConfiguration realization
             /// @{

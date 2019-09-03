@@ -23,7 +23,7 @@ namespace IpcAdapter
 
             public:
                 ReverseBytesConverter() = default;
-                virtual ~ReverseBytesConverter() override = default;
+                ~ReverseBytesConverter() override = default;
 
                 /// @name IComponent realization
                 /// @{
