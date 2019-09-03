@@ -34,6 +34,13 @@ namespace IpcAdapter
             explicit SimplePipelineFrame(QByteArray const& anInitialDataBuffer);
 
             /**
+             * Override constructor that allows initializing from another IPipelineFrame
+             *
+             * @param anotherPipelineFrame  other pipeline frame to initialize from
+             */
+            explicit SimplePipelineFrame(std::shared_ptr<IPipelineFrame> const& anotherPipelineFrame);
+
+            /**
              * Updates the frame's raw data to `aRawDataBuffer`.
              *
              * @param aRawDataBuffer    raw data to update the frame with

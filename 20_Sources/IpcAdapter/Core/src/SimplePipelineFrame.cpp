@@ -22,6 +22,12 @@ SimplePipelineFrame::SimplePipelineFrame(QByteArray const& anInitialDataBuffer):
     d->rawData = anInitialDataBuffer;
 }
 
+SimplePipelineFrame::SimplePipelineFrame
+(std::shared_ptr<IPipelineFrame> const& anotherPipelineFrame): d(std::make_unique<Data>())
+{
+    d->rawData = anotherPipelineFrame->getData();
+}
+
 SimplePipelineFrame::~SimplePipelineFrame() = default;
 
 
