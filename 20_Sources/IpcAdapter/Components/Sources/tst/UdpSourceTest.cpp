@@ -6,7 +6,9 @@
 #include "Core/api/IPipelineStep.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
 
+#include <QMap>
 #include <QUdpSocket>
+#include <QVariant>
 
 
 
@@ -47,10 +49,12 @@ namespace
         struct RecordingPipelineStep : IpcAdapter::Core::IPipelineStep
         {
             QList<QByteArray> data;
+            QList<IpcAdapter::Core::IPipelineFrame::MetaDataMap> metaData;
 
             bool process(IpcAdapter::Core::PipelineFramePtr const& aPipelineFrame) override
             {
                 data.append(aPipelineFrame->getData());
+                metaData.append(aPipelineFrame->getMetaData());
                 return true;
             }
 
@@ -67,6 +71,16 @@ namespace
 
         COMPARE(pipelineStep.data.count(), 1, "Ensure we received a message");
         COMPARE(pipelineStep.data.at(0), Constants::sampleData(), "Ensure we received correct data");
+
+        COMPARE(pipelineStep.metaData.count(), 1, "Ensure we received meta-data as well");
+
+        auto const& metaData = pipelineStep.metaData.at(0);
+        VERIFY(metaData.contains("UdpSource:host"), "Ensure the host was recorded");
+        VERIFY(metaData.contains("UdpSource:port"), "Ensure the port was recorded");
+
+        COMPARE(metaData["UdpSource:port"], QVariant(socket.localPort()), "ensure it is the port we sent from");
+        COMPARE(metaData["UdpSource:host"], QVariant(QString("127.0.0.1")),
+                "testing a fixed host of 127.0.0.1 (localhost), as we send from 0.0.0.0 with socket");
     }
 }
 
