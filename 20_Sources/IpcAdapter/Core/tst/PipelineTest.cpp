@@ -122,7 +122,7 @@ void PipelineTest::test_03_known_source_returns_the_same_multiplex_all_the_time(
 
     EXPECT_NO_EXCEPTION(
         config.getSourceMultiplexFor("source");,
-        "querying a known source shall not throw");
+        "querying a known source shall not throw")
 
     COMPARE(
         config.getSourceMultiplexFor("source"),
