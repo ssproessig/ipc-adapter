@@ -136,3 +136,6 @@ T const& NAME()                             \
 
 // readability helper to exit a function early if a precondition is not matches
 #define EXIT_EARLY_IF(CONDITION, RESULT_TO_RETURN) if ((CONDITION)) return RESULT_TO_RETURN
+
+// redability helper to throw a std::runtime_error from a QString
+#define THROW(QSTRING) throw std::runtime_error(qPrintable(QSTRING))
