@@ -21,12 +21,15 @@ namespace IpcAdapter
         public:
             INTERFACE_DESTRUCTOR(IPipelineFrame);
 
+            /// alias for the raw data-type of a frame
+            using RawData = QByteArray;
+
             /**
              * Queries the raw data of the frame.
              *
              * @return raw data of the frame
              */
-            virtual QByteArray const& getData() const = 0;
+            virtual RawData const& getData() const = 0;
         };
     }
 }

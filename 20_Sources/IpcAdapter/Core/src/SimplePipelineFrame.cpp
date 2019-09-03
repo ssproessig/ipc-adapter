@@ -4,26 +4,29 @@
 
 
 
+using IpcAdapter::Core::IPipelineFrame;
 using IpcAdapter::Core::SimplePipelineFrame;
 
 
 
 struct SimplePipelineFrame::Data
 {
-    QByteArray rawData;
+    IPipelineFrame::RawData rawData;
 };
 
 
 
 SimplePipelineFrame::SimplePipelineFrame(): d(std::make_unique<Data>()) {}
 
-SimplePipelineFrame::SimplePipelineFrame(QByteArray const& anInitialDataBuffer): d(std::make_unique<Data>())
+SimplePipelineFrame::SimplePipelineFrame(IPipelineFrame::RawData const& anInitialDataBuffer)
+    : d(std::make_unique<Data>())
 {
     d->rawData = anInitialDataBuffer;
 }
 
 SimplePipelineFrame::SimplePipelineFrame
-(std::shared_ptr<IPipelineFrame> const& anotherPipelineFrame): d(std::make_unique<Data>())
+(std::shared_ptr<IPipelineFrame> const& anotherPipelineFrame)
+    : d(std::make_unique<Data>())
 {
     d->rawData = anotherPipelineFrame->getData();
 }
@@ -32,14 +35,14 @@ SimplePipelineFrame::~SimplePipelineFrame() = default;
 
 
 
-QByteArray const& SimplePipelineFrame::getData() const
+IPipelineFrame::RawData const& SimplePipelineFrame::getData() const
 {
     return d->rawData;
 }
 
 
 
-void SimplePipelineFrame::setData(QByteArray const& aRawDataBuffer)
+void SimplePipelineFrame::setData(IPipelineFrame::RawData const& aRawDataBuffer)
 {
     d->rawData = aRawDataBuffer;
 }

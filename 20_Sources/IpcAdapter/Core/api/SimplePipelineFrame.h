@@ -31,7 +31,7 @@ namespace IpcAdapter
              *
              * @param anInitialDataBuffer  the buffer to initialize the pipeline frame with
              */
-            explicit SimplePipelineFrame(QByteArray const& anInitialDataBuffer);
+            explicit SimplePipelineFrame(RawData const& anInitialDataBuffer);
 
             /**
              * Override constructor that allows initializing from another IPipelineFrame
@@ -45,7 +45,7 @@ namespace IpcAdapter
              *
              * @param aRawDataBuffer    raw data to update the frame with
              */
-            void setData(QByteArray const& aRawDataBuffer);
+            void setData(RawData const& aRawDataBuffer);
 
             /// @name IPipelineFramer realization
             /// @{
@@ -54,7 +54,7 @@ namespace IpcAdapter
              *
              * @return raw data stored in the frame
              */
-            QByteArray const& getData() const override;
+            RawData const& getData() const override;
             /// @}
         };
     }

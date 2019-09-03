@@ -290,8 +290,8 @@ void RuntimeTest::test_98_Runtime_initialization_succeeds()
     src->forwardTo->process(std::make_shared<SimplePipelineFrame>("Test123"));
 
     COMPARE(snk->framesSeen.count(), 2, "the sink shall have received two frame: one from id1 and one from i2");
-    COMPARE(snk->framesSeen.at(0)->getData(), QByteArray("Test123"), "id1 only forwards");
-    COMPARE(snk->framesSeen.at(1)->getData(), QByteArray("Test123+1+2"), "id2 forwards the frame through 'cnv' twice");
+    COMPARE(snk->framesSeen.at(0)->getData(), IPipelineFrame::RawData("Test123"), "id1 only forwards");
+    COMPARE(snk->framesSeen.at(1)->getData(), IPipelineFrame::RawData("Test123+1+2"), "id2 forwards the frame through 'cnv' twice");
 }
 
 
