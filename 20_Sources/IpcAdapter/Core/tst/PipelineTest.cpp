@@ -59,9 +59,7 @@ namespace
 
         void trigger()
         {
-            auto const pipelineFrame = std::make_shared<SimplePipelineFrame>();
-            pipelineFrame->setData("1234");
-
+            auto const pipelineFrame = std::make_shared<SimplePipelineFrame>("1234");
             target->process(pipelineFrame);
         }
 
@@ -89,8 +87,7 @@ void PipelineTest::test_01_source_to_multiple_sinks()
     uut.addSink(recordingSink1.get());
     uut.addSink(recordingSink2.get());
 
-    auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>();
-    pipelineFrame->setData("1234");
+    auto const pipelineFrame = std::make_shared<SimplePipelineFrame>("1234");
     uut.process(pipelineFrame);
 
     COMPARE(dataLog.count(), 2, "Expect to have recorded one event per sink");

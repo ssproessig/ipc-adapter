@@ -140,8 +140,7 @@ void UdpSinkTest::test_10_forwarding_pipeline_frame_succeeds_for_configured_sink
     );
 
     QByteArray const sampleData{"Test1234"};
-    Core::SimplePipelineFrame frame;
-    frame.setData(sampleData);
+    Core::SimplePipelineFrame frame{sampleData};
 
     COMPARE(
         uut->process(frame),

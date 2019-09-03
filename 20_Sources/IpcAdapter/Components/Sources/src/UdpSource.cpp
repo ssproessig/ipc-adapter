@@ -46,8 +46,7 @@ struct UdpSource::Data: Core::IConfigurable
 
             EXIT_EARLY_IF(Q_UNLIKELY(!sourceTo),);
 
-            auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>();
-            pipelineFrame->setData(dataReceived.data());
+            auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>(dataReceived.data());
 
             LOG_DEBUG(this) << "forwarding to " << sourceTo << " " << pipelineFrame->getData();
 
