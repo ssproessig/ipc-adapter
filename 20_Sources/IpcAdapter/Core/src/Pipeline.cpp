@@ -31,6 +31,8 @@ struct Pipeline::Data
 
         for (auto& sink : sinks)
         {
+            LOG_DEBUG(this) << "processing"  << frame->getData() << "in" << sink;
+
             if (!sink->process(f))
             {
                 successfullyProcessed = false;
