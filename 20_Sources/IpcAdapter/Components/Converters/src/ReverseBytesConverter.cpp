@@ -34,4 +34,4 @@ PipelineFramePtr ReverseBytesConverter::convert(PipelineFramePtr const& anInput)
 
 
 
-REGISTER_COMPONENT(ReverseBytesConverter);
+REGISTER_COMPONENT(ReverseBytesConverter)

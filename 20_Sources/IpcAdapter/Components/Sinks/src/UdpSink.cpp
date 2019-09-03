@@ -116,5 +116,4 @@ bool UdpSink::process(IpcAdapter::Core::IPipelineFrame const& aPipelineFrame)
 
 
 
-REGISTER_COMPONENT(UdpSink);
-
+REGISTER_COMPONENT(UdpSink)

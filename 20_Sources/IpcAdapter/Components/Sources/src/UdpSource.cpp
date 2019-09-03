@@ -152,4 +152,4 @@ void UdpSource::sourceTo(IpcAdapter::Core::IPipelineStep* aPipelineStep)
 
 
 
-REGISTER_COMPONENT(UdpSource);
+REGISTER_COMPONENT(UdpSource)
