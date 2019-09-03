@@ -32,7 +32,7 @@ PipelineFramePtr ReverseBytesConverter::convert(PipelineFramePtr const& anInput)
 
         LOG_DEBUG(this) << "reversing " << anInput->getData() << "to" << reversed;
     }
-    return reversedFrame;
+    return std::move(reversedFrame);
 }
 
 
