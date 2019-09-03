@@ -26,6 +26,8 @@ namespace IpcAdapter
             /**
              * Configures the source to "source" its pipeline frames to the given `aPipelineStep`.
              *
+             * NOTE: the source SHALL NOT take over ownership of `aPipelineStep`.
+             *
              * @param aPipelineStep     pipeline step to source to
              */
             virtual void sourceTo(IPipelineStep* aPipelineStep) = 0;
