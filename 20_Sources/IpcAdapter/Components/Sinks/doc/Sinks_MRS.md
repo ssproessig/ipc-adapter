@@ -51,3 +51,10 @@ The `AmqpExchangeSink` SHALL use the [default exchange value of RabbitMQ](https:
 
 - `exchange.name` shall default to ` ` (empty string)
 - `exchange.type` shall default to `direct`
+
+## R-IPCA-SINK-008: AmqpExchangeSink routing-key meta-data replacement
+The `exchange.routing-key` SHALL support meta-data replacement. If a meta-data key occurs as escaped `${meta-data.key}` placeholer, the meta-data value SHALL be used.
+
+Example: 
+- meta-data key `key` = `value123`
+- if `exchange.routing-key` is defined as `abc.${key}.xyz` it SHALL be replace as `abc.value123.xyz`
