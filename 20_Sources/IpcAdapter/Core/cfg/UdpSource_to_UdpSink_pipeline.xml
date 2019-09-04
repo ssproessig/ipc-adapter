@@ -11,9 +11,9 @@
 
         <component id="udpSink" type="UdpSink">
             <param key="host" value="127.0.0.1"/>
-            <param key="port" value="9998"/>           
+            <param key="port" value="9998"/>
         </component>
-        
+
         <component id="reverser" type="ReverseBytesConverter"/>
         
         <component id="udpSinkConverted" type="UdpSink">
@@ -28,11 +28,11 @@
             <converter ref="reverser"/>
             <sink ref="udpSinkConverted"/>
         </pipeline>
-        
+
         <pipeline id="p2">
             <source ref="udpSource"/>
             <sink ref="udpSink"/>
-        </pipeline>                
+        </pipeline>
     </pipelines>
 
 </configuration>
