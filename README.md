@@ -23,6 +23,7 @@ We assume that we
 - [System Requirements](00_Documentation/System_Requirements.md)
 - [Design Decisions](00_Documentation/Design_Decisions.md)
 - [Coding Rules](00_Documentation/Coding_Rules.md) and [Naming Conventions](00_Documentation/Naming_Conventions.md)
+- [Module Requirements Specification](20_Sources/MRS.md)
 
 ## Sources
 
