@@ -29,6 +29,10 @@ namespace IpcAdapter
                 static void test_06_AmqpExchangeSink_configuring_unsupported_routing_key_must_fail();
                 static void test_07_AmqpExchangeSink_configuring_unsupported_parameter_must_fail();
 
+
+                static void test_20_sending_must_fail_if_not_configured();
+                static void test_21_sending_with_default_parameters_succeeds();
+                static void test_22_sending_with_routing_key_replacement_works();
             };
         }
     }

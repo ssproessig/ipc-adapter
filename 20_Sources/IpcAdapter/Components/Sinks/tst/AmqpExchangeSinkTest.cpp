@@ -2,6 +2,7 @@
 
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/SimplePipelineFrame.h"
 #include "Components/Sinks/src/AmqpExchangeSink.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
 
@@ -9,10 +10,10 @@
 #include "github.com.mbroadst/qamqp/qamqpexchange.h"
 
 
-
 using IpcAdapter::Components::Sinks::AmqpExchangeSinkTest;
 using IpcAdapter::Components::Sinks::AmqpExchangeSink;
 using IpcAdapter::Core::IConfigurable;
+using IpcAdapter::Core::SimplePipelineFrame;
 
 
 
@@ -25,7 +26,15 @@ namespace
             typeSeen = type;
         }
 
+        void publish(const QString& message, const QString& routingKey, const QAmqpMessage::PropertyHash&, int) override
+        {
+            messageSeen = message;
+            routingKeySeen = routingKey;
+        }
+
         QString typeSeen;
+        QString messageSeen;
+        QString routingKeySeen;
     };
 
     struct QAmqpClientSpy: QAmqpClient
@@ -170,4 +179,63 @@ void AmqpExchangeSinkTest::test_07_AmqpExchangeSink_configuring_unsupported_para
     {
         COMPARE(configurable.doConfigure("unknown", "value"), false, "using an unknown parameter must fail");
     }, true, "w/o configuring a known parameter wrongly we succeed");
+}
+
+
+
+void AmqpExchangeSinkTest::test_20_sending_must_fail_if_not_configured()
+{
+    AmqpExchangeSink sink;
+    SimplePipelineFrame const frame;
+
+    COMPARE(sink.process(frame), false, "sending must fail if not configured");
+}
+
+
+
+void AmqpExchangeSinkTest::test_21_sending_with_default_parameters_succeeds()
+{
+    auto const spy = std::make_shared<QAmqpClientSpy>();
+    AmqpExchangeSink sink;
+    sink.setAmqpClient(spy);
+
+    auto configurable = sink.getConfigurable();
+    VERIFY(configurable != nullptr, "ensure we have a configurable");
+
+    configurable->onConfigureBegin();
+    configurable->onConfigureEnd();
+    emit spy->connected();
+    QTest::qWait(50);
+
+    SimplePipelineFrame const frame{"data"};
+    COMPARE(sink.process(frame), true, "sending must succeed with default configuration");
+
+    COMPARE(spy->exchange->messageSeen, QString("data"), "we received 'data'");
+    COMPARE(spy->exchange->routingKeySeen, QString(""), "we used an empty routing-key per default");
+}
+
+
+
+void AmqpExchangeSinkTest::test_22_sending_with_routing_key_replacement_works()
+{
+    TEST_REQUIREMENT("R-IPCA-SINK-008");
+
+    auto const spy = std::make_shared<QAmqpClientSpy>();
+    AmqpExchangeSink sink;
+    sink.setAmqpClient(spy);
+
+    auto configurable = sink.getConfigurable();
+    VERIFY(configurable != nullptr, "ensure we have a configurable");
+
+    configurable->onConfigureBegin();
+    configurable->doConfigure("exchange.routing-key", "abc.${key}.xyz");
+    configurable->onConfigureEnd();
+    emit spy->connected();
+    QTest::qWait(50);
+
+    SimplePipelineFrame frame{"data"};
+    frame.updateMetaData("key", "value123");
+    COMPARE(sink.process(frame), true, "sending must succeed with default configuration");
+
+    COMPARE(spy->exchange->routingKeySeen, QString("abc.value123.xyz"), "we used an empty routing-key per default");
 }
