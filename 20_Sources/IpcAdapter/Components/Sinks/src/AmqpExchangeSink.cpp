@@ -223,10 +223,13 @@ bool AmqpExchangeSink::process(IPipelineFrame const& aPipelineFrame)
 
         QString routingKey = d->configuration.routingKey;
 
-        for (auto const& key : metaData.keys())
+        REALIZE_REQUIREMENT("R-IPCA-SINK-008");
         {
-            auto const varName = QString("${%1}").arg(key);
-            routingKey = routingKey.replace(varName, metaData.value(key).toString());
+            for (auto const& key : metaData.keys())
+            {
+                auto const varName = QString("${%1}").arg(key);
+                routingKey = routingKey.replace(varName, metaData.value(key).toString());
+            }
         }
 
         d->exchange->publish(data, routingKey);
