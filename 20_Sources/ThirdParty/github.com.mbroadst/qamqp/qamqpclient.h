@@ -105,7 +105,7 @@ public:
     QAmqpQueue *createQueue(const QString &name, int channelNumber = -1);
 
     // methods
-    void connectToHost(const QString &uri = QString());
+    virtual void connectToHost(const QString &uri = QString());
     void connectToHost(const QHostAddress &address, quint16 port = AMQP_PORT);
     void disconnectFromHost();
     void abort();
