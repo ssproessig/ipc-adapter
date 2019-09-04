@@ -23,8 +23,8 @@ set(LNK
     Qt5::Network
 )
 
-add_library(${LIB_NAME} OBJECT ${SRC})
+add_library(${LIB_NAME} OBJECT ${DOC} ${SRC})
 target_link_libraries(${LIB_NAME} ${LNK})
 
-add_executable(${LIB_NAME}Test ${DOC} ${SRC} ${TST})
-target_link_libraries(${LIB_NAME}Test ${LNK} IpcAdapterCore Qt5::Test)
+add_executable(${LIB_NAME}Test ${DOC} ${TST})
+target_link_libraries(${LIB_NAME}Test ${LNK} $<TARGET_OBJECTS:IpcAdapterSources> IpcAdapterCore Qt5::Test)
