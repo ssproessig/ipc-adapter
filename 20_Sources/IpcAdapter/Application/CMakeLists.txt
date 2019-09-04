@@ -8,10 +8,10 @@ source_group(Sources ${SRC})
 add_executable(${APP_NAME} ${SRC})
 
 set(LNK_LIBS
+    qamqp-lib
 	$<TARGET_OBJECTS:IpcAdapterConverters>
 	$<TARGET_OBJECTS:IpcAdapterSinks>
 	$<TARGET_OBJECTS:IpcAdapterSources>
-    qamqp-lib
 	IpcAdapterCore
 )
 
