@@ -106,6 +106,7 @@
     <xs:attribute name="type" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:string">
+          <xs:enumeration value="AmqpExchangeSink"/>
           <xs:enumeration value="ReverseBytesConverter"/>
           <xs:enumeration value="UdpSink"/>
           <xs:enumeration value="UdpSource"/>
