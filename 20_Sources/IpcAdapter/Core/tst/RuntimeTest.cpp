@@ -91,11 +91,6 @@ namespace
 
     struct TestConverter : IpcAdapter::Core::IConverter
     {
-        TestConverter()
-        {
-            index = ++creationCounter;
-        }
-
         IConfigurable* getConfigurable() override
         {
             return nullptr;
@@ -103,15 +98,14 @@ namespace
 
         PipelineFramePtr convert(PipelineFramePtr const& anInput) override
         {
+            timesInvoked += 1;
             auto data = anInput->getData();
-            data.append(QString("::HelloWorld:%1").arg(index));
+            data.append(QString("+%1").arg(timesInvoked));
             return std::make_shared<SimplePipelineFrame>(data);
         }
 
-        int index;
-        static int creationCounter;
+        int timesInvoked = 0;
     };
-    int TestConverter::creationCounter = 0;
 
     REGISTER_COMPONENT_IMPL(TestConverter, TC4, tc4)
 }
