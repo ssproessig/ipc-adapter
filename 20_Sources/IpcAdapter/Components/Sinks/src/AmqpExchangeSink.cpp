@@ -35,6 +35,9 @@ namespace
 
         QString routingKey;
 
+        bool isOk = false;
+
+
         AmqpConfiguration()
         {
             initDefaults();
@@ -57,6 +60,8 @@ namespace
             exchangeType = "direct";
 
             routingKey.clear();
+
+            isOk = true;
         }
 
         enum class UriStyle : bool
@@ -80,41 +85,75 @@ namespace
 
     struct AmqpConfigurable: IpcAdapter::Core::IConfigurable
     {
+        using SupportedParameters = QMap<QString, std::function<bool(AmqpConfiguration&, QString const&)>>;
+
         explicit AmqpConfigurable(AmqpConfiguration& aConfiguration, ConfigurationFinishedCallback const& aCallback)
             : configuration(aConfiguration)
             , callback(aCallback)
-        {}
+        {
+            parameterHandler.insert("amqp.host", [](AmqpConfiguration & c, auto const & value)
+            {
+                return c.host.setAddress(value);
+            });
+            parameterHandler.insert("amqp.port", [](AmqpConfiguration & c, auto const & value)
+            {
+                auto conversionOk = false;
+                auto const& port = value.toInt(&conversionOk);
+                conversionOk = conversionOk &&
+                               port >= std::numeric_limits<quint16>::min() && port <= std::numeric_limits<quint16>::max();
+
+                c.port = static_cast<quint16>(port);
+                return conversionOk;
+            });
+            // parse host, port, vhost, user, pwd
+            // parse exchange name and type
+
+        }
         ~AmqpConfigurable() override = default;
 
 
         void onConfigureBegin() override
         {
-            // disconnectFromHost
+            // FIXME: disconnectFromHost
             configuration.initDefaults();
         }
 
         bool doConfigure(QString const& aKey, QString const& aValue) override
         {
-            // parse host, port, vhost, user, pwd
-            // parse exchange name and type
+            LOG_DEBUG(this) << "configuring " << aKey << "to" << aValue;
 
+            auto const& it = parameterHandler.constFind(aKey);
+
+            if (it != parameterHandler.constEnd())
+            {
+                auto const configured = it.value()(configuration, aValue);
+                LOG_DEBUG(this) << "result" << configured;
+
+                if (!configured)
+                {
+                    configuration.isOk = false;
+                }
+
+                return configured;
+            }
+
+            LOG_ERROR(this) << "unsupported parameter: " << aKey;
             return false;
         }
 
         bool onConfigureEnd() override
         {
-            auto const succeeded = true; // FIXME
-
-            if (succeeded)
+            if (configuration.isOk)
             {
                 callback();
             }
 
-            return succeeded;
+            return configuration.isOk;
         }
 
         AmqpConfiguration& configuration;
         ConfigurationFinishedCallback callback;
+        SupportedParameters parameterHandler;
     };
 }
 
