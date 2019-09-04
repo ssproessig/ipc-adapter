@@ -110,9 +110,31 @@ namespace
                 c.vhost = value;
                 return !value.isEmpty();
             });
-            // parse host, port, vhost, user, pwd
-            // parse exchange name and type
-
+            parameterHandler.insert("auth.user", [](AmqpConfiguration & c, auto const & value)
+            {
+                c.user = value;
+                return true;
+            });
+            parameterHandler.insert("auth.pwd", [](AmqpConfiguration & c, auto const & value)
+            {
+                c.pwd = value;
+                return true;
+            });
+            parameterHandler.insert("exchange.name", [](AmqpConfiguration & c, auto const & value)
+            {
+                c.exchangeName = value;
+                return true;
+            });
+            parameterHandler.insert("exchange.type", [](AmqpConfiguration & c, auto const & value)
+            {
+                c.exchangeType = value;
+                return QList<QString> {"topic", "direct", "fanout"} .contains(value);
+            });
+            parameterHandler.insert("exchange.routing-key", [](AmqpConfiguration & c, auto const & value)
+            {
+                c.vhost = value;
+                return !value.isEmpty();
+            });
         }
         ~AmqpConfigurable() override = default;
 
