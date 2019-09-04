@@ -238,6 +238,7 @@ bool AmqpExchangeSink::process(IPipelineFrame const& aPipelineFrame)
         return true;
     }
 
+    LOG_WARN(this) << "not publishing as component is not configured correctly";
     return false;
 }
 
