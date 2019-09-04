@@ -2,6 +2,9 @@
 
 #include "Core/api/ISink.h"
 
+FORWARD_DECLARE(QAmqpClient);
+using AmqpClientPtr = std::shared_ptr<QAmqpClient>;
+
 
 
 namespace IpcAdapter
@@ -44,11 +47,21 @@ namespace IpcAdapter
                  *
                  * @param	aPipelineFrame	pipeline frame to extract the data from to send
                  *
-                 * @retval	true    if data could be sent to 
+                 * @retval	true    if data could be sent to AMQP exchange
                  * @retval  false   if data could not be sent successfully
                  */
                 bool process(Core::IPipelineFrame const& aPipelineFrame) override;
                 /// @}
+
+
+                /**
+                 * Overwrites the QAmqpClient used internally.
+                 *
+                 * Used to spy on the QAmqpClient API invocation.
+                 *
+                 * @param anAmqpClient  a spying AMQP client to use
+                 */
+                void setAmqpClient(AmqpClientPtr const& anAmqpClient);
             };
         }
     }
