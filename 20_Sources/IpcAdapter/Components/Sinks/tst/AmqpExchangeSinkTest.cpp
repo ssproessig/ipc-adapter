@@ -6,6 +6,7 @@
 #include "Shared/tst/QTestConvenienceMacros.h"
 
 #include "github.com.mbroadst/qamqp/qamqpclient.h"
+#include "github.com.mbroadst/qamqp/qamqpexchange.h"
 
 
 
@@ -16,6 +17,16 @@ using IpcAdapter::Components::Sinks::AmqpExchangeSink;
 
 namespace
 {
+    struct QAmqpExchangeSpy: QAmqpExchange
+    {
+        void declare(const QString& type, ExchangeOptions options, const QAmqpTable& args) override
+        {
+            typeSeen = type;
+        }
+
+        QString typeSeen;
+    };
+
     struct QAmqpClientSpy: QAmqpClient
     {
         void connectToHost(const QString& uri) override
@@ -23,7 +34,16 @@ namespace
             uriSeen = uri;
         }
 
+        QAmqpExchange* createExchange(const QString& name, int) override
+        {
+            exchangeNameSeen = name;
+            exchange = std::make_shared<QAmqpExchangeSpy>();
+            return exchange.get();
+        }
+
         QString uriSeen;
+        QString exchangeNameSeen;
+        std::shared_ptr<QAmqpExchangeSpy> exchange;
     };
 }
 
@@ -63,5 +83,10 @@ void AmqpExchangeSinkTest::test_01_AmqpExchangeSink_default_parameters()
 
     COMPARE(spy->uriSeen, QString("amqp://guest:guest@127.0.0.1:5672/"), "ensure default parameters have been used");
 
-    // FIXME: check default exchange type / name
+    emit spy->connected();
+    QTest::qWait(50);
+
+    VERIFY(spy->exchange.get() != nullptr, "ensure an exchange was created");
+    COMPARE(spy->exchangeNameSeen, QString{}, "ensure default exchange '' was declared");
+    COMPARE(spy->exchange->typeSeen, QString{"direct"}, "ensure default exchange type 'direct' was used");
 }
