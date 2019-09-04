@@ -105,6 +105,11 @@ namespace
                 c.port = static_cast<quint16>(port);
                 return conversionOk;
             });
+            parameterHandler.insert("auth.vhost", [](AmqpConfiguration & c, auto const & value)
+            {
+                c.vhost = value;
+                return !value.isEmpty();
+            });
             // parse host, port, vhost, user, pwd
             // parse exchange name and type
 
