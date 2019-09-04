@@ -20,7 +20,7 @@ namespace
 {
     struct QAmqpExchangeSpy: QAmqpExchange
     {
-        void declare(const QString& type, ExchangeOptions options, const QAmqpTable& args) override
+        void declare(const QString& type, ExchangeOptions, const QAmqpTable&) override
         {
             typeSeen = type;
         }
