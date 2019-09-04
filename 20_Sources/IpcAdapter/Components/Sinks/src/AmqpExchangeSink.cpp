@@ -218,10 +218,20 @@ bool AmqpExchangeSink::process(IPipelineFrame const& aPipelineFrame)
 {
     if (d->exchange != nullptr && d->readyToUse)
     {
-        auto const& routingKey = d->configuration.routingKey;
         auto const& data = aPipelineFrame.getData();
+        auto const& metaData = aPipelineFrame.getMetaData();
+
+        QString routingKey = d->configuration.routingKey;
+
+        for (auto const& key : metaData.keys())
+        {
+            auto const varName = QString("${%1}").arg(key);
+            routingKey = routingKey.replace(varName, metaData.value(key).toString());
+        }
 
         d->exchange->publish(data, routingKey);
+
+        LOG_DEBUG(this) << "published to exchange" << d->configuration.exchangeName << "with routing-key" << routingKey << ":" << data;
         return true;
     }
 
