@@ -123,10 +123,13 @@ void AmqpExchangeSinkTest::test_02_AmqpExchangeSink_configuring_unsupported_host
 
 void AmqpExchangeSinkTest::test_03_AmqpExchangeSink_configuring_unsupported_port_must_fail()
 {
-    testConfiguration(std::make_shared<AmqpExchangeSink>(), [](IConfigurable & configurable)
+    for (auto const& portValue : std::initializer_list<QString> {"affe", "-1", "65537"})
     {
-        COMPARE(configurable.doConfigure("amqp.port", "affe"), false, "configuration fails for invalid 'amqp.port' value");
-    }, false, "configuration must fail in case faulty parameter was used");
+        testConfiguration(std::make_shared<AmqpExchangeSink>(), [&portValue](IConfigurable & configurable)
+        {
+            COMPARE(configurable.doConfigure("amqp.port", portValue), false, "configuration fails for non int 'amqp.port' value");
+        }, false, "configuration must fail in case faulty parameter was used");
+    }
 }
 
 
