@@ -83,6 +83,7 @@ void AmqpExchangeSinkTest::test_01_AmqpExchangeSink_default_parameters()
 
     COMPARE(spy->uriSeen, QString("amqp://guest:guest@127.0.0.1:5672/"), "ensure default parameters have been used");
 
+    TEST_REQUIREMENT("R-IPCA-SINK-007");
     emit spy->connected();
     QTest::qWait(50);
 
