@@ -36,8 +36,16 @@ namespace
 
         bool process(IPipelineFrame const& aPipelineFrame) override
         {
+            QString metaDataStr;
+            auto const& m = aPipelineFrame.getMetaData();
+
+            for (auto const& key : m.keys())
+            {
+                metaDataStr = metaDataStr.append(":").append(key).append("=").append(m.value(key).toString());
+            }
+
             QByteArray d(id);
-            dataLog.append(d.append(aPipelineFrame.getData()));
+            dataLog.append(d.append(aPipelineFrame.getData()).append(metaDataStr));
             return true;
         }
 
@@ -60,6 +68,7 @@ namespace
         void trigger()
         {
             auto const pipelineFrame = std::make_shared<SimplePipelineFrame>("1234");
+            pipelineFrame->updateMetaData("metaKey", 123);
             target->process(pipelineFrame);
         }
 
@@ -152,7 +161,7 @@ void PipelineTest::test_04_source_multiplex_uses_all_pipelines()
 
     source->trigger();
 
-    COMPARE(dataLog.count(), 2, "Expect to have recorded one event per sink");
-    COMPARE(dataLog.at(0), QByteArray("sink:1234"), "");
-    COMPARE(dataLog.at(1), QByteArray("sink:1234"), "");
+    COMPARE(dataLog.count(), 2, "Expect to have recorded one event per sink AND have the meta-data as well");
+    COMPARE(dataLog.at(0), QByteArray("sink:1234:metaKey=123"), "");
+    COMPARE(dataLog.at(1), QByteArray("sink:1234:metaKey=123"), "");
 }
