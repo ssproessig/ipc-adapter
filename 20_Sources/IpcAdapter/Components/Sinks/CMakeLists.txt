@@ -3,6 +3,8 @@ set(LIB_NAME IpcAdapterSinks)
 set(SRC
     src/UdpSink.cpp
     src/UdpSink.h
+    src/AmqpExchangeSink.cpp
+    src/AmqpExchangeSink.h
 )
 source_group("Sinks Implementation" ${TST})
 
@@ -14,11 +16,14 @@ source_group("Sinks Documentation" ${DOC})
 set(TST
     tst/UdpSinkTest.cpp
     tst/UdpSinkTest.h
+    tst/AmqpExchangeSinkTest.cpp
+    tst/AmqpExchangeSinkTest.h
     tst/SinkTestMain.cpp
 )
 source_group("Sinks UnitTests" ${TST})
 
 set(LNK
+    qamqp-lib
     Qt5::Core
     Qt5::Network
 )
