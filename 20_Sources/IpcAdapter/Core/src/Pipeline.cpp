@@ -19,7 +19,7 @@ struct Pipeline::Data
     {
         bool successfullyProcessed = true;
 
-        PipelineFramePtr frame = std::make_shared<SimplePipelineFrame>(aPipelineFrame->getData());
+        PipelineFramePtr frame = std::make_shared<SimplePipelineFrame>(aPipelineFrame);
 
         for (auto& converter : converters)
         {
