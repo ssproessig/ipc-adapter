@@ -92,7 +92,7 @@ public Q_SLOTS:
     void remove(int options = roIfUnused|roNoWait);
 
     // AMQP Basic
-    void publish(const QString &message, const QString &routingKey,
+    virtual void publish(const QString &message, const QString &routingKey,
                  const QAmqpMessage::PropertyHash &properties = QAmqpMessage::PropertyHash(),
                  int publishOptions = poNoOptions);
     void publish(const QByteArray &message, const QString &routingKey, const QString &mimeType,
