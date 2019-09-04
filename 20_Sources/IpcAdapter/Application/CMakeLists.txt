@@ -11,6 +11,7 @@ set(LNK_LIBS
 	$<TARGET_OBJECTS:IpcAdapterConverters>
 	$<TARGET_OBJECTS:IpcAdapterSinks>
 	$<TARGET_OBJECTS:IpcAdapterSources>
+    qamqp-lib
 	IpcAdapterCore
 )
 
