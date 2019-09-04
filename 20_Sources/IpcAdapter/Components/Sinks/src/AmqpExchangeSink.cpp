@@ -193,6 +193,8 @@ struct AmqpExchangeSink::Data : QObject
 
         exchange = client->createExchange(configuration.exchangeName);
         exchange->declare(configuration.exchangeType);
+
+        readyToUse = true;
     }
 
     AmqpConfiguration configuration;
@@ -214,6 +216,15 @@ IpcAdapter::Core::IConfigurable* AmqpExchangeSink::getConfigurable()
 
 bool AmqpExchangeSink::process(IPipelineFrame const& aPipelineFrame)
 {
+    if (d->exchange != nullptr && d->readyToUse)
+    {
+        auto const& routingKey = d->configuration.routingKey;
+        auto const& data = aPipelineFrame.getData();
+
+        d->exchange->publish(data, routingKey);
+        return true;
+    }
+
     return false;
 }
 
