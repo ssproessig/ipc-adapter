@@ -158,7 +158,7 @@ void AmqpExchangeSinkTest::test_06_AmqpExchangeSink_configuring_unsupported_rout
 {
     testConfiguration(std::make_shared<AmqpExchangeSink>(), [](IConfigurable & configurable)
     {
-        COMPARE(configurable.doConfigure("exchange.routingkey", ""), false, "configuration fails for empty 'exchange.routingkey' value");
+        COMPARE(configurable.doConfigure("exchange.routing-key", ""), false, "configuration fails for empty 'exchange.routingkey' value");
     }, false, "configuration must fail in case faulty parameter was used");
 }
 
