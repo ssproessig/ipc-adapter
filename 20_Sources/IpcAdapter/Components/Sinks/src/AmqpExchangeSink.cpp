@@ -29,7 +29,7 @@ namespace
     struct AmqpConfiguration
     {
         QHostAddress host;
-        quint16 port = -1;
+        quint16 port = 0;
 
         QString user;
         QString pwd;
