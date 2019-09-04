@@ -29,11 +29,12 @@ namespace IpcAdapter
              * Invokes the converter. Converter shall taken `anInput` frame, apply its conversion and return
              * its result as a frame as well.
              *
-             * @param anInput   input frame to convert
+             * @param anInput               input frame to convert
+             * @param aStopProcessingFlag   if set to true by the converter processing SHALL be aborted (filtered)
              *
              * @return  result of the conversion
              */
-            virtual PipelineFramePtr convert(PipelineFramePtr const& anInput) = 0;
+            virtual PipelineFramePtr convert(PipelineFramePtr const& anInput, bool& aStopProcessingFlag) = 0;
         };
     }
 }

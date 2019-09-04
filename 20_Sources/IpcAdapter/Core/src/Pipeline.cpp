@@ -23,7 +23,15 @@ struct Pipeline::Data
 
         for (auto& converter : converters)
         {
-            frame = converter->convert(frame);
+            auto stopProcessing = false;
+
+            frame = converter->convert(frame, stopProcessing);
+
+            if (stopProcessing)
+            {
+                LOG_DEBUG(this) << "converter " << converter << "aborted processing.";
+                return false;
+            }
         }
 
 

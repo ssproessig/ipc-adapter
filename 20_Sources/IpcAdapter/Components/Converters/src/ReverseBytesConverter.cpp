@@ -22,8 +22,10 @@ IpcAdapter::Core::IConfigurable* ReverseBytesConverter::getConfigurable()
 
 
 
-PipelineFramePtr ReverseBytesConverter::convert(PipelineFramePtr const& anInput)
+PipelineFramePtr ReverseBytesConverter::convert(PipelineFramePtr const& anInput, bool& aStopProcessingFlag)
 {
+    aStopProcessingFlag = false;
+
     auto reversedFrame = std::make_shared<Core::SimplePipelineFrame>(anInput);
     {
         QByteArray reversed = anInput->getData();

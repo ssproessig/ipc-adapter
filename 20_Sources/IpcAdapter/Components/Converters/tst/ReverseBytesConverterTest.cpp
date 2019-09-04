@@ -42,7 +42,10 @@ void ReverseBytesConverterTest::test_02_ReverseBytesConverter_conversion()
 {
     ReverseBytesConverter uut;
 
+    auto shallAbort = false;
+
     auto const inputFrame = std::make_shared<Core::SimplePipelineFrame>("ABC123");
-    auto const outputFrame = uut.convert(inputFrame);
+    auto const outputFrame = uut.convert(inputFrame, shallAbort);
     COMPARE(outputFrame->getData(), QByteArray("321CBA"), "expect the input to be reversed");
+    COMPARE(shallAbort, false, "reversing never aborts the pipeline");
 }

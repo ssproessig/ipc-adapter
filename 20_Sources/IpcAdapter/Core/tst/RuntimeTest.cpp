@@ -96,7 +96,7 @@ namespace
             return nullptr;
         }
 
-        PipelineFramePtr convert(PipelineFramePtr const& anInput) override
+        PipelineFramePtr convert(PipelineFramePtr const& anInput, bool&) override
         {
             timesInvoked += 1;
             auto data = anInput->getData();
