@@ -21,6 +21,11 @@ using AmqpExchangePtr = std::shared_ptr<QAmqpExchange>;
 
 namespace
 {
+    namespace Constants
+    {
+        DECLARE_CONST_VARIADIC(QList<QString>, supportedExchangeTypes, {"topic", "direct", "fanout"});
+    }
+
     struct AmqpConfiguration
     {
         QHostAddress host;
@@ -87,15 +92,27 @@ namespace
     {
         using SupportedParameters = QMap<QString, std::function<bool(AmqpConfiguration&, QString const&)>>;
 
+#define PARAM_START(NAME) parameterHandler.insert(NAME, [](AmqpConfiguration & c, auto const & value)
+#define PARAM_END )
+#define PARAM_SETTER_ALWAYS(NAME, FIELD) PARAM_START(NAME) { c.FIELD = value; return true; } PARAM_END
+#define PARAM_SETTER_VALIDATE(NAME, FIELD, VALIDATOR) PARAM_START(NAME) { c.FIELD = value; return VALIDATOR; } PARAM_END
+
         explicit AmqpConfigurable(AmqpConfiguration& aConfiguration, ConfigurationFinishedCallback const& aCallback)
             : configuration(aConfiguration)
             , callback(aCallback)
         {
-            parameterHandler.insert("amqp.host", [](AmqpConfiguration & c, auto const & value)
+            PARAM_SETTER_VALIDATE("auth.vhost", vhost, !value.isEmpty());
+            PARAM_SETTER_ALWAYS("auth.user", user);
+            PARAM_SETTER_ALWAYS("auth.pwd", pwd);
+            PARAM_SETTER_ALWAYS("exchange.name", exchangeName);
+            PARAM_SETTER_VALIDATE("exchange.routing-key", routingKey, !value.isEmpty());
+            PARAM_SETTER_VALIDATE("exchange.type", exchangeType, Constants::supportedExchangeTypes().contains(value));
+            PARAM_START("amqp.host")
             {
                 return c.host.setAddress(value);
-            });
-            parameterHandler.insert("amqp.port", [](AmqpConfiguration & c, auto const & value)
+            }
+            PARAM_END;
+            PARAM_START("amqp.port")
             {
                 auto conversionOk = false;
                 auto const& port = value.toInt(&conversionOk);
@@ -104,37 +121,8 @@ namespace
 
                 c.port = static_cast<quint16>(port);
                 return conversionOk;
-            });
-            parameterHandler.insert("auth.vhost", [](AmqpConfiguration & c, auto const & value)
-            {
-                c.vhost = value;
-                return !value.isEmpty();
-            });
-            parameterHandler.insert("auth.user", [](AmqpConfiguration & c, auto const & value)
-            {
-                c.user = value;
-                return true;
-            });
-            parameterHandler.insert("auth.pwd", [](AmqpConfiguration & c, auto const & value)
-            {
-                c.pwd = value;
-                return true;
-            });
-            parameterHandler.insert("exchange.name", [](AmqpConfiguration & c, auto const & value)
-            {
-                c.exchangeName = value;
-                return true;
-            });
-            parameterHandler.insert("exchange.type", [](AmqpConfiguration & c, auto const & value)
-            {
-                c.exchangeType = value;
-                return QList<QString> {"topic", "direct", "fanout"} .contains(value);
-            });
-            parameterHandler.insert("exchange.routing-key", [](AmqpConfiguration & c, auto const & value)
-            {
-                c.vhost = value;
-                return !value.isEmpty();
-            });
+            }
+            PARAM_END;
         }
         ~AmqpConfigurable() override = default;
 
