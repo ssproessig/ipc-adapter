@@ -99,7 +99,7 @@ public:
 
     // channels
     QAmqpExchange *createExchange(int channelNumber = -1);
-    QAmqpExchange *createExchange(const QString &name, int channelNumber = -1);
+    virtual QAmqpExchange *createExchange(const QString &name, int channelNumber = -1);
 
     QAmqpQueue *createQueue(int channelNumber = -1);
     QAmqpQueue *createQueue(const QString &name, int channelNumber = -1);

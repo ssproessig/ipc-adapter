@@ -86,7 +86,7 @@ public Q_SLOTS:
     void declare(ExchangeType type = Direct,
                  ExchangeOptions options = NoOptions,
                  const QAmqpTable &args = QAmqpTable());
-    void declare(const QString &type,
+    virtual void declare(const QString &type,
                  ExchangeOptions options = NoOptions,
                  const QAmqpTable &args = QAmqpTable());
     void remove(int options = roIfUnused|roNoWait);
@@ -107,9 +107,10 @@ protected:
     virtual void channelOpened();
     virtual void channelClosed();
 
-private:
-    explicit QAmqpExchange(int channelNumber = -1, QAmqpClient *parent = 0);
+protected:
+    explicit QAmqpExchange(int channelNumber = -1, QAmqpClient* parent = nullptr);
 
+private:
     Q_DISABLE_COPY(QAmqpExchange)
     Q_DECLARE_PRIVATE(QAmqpExchange)
     friend class QAmqpClient;
