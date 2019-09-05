@@ -1,6 +1,7 @@
 #include "Shared/tst/QTestLibInvocation.h"
 
 #include "Components/Converters/tst/ReverseBytesConverterTest.h"
+#include "Components/Converters/tst/XmlToMetaDataConverterTest.h"
 
 
 
@@ -15,6 +16,7 @@ int main(int argc, char* argv[])
     prepareEnv(argc, argv, outputDir, arguments, filters);
 
     runTest<IpcAdapter::Components::Converters::ReverseBytesConverterTest>(outputDir, arguments, filters);
+    runTest<IpcAdapter::Components::Converters::XmlToMetaDataConverterTest>(outputDir, arguments, filters);
 
     return 0;
 }

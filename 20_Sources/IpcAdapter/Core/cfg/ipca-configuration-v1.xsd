@@ -110,6 +110,7 @@
           <xs:enumeration value="ReverseBytesConverter"/>
           <xs:enumeration value="UdpSink"/>
           <xs:enumeration value="UdpSource"/>
+          <xs:enumeration value="XmlToMetaDataConverter"/>
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
