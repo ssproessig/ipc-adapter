@@ -147,7 +147,7 @@ PipelineFramePtr XmlToMetaDataConverter::convert(PipelineFramePtr const& anInput
         xmlFrame->setData(anInput->getData());
     }
 
-    return xmlFrame;
+    return std::move(xmlFrame);
 }
 
 
