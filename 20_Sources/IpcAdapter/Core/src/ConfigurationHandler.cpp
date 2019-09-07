@@ -41,6 +41,49 @@ namespace
     }
 
 
+    struct ConfigurableInContext
+        : IConfigurable
+    {
+        QString forId;
+        IConfigurable* c;
+
+        explicit ConfigurableInContext(std::shared_ptr<IComponent> const& aComponent, QString const& anId)
+            : forId(anId)
+            , c(std::dynamic_pointer_cast<IConfigurable>(aComponent).get())
+        {
+            ConfigurableInContext::onConfigureBegin();
+        }
+
+        void onConfigureBegin() override
+        {
+            EXIT_EARLY_IF(!c,);
+            c->onConfigureBegin();
+        }
+
+        bool doConfigure(QString const& aKey, QString const& aValue) override
+        {
+            if (!c)
+            {
+                LOG_WARN(this) << "trying to configure a non-configurable component with " << aKey << "=" << aValue;
+                return true;
+            }
+
+            if (!c->doConfigure(aKey, aValue))
+            {
+                THROW(Constants::errorParamRejected().arg(forId, aKey, aValue));
+            }
+
+            return true;
+        }
+
+        bool onConfigureEnd() override
+        {
+            EXIT_EARLY_IF(!c, true);
+            return c->onConfigureEnd();
+        }
+    };
+
+
     struct HandlerContext
     {
         RuntimeConfiguration& configuration;
@@ -49,8 +92,8 @@ namespace
         std::shared_ptr<IpcAdapter::Core::Pipeline> currentPipeline;
 
         std::shared_ptr<IComponent> currentComponent;
+        std::shared_ptr<ConfigurableInContext> currentConfigurable;
         QString currentId;
-        IConfigurable* currentConfigurable = nullptr;
 
         explicit HandlerContext(RuntimeConfiguration& aConfiguration): configuration(aConfiguration) {}
 
@@ -72,38 +115,8 @@ namespace
             }
 
             currentComponent = factory();
-            onConfigureBegin();
+            currentConfigurable = std::make_shared<ConfigurableInContext>(currentComponent, currentId);
             return true;
-        }
-
-        void onConfigureBegin()
-        {
-            currentConfigurable = currentComponent->getConfigurable();
-
-            EXIT_EARLY_IF(!currentConfigurable,);
-            currentConfigurable->onConfigureBegin();
-        }
-
-        bool doConfigure(QString const& aKey, QString const& aValue)
-        {
-            if (!currentConfigurable)
-            {
-                LOG_WARN(this) << "trying to configure a non-configurable component with " << aKey << "=" << aValue;
-                return true;
-            }
-
-            if (!currentConfigurable->doConfigure(aKey, aValue))
-            {
-                THROW(Constants::errorParamRejected().arg(currentId, aKey, aValue));
-            }
-
-            return true;
-        }
-
-        bool onConfigureEnd()
-        {
-            EXIT_EARLY_IF(!currentConfigurable, true);
-            return currentConfigurable->onConfigureEnd();
         }
 
         void storeComponentAndClearContextForNext()
@@ -112,7 +125,7 @@ namespace
 
             currentId.clear();
             currentComponent.reset();
-            currentConfigurable = nullptr;
+            currentConfigurable.reset();
         }
 
         void storePipelineAndClearContextForNext()
@@ -204,9 +217,12 @@ namespace
                 return context.createNewComponent(atts);
             }
 
-            if (localName == "param" && context.currentComponent)
+            if (context.currentComponent)
             {
-                return context.doConfigure(atts.value("key"), atts.value("value"));
+                if (localName == "param")
+                {
+                    return context.currentConfigurable->doConfigure(atts.value("key"), atts.value("value"));
+                }
             }
 
             return true;
@@ -216,7 +232,7 @@ namespace
         {
             if (localName == "component" && context.currentComponent)
             {
-                if (!context.onConfigureEnd())
+                if (!context.currentConfigurable->onConfigureEnd())
                 {
                     THROW(Constants::errorFinishingConfiguration().arg(context.currentId));
                 }
