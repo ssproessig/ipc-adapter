@@ -68,7 +68,7 @@ namespace IpcAdapter
              * @retval true     if `aComponentId` already exists
              * @retval false    if `aComponentId` does not yet exist
              */
-            bool containsComponentCalled(QString const& aComponentId);
+            bool containsComponentCalled(QString const& aComponentId) const;
 
             /**
              * Adds the `aComponent` instance to the RuntimeConfiguration, identified by `aComponentId`.

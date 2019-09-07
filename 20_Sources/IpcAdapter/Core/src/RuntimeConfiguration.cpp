@@ -89,7 +89,7 @@ IpcAdapter::Core::ConfiguratorPtr RuntimeConfiguration::getParamList(QString con
 }
 
 
-bool RuntimeConfiguration::containsComponentCalled(QString const& aComponentId)
+bool RuntimeConfiguration::containsComponentCalled(QString const& aComponentId) const
 {
     return d->components.contains(aComponentId);
 }
