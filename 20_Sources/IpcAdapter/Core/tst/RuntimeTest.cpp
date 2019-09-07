@@ -232,6 +232,17 @@ void RuntimeTest::test_09_Runtime_initialization_fails_if_component_rejects_para
 
 
 
+void RuntimeTest::test_10_Runtime_initialization_fails_if_unknown_param_list_is_referenced()
+{
+    EXPECT_EXCEPTION(
+        Runtime::createFrom(":/RuntimeTest_12_unknown_param_list_ref.xml");,
+        "creating Runtime from configuration must fail if component references an unknown param-list",
+        "component 'id1' references unknown param-list 'shared'!"
+    )
+}
+
+
+
 void RuntimeTest::test_20_Runtime_initialization_fails_if_duplicate_pipeline_id_is_used()
 {
     EXPECT_EXCEPTION(

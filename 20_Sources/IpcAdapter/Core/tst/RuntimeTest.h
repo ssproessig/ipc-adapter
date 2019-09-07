@@ -28,6 +28,8 @@ namespace IpcAdapter
             void test_08_Runtime_initialization_fails_if_component_fails_to_configure();
             void test_09_Runtime_initialization_fails_if_component_rejects_parameter();
 
+            void test_10_Runtime_initialization_fails_if_unknown_param_list_is_referenced();
+
             void test_20_Runtime_initialization_fails_if_duplicate_pipeline_id_is_used();
             void test_21_Runtime_initialization_fails_if_pipeline_uses_non_sink_as_sink();
             void test_22_Runtime_initialization_fails_if_pipeline_uses_non_converter_as_converter();
