@@ -3,6 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="urn:ipca-configuration-v1 ipca-configuration-v1.xsd">
 
+    <param-lists>
+        <param-list id="hostToListenOn">
+            <param key="host" value="127.0.0.1"/>
+        </param-list>
+    </param-lists>
+
     <components>
         <component id="udpSource" type="UdpSource">
             <param key="host" value="0.0.0.0"/>
@@ -10,15 +16,15 @@
         </component>
 
         <component id="udpSink" type="UdpSink">
-            <param key="host" value="127.0.0.1"/>
             <param key="port" value="9998"/>
+            <param-list ref="hostToListenOn"/>
         </component>
 
         <component id="reverser" type="ReverseBytesConverter"/>
-        
+
         <component id="udpSinkConverted" type="UdpSink">
-            <param key="host" value="127.0.0.1"/>
-            <param key="port" value="9997"/>           
+            <param-list ref="hostToListenOn"/>
+            <param key="port" value="9997"/>
         </component>
     </components>
 

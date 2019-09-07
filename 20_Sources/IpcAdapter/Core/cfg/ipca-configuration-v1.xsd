@@ -7,6 +7,16 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
+        <xs:element minOccurs="0" name="param-lists">
+          <xs:annotation>
+            <xs:documentation>optional shared parameter lists</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="param-list" type="ipca:configurableType"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="components">
           <xs:annotation>
             <xs:documentation>mandatory list of all components to create and configure</xs:documentation>
@@ -29,19 +39,18 @@
                 </xs:annotation>
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="source"
-                      type="ipca:componentReferenceType">
+                    <xs:element maxOccurs="unbounded" name="source" type="ipca:referenceType">
                       <xs:annotation>
                         <xs:documentation>a source reference</xs:documentation>
                       </xs:annotation>
                     </xs:element>
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="converter"
-                      type="ipca:componentReferenceType">
+                      type="ipca:referenceType">
                       <xs:annotation>
                         <xs:documentation>a converter reference</xs:documentation>
                       </xs:annotation>
                     </xs:element>
-                    <xs:element maxOccurs="unbounded" name="sink" type="ipca:componentReferenceType">
+                    <xs:element maxOccurs="unbounded" name="sink" type="ipca:referenceType">
                       <xs:annotation>
                         <xs:documentation>a sink reference</xs:documentation>
                       </xs:annotation>
@@ -70,59 +79,72 @@
       </xs:attribute>
     </xs:complexType>
   </xs:element>
-  <xs:complexType name="componentType">
+  <xs:complexType name="configurableType">
     <xs:annotation>
       <xs:documentation>configurable component in the IpcAdapter</xs:documentation>
     </xs:annotation>
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="param">
-        <xs:annotation>
-          <xs:documentation>parameter given to the component when configuring</xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:attribute name="key" use="required">
-            <xs:annotation>
-              <xs:documentation>configuration parameter id to set</xs:documentation>
-            </xs:annotation>
-            <xs:simpleType>
-              <xs:restriction base="xs:string">
-                <xs:minLength value="1"/>
-              </xs:restriction>
-            </xs:simpleType>
-          </xs:attribute>
-          <xs:attribute name="value" type="xs:string" use="required">
-            <xs:annotation>
-              <xs:documentation>configuration value to set</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
+    <xs:choice>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element maxOccurs="unbounded" minOccurs="0" name="param">
+          <xs:annotation>
+            <xs:documentation>parameter given to the component when configuring</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="key" use="required">
+              <xs:annotation>
+                <xs:documentation>configuration parameter id to set</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="1"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="value" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>configuration value to set</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" minOccurs="0" name="param-list" type="ipca:referenceType">
+          <xs:annotation>
+            <xs:documentation>a reference to a named parameter-list in the runtime</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:choice>
     <xs:attribute name="id" type="xs:ID" use="required">
       <xs:annotation>
         <xs:documentation>ID used for referencing this instance of the component.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="type" use="required">
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="AmqpExchangeSink"/>
-          <xs:enumeration value="ReverseBytesConverter"/>
-          <xs:enumeration value="UdpSink"/>
-          <xs:enumeration value="UdpSource"/>
-          <xs:enumeration value="XmlToMetaDataConverter"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
   </xs:complexType>
-  <xs:complexType name="componentReferenceType">
+  <xs:complexType name="referenceType">
     <xs:annotation>
-      <xs:documentation>a reference to a configured component</xs:documentation>
+      <xs:documentation>a reference to a named runtime element</xs:documentation>
     </xs:annotation>
     <xs:attribute name="ref" use="required" type="xs:IDREF">
       <xs:annotation>
         <xs:documentation>component to reference</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="componentType">
+    <xs:complexContent>
+      <xs:extension base="ipca:configurableType">
+        <xs:attribute name="type" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="AmqpExchangeSink"/>
+              <xs:enumeration value="ReverseBytesConverter"/>
+              <xs:enumeration value="UdpSink"/>
+              <xs:enumeration value="UdpSource"/>
+              <xs:enumeration value="XmlToMetaDataConverter"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 </xs:schema>
