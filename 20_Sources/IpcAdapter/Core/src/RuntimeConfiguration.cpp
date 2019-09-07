@@ -82,6 +82,12 @@ IpcAdapter::Core::ComponentPtr RuntimeConfiguration::getComponent(QString const&
 }
 
 
+IpcAdapter::Core::ConfiguratorPtr RuntimeConfiguration::getParamList(QString const& aParamListId) const
+{
+    Q_UNUSED(aParamListId)
+    return nullptr;
+}
+
 
 bool RuntimeConfiguration::containsComponentCalled(QString const& aComponentId)
 {

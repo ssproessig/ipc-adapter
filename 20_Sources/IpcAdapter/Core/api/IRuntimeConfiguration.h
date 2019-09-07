@@ -12,7 +12,11 @@ namespace IpcAdapter
     namespace Core
     {
         FORWARD_DECLARE(IComponent);
+        FORWARD_DECLARE(IConfigurator);
         FORWARD_DECLARE(IPipeline);
+
+        /// smart pointer carrying a configurator
+        using ConfiguratorPtr = std::shared_ptr<IConfigurator>;
 
         /// smart pointer carrying a shared component
         using ComponentPtr = std::shared_ptr<IComponent>;
@@ -60,6 +64,16 @@ namespace IpcAdapter
              * @return map of all dynamically created pipelines
              */
             virtual PipelineMap const& getPipelines() const = 0;
+
+            /**
+             * Queries the runtime configuration for a parameter-list by its `aParamListId`
+             *
+             * @param aParamListId  the id of the parameter-list to query
+             *
+             * @retval  nullptr   empty smart pointer if no parameter-list with that id exists
+             * @retval  !=nullptr shared pointer to the parameter-list
+             */
+            virtual ConfiguratorPtr getParamList(QString const& aParamListId) const = 0;
         };
     }
 }

@@ -46,6 +46,16 @@ namespace IpcAdapter
              * @retval  !=nullptr shared pointer to the component
              */
             ComponentPtr getComponent(QString const& aComponentId) const override;
+
+            /**
+             * Queries the runtime configuration for a parameter-list by its `aParamListId`
+             *
+             * @param aParamListId  the id of the parameter-list to query
+             *
+             * @retval  nullptr   empty smart pointer if no parameter-list with that id exists
+             * @retval  !=nullptr shared pointer to the parameter-list
+             */
+            ConfiguratorPtr getParamList(QString const& aParamListId) const override;
             /// @}
 
             /// @name Component management

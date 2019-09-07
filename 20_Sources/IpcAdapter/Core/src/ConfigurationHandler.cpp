@@ -3,6 +3,7 @@
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
+#include "Core/api/IConfigurator.h"
 #include "Core/api/IConverter.h"
 #include "Core/api/ISink.h"
 #include "Core/api/ISource.h"
@@ -38,6 +39,7 @@ namespace
         DECLARE_CONST(QString, errorParamRejected, ("component '%1' rejects parameter '%2' with value '%3'!"))
         DECLARE_CONST(QString, errorFinishingConfiguration, ("unable to finish configuring '%1'!"))
         DECLARE_CONST(QString, errorWrongComponentType, ("component '%1' referenced in '%2' is no %3!"))
+        DECLARE_CONST(QString, errorUnknownParamList, ("component '%1' references unknown param-list '%2'!"))
     }
 
 
@@ -222,6 +224,19 @@ namespace
                 if (localName == "param")
                 {
                     return context.currentConfigurable->doConfigure(atts.value("key"), atts.value("value"));
+                }
+
+                if (localName == "param-list")
+                {
+                    auto const& paramListId = atts.value("ref");
+                    auto const& configurator = context.configuration.getParamList(paramListId);
+
+                    if (!configurator)
+                    {
+                        THROW(Constants::errorUnknownParamList().arg(context.currentId, paramListId));
+                    }
+
+                    return configurator->doConfigure(*context.currentConfigurable.get());
                 }
             }
 
