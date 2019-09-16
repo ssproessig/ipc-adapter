@@ -5,12 +5,13 @@ set(SRC
 )
 
 source_group(Sources ${SRC})
-add_executable(${APP_NAME} ${SRC})
-
-set(LNK_LIBS
+add_executable(${APP_NAME} ${SRC}
     $<TARGET_OBJECTS:IpcAdapterConverters>
     $<TARGET_OBJECTS:IpcAdapterSinks>
     $<TARGET_OBJECTS:IpcAdapterSources>
+)
+
+set(LNK_LIBS
     IpcAdapterCore
     qamqp-lib
 )
