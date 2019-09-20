@@ -2,9 +2,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="urn:ipca-configuration-v1 ../cfg/ipca-configuration-v1.xsd" version="1">
 
+    <!-- define a param list that we use below -->
+    <param-lists>
+        <param-list id="sharedParamA">
+            <param key="aKey" value="paramListValue1"/>
+            <param key="2ndKey" value="paramListValue2"/>
+        </param-list>
+    </param-lists>
+
     <!-- using Test* components that are only defined in IpcAdapterCoreTest -->
     <components>
         <component id="cmp" type="TestComponent">
+            <!-- referencing the param-list first means we can override param's with the same key -->
+            <param-list ref="sharedParamA"/>
             <param key="aKey" value="aValue"/>
         </component>
         <component id="src" type="TestSource"/>

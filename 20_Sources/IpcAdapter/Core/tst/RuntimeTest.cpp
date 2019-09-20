@@ -34,8 +34,7 @@ namespace
         void onConfigureBegin() override {}
         bool doConfigure(QString const& aKey, QString const& aValue) override
         {
-            key = aKey;
-            value = aValue;
+            paramsSeen.append({aKey, aValue});
             return acceptedParameter;
         }
         bool onConfigureEnd() override
@@ -43,8 +42,7 @@ namespace
             return acceptedConfiguration;
         }
 
-        QString key;
-        QString value;
+        QList<QPair<QString, QString>> paramsSeen;
 
         static bool acceptedParameter;
         static bool acceptedConfiguration;
@@ -290,8 +288,13 @@ void RuntimeTest::test_98_Runtime_initialization_succeeds()
 
     auto const c1 = std::dynamic_pointer_cast<TestComponent>(components["cmp"]);
     QVERIFY(c1 != nullptr);
-    COMPARE(c1->key, QString("aKey"), "correct key shall be used");
-    COMPARE(c1->value, QString("aValue"), "param shall be set");
+    COMPARE(c1->paramsSeen.count(), 3, "expect two parameters to be configured");
+    COMPARE(c1->paramsSeen.at(0).first, QString("aKey"), "expect 1st parameter from param-list");
+    COMPARE(c1->paramsSeen.at(0).second, QString("paramListValue1"), "expect 1st parameter from param-list");
+    COMPARE(c1->paramsSeen.at(1).first, QString("2ndKey"), "expect 2nd parameter from param-list");
+    COMPARE(c1->paramsSeen.at(1).second, QString("paramListValue2"), "expect 2nd parameter from param-list");
+    COMPARE(c1->paramsSeen.at(2).first, QString("aKey"), "expect 3rd parameter from local param");
+    COMPARE(c1->paramsSeen.at(2).second, QString("aValue"), "expect 3rd parameter from local parameter");
 
     COMPARE(configuration.getPipelines().count(), 2, "we shall have configured two pipelines");
 
