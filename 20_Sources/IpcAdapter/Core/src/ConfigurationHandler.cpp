@@ -86,6 +86,27 @@ namespace
     };
 
 
+    struct ParamList: IpcAdapter::Core::IConfigurator
+    {
+        QList<QPair<QString, QString>> parameters;
+
+        bool doConfigure(IConfigurable& aConfigurable) override
+        {
+            auto allParametersAccepted = true;
+
+            for (auto const& parameter : parameters)
+            {
+                if (!aConfigurable.doConfigure(parameter.first, parameter.second))
+                {
+                    allParametersAccepted = false;
+                }
+            }
+
+            return allParametersAccepted;
+        }
+    };
+
+
     struct HandlerContext
     {
         RuntimeConfiguration& configuration;
@@ -96,6 +117,8 @@ namespace
         std::shared_ptr<IComponent> currentComponent;
         std::shared_ptr<ConfigurableInContext> currentConfigurable;
         QString currentId;
+
+        std::shared_ptr<ParamList> currentParamList;
 
         explicit HandlerContext(RuntimeConfiguration& aConfiguration): configuration(aConfiguration) {}
 
@@ -278,13 +301,53 @@ namespace
     };
 
 
+    struct ParamListHandler: BaseHandler
+    {
+        explicit ParamListHandler(HandlerContext& aContext) : BaseHandler(aContext, "param-lists") {}
+
+        bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes& atts) override
+        {
+            if (localName == "param-list")
+            {
+                auto const& id = atts.value("id");
+                context.currentParamList = std::make_shared<ParamList>();
+                context.configuration.addParamList(id, context.currentParamList);
+                return true;
+            }
+
+            if ((context.currentParamList) && (localName == "param"))
+            {
+                context.currentParamList->parameters.append({atts.value("key"), atts.value("value")});
+            }
+
+            return true;
+        }
+
+        bool endElement(const QString& nsUri, const QString& localName, const QString& qName) override
+        {
+            BaseHandler::endElement(nsUri, localName, qName);
+
+            if (localName == "param-list")
+            {
+                context.currentParamList.reset();
+            }
+
+            return true;
+        }
+    };
+
+
     struct MainSectionsHandler: BaseHandler
     {
         explicit MainSectionsHandler(HandlerContext& aContext) : BaseHandler(aContext, "configuration") {}
 
         bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes&) override
         {
-            if (localName == "components")
+            if (localName == "param-lists")
+            {
+                context.handlerStack.push(std::make_shared<ParamListHandler>(context));
+            }
+            else if (localName == "components")
             {
                 context.handlerStack.push(std::make_shared<ComponentHandler>(context));
             }
