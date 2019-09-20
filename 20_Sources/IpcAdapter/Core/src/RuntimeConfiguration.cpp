@@ -57,6 +57,7 @@ struct RuntimeConfiguration::Data
     QMap<QString, std::shared_ptr<IpcAdapter::Core::ISource>> sourceMultiplexes;
 
     ComponentMap components;
+    ConfiguratorMap paramLists;
     PipelineMap pipelines;
 };
 
@@ -84,8 +85,15 @@ IpcAdapter::Core::ComponentPtr RuntimeConfiguration::getComponent(QString const&
 
 IpcAdapter::Core::ConfiguratorPtr RuntimeConfiguration::getParamList(QString const& aParamListId) const
 {
-    Q_UNUSED(aParamListId)
-    return nullptr;
+    auto const& it = d->paramLists.constFind(aParamListId);
+
+    return (it != d->paramLists.constEnd()) ? *it : nullptr;
+}
+
+
+void RuntimeConfiguration::addParamList(QString const& aParamListId, IpcAdapter::Core::ConfiguratorPtr const& aParamList)
+{
+    d->paramLists.insert(aParamListId, aParamList);
 }
 
 

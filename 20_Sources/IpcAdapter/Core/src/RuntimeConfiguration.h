@@ -94,6 +94,17 @@ namespace IpcAdapter
             ISource* getSourceMultiplexFor(QString const& aSourceId);
             /// @}
 
+            /// @name ParamList management
+            /// @{
+            /**
+             * Adds the `aParamList` instance to the RuntimeConfiguration, identified by `aParamListId`.
+             *
+             * @param   aParamListId    param-list id to reference the param-list under
+             * @param   aParamList      param-list to store in the configuration
+             */
+            void addParamList(QString const& aParamListId, ConfiguratorPtr const& aParamList);
+            /// @}
+
             /// @name Pipeline management
             /// @{
             /**

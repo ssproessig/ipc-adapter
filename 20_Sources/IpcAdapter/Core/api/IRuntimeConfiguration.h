@@ -18,6 +18,9 @@ namespace IpcAdapter
         /// smart pointer carrying a configurator
         using ConfiguratorPtr = std::shared_ptr<IConfigurator>;
 
+        /// mapping of configuratorId to its instance
+        using ConfiguratorMap = QMap<QString, ConfiguratorPtr>;
+
         /// smart pointer carrying a shared component
         using ComponentPtr = std::shared_ptr<IComponent>;
 
