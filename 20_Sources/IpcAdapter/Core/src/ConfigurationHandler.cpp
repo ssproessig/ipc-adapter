@@ -22,7 +22,7 @@ using IpcAdapter::Core::ConfigurationHandler;
 using IpcAdapter::Core::IComponent;
 using IpcAdapter::Core::IConfigurable;
 using IpcAdapter::Core::RuntimeConfiguration;
-using HandlerStack = QStack<QXmlDefaultHandler*>;
+using HandlerStack = QStack<std::shared_ptr<QXmlDefaultHandler>>;
 
 
 
@@ -155,14 +155,26 @@ namespace
 
     struct BaseHandler : QXmlDefaultHandler
     {
+        QString ownLocalName;
         HandlerContext& context;
-        explicit BaseHandler(HandlerContext& aContext) : context(aContext) {}
+        explicit BaseHandler(HandlerContext& aContext, QString const& anOwnLocalName)
+            : ownLocalName(anOwnLocalName), context(aContext) {}
+
+        bool endElement(const QString&, const QString& localName, const QString&) override
+        {
+            if (localName == ownLocalName)
+            {
+                context.handlerStack.pop();
+            }
+
+            return true;
+        }
     };
 
 
     struct PipelineHandler: BaseHandler
     {
-        explicit PipelineHandler(HandlerContext& aContext) : BaseHandler(aContext) {}
+        explicit PipelineHandler(HandlerContext& aContext) : BaseHandler(aContext, "pipelines") {}
 
         bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes& atts) override
         {
@@ -196,8 +208,10 @@ namespace
             return true;
         }
 
-        bool endElement(const QString&, const QString& localName, const QString&) override
+        bool endElement(const QString& nsUri, const QString& localName, const QString& qName) override
         {
+            BaseHandler::endElement(nsUri, localName, qName);
+
             if (localName == "pipeline" && context.currentPipeline)
             {
                 context.storePipelineAndClearContextForNext();
@@ -210,7 +224,7 @@ namespace
 
     struct ComponentHandler : BaseHandler
     {
-        explicit ComponentHandler(HandlerContext& aContext) : BaseHandler(aContext) {}
+        explicit ComponentHandler(HandlerContext& aContext) : BaseHandler(aContext, "components") {}
 
         bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes& atts) override
         {
@@ -243,8 +257,10 @@ namespace
             return true;
         }
 
-        bool endElement(const QString&, const QString& localName, const QString&) override
+        bool endElement(const QString& nsUri, const QString& localName, const QString& qName) override
         {
+            BaseHandler::endElement(nsUri, localName, qName);
+
             if (localName == "component" && context.currentComponent)
             {
                 if (!context.currentConfigurable->onConfigureEnd())
@@ -257,9 +273,28 @@ namespace
                 return true;
             }
 
+            return true;
+        }
+    };
+
+
+    struct MainSectionsHandler: BaseHandler
+    {
+        explicit MainSectionsHandler(HandlerContext& aContext) : BaseHandler(aContext, "configuration") {}
+
+        bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes&) override
+        {
             if (localName == "components")
             {
-                context.handlerStack.push(new PipelineHandler(context));
+                context.handlerStack.push(std::make_shared<ComponentHandler>(context));
+            }
+            else if (localName == "pipelines")
+            {
+                context.handlerStack.push(std::make_shared<PipelineHandler>(context));
+            }
+            else
+            {
+                return false;
             }
 
             return true;
@@ -269,7 +304,7 @@ namespace
 
     struct RootElementHandler : BaseHandler
     {
-        explicit RootElementHandler(HandlerContext& aContext) : BaseHandler(aContext) {}
+        explicit RootElementHandler(HandlerContext& aContext) : BaseHandler(aContext, "") {}
 
         bool startElement(const QString&, const QString& localName, const QString&, const QXmlAttributes& atts) override
         {
@@ -285,7 +320,7 @@ namespace
                 THROW(Constants::errorWrongRootElementVersion().arg(version));
             }
 
-            context.handlerStack.push(new ComponentHandler(context));
+            context.handlerStack.push(std::make_shared<MainSectionsHandler>(context));
             return true;
         }
     };
@@ -299,12 +334,7 @@ struct ConfigurationHandler::Data
     explicit Data(RuntimeConfiguration& aConfiguration):
         context(aConfiguration)
     {
-        context.handlerStack.append(new RootElementHandler(context));
-    }
-
-    ~Data()
-    {
-        qDeleteAll(context.handlerStack);
+        context.handlerStack.append(std::make_shared<RootElementHandler>(context));
     }
 
     bool setErrorStringFrom(QString const& aLevel, const QXmlParseException& anException)
