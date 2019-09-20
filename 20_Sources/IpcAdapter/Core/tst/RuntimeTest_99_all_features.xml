@@ -1,4 +1,7 @@
-﻿<configuration version="1" xmlns="urn:ipca-configuration-v1">
+﻿<configuration xmlns="urn:ipca-configuration-v1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:ipca-configuration-v1 ../cfg/ipca-configuration-v1.xsd" version="1">
+
     <!-- using Test* components that are only defined in IpcAdapterCoreTest -->
     <components>
         <component id="cmp" type="TestComponent">
