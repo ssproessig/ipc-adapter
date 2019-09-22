@@ -35,5 +35,4 @@ set(LNK Qt5::Core Qt5::Xml)
 add_library(${LIB_NAME} OBJECT ${API} ${SRC})
 target_link_libraries(${LIB_NAME} ${LNK})
 
-add_executable(${LIB_NAME}Test ${DOC} ${SRC} ${TST})
-target_link_libraries(${LIB_NAME}Test ${LNK} Qt5::Test)
+add_qtest(NAME ${LIB_NAME}Test SOURCES ${TST} $<TARGET_OBJECTS:${LIB_NAME}> LIBS ${LNK})

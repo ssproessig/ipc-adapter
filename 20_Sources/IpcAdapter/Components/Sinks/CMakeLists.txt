@@ -31,5 +31,4 @@ set(LNK
 add_library(${LIB_NAME} OBJECT ${DOC} ${SRC})
 target_link_libraries(${LIB_NAME} ${LNK})
 
-add_executable(${LIB_NAME}Test ${DOC} ${TST} $<TARGET_OBJECTS:IpcAdapterSinks>)
-target_link_libraries(${LIB_NAME}Test ${LNK} IpcAdapterCore Qt5::Test)
+add_qtest(NAME ${LIB_NAME}Test SOURCES ${TST} $<TARGET_OBJECTS:${LIB_NAME}> LIBS ${LNK} IpcAdapterCore)
