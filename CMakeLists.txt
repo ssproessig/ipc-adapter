@@ -5,3 +5,5 @@ project(IpcAdapter LANGUAGES CXX VERSION 0.1.0)
 
 add_subdirectory(00_Documentation)
 add_subdirectory(20_Sources)
+
+include(CTest)
