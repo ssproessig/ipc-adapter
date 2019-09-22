@@ -16,9 +16,11 @@ int main(int argc, char* argv[])
 
     prepareEnv(argc, argv, outputDir, arguments, filters);
 
-    runTest<IpcAdapter::Core::ComponentRegistryTest>(outputDir, arguments, filters);
-    runTest<IpcAdapter::Core::PipelineTest>(outputDir, arguments, filters);
-    runTest<IpcAdapter::Core::RuntimeTest>(outputDir, arguments, filters);
+    int result = 0;
 
-    return 0;
+    result += runTest<IpcAdapter::Core::ComponentRegistryTest>(outputDir, arguments, filters);
+    result += runTest<IpcAdapter::Core::PipelineTest>(outputDir, arguments, filters);
+    result += runTest<IpcAdapter::Core::RuntimeTest>(outputDir, arguments, filters);
+
+    return result;
 }

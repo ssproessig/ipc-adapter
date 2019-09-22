@@ -15,8 +15,10 @@ int main(int argc, char* argv[])
 
     prepareEnv(argc, argv, outputDir, arguments, filters);
 
-    runTest<IpcAdapter::Components::Sinks::AmqpExchangeSinkTest>(outputDir, arguments, filters);
-    runTest<IpcAdapter::Components::Sinks::UdpSinkTest>(outputDir, arguments, filters);
+    int result = 0;
 
-    return 0;
+    result += runTest<IpcAdapter::Components::Sinks::AmqpExchangeSinkTest>(outputDir, arguments, filters);
+    result += runTest<IpcAdapter::Components::Sinks::UdpSinkTest>(outputDir, arguments, filters);
+
+    return result;
 }
