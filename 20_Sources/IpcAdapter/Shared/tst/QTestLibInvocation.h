@@ -55,7 +55,7 @@ bool testNameMatchesFilters(QString const& aTestName, QStringList const& aFilter
  * @see: prepareEnv(...) for preparation of @c anArgumentsList and @c aFilterList
  */
 template <typename T>
-void runTest(const QString& anOutputDir, QStringList anArgumentsList, QStringList aFilterList)
+int runTest(const QString& anOutputDir, QStringList anArgumentsList, QStringList aFilterList)
 {
     // first check the test name itself matches any of the filter expressions
     QString testName = typeid(T).name();
@@ -63,7 +63,7 @@ void runTest(const QString& anOutputDir, QStringList anArgumentsList, QStringLis
     if(!testNameMatchesFilters(testName, aFilterList))
     {
         std::cerr << "Skipping '" << qPrintable(testName) << "' because of unmatched filter." << std::endl;
-        return;
+        return 0;
     }
 
     // instantiate and execute the test
@@ -76,7 +76,7 @@ void runTest(const QString& anOutputDir, QStringList anArgumentsList, QStringLis
     targetFile = targetFile.replace("::", "_");
     anArgumentsList.last() = targetFile;
 
-    QTest::qExec(&theTest, anArgumentsList);
+    return QTest::qExec(&theTest, anArgumentsList);
 }
 
 
