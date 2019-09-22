@@ -69,12 +69,16 @@ int runTest(const QString& anOutputDir, QStringList anArgumentsList, QStringList
     // instantiate and execute the test
     T theTest;
 
-    QString targetFile = anOutputDir;
-    targetFile.append(testName);
-    targetFile.append(".xml");
-    targetFile = targetFile.replace(" ", "_");
-    targetFile = targetFile.replace("::", "_");
-    anArgumentsList.last() = targetFile;
+    if (anArgumentsList.last() != "-")
+    {
+        QString targetFile = anOutputDir;
+        targetFile.append(testName);
+        targetFile.append(".xml");
+        targetFile = targetFile.replace(" ", "_");
+        targetFile = targetFile.replace("::", "_");
+
+        anArgumentsList.last() = targetFile;
+    }
 
     return QTest::qExec(&theTest, anArgumentsList);
 }
@@ -83,6 +87,10 @@ int runTest(const QString& anOutputDir, QStringList anArgumentsList, QStringList
 
 /**
  * Templated execution of a @c QTestLib based test using @c QTest::qExec.
+ *
+ * Distinguishes between
+ * - "normal" developing test execution - creating one XUnit XML report per class
+ * - "CTest" execution - directly output all QTest output to stdout/stderr
  *
  * @param argc              argc from the test's `main(...)`
  * @param argv              argv from the test's `main(...)`
@@ -99,6 +107,9 @@ void prepareEnv(int argc, char* argv[], QString& anOutputDir, QStringList& anArg
     // init the output dir
     QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
     anOutputDir = pe.value("UNIT_TEST_RESULTS", QDir::tempPath());
+
+    // determine if we are invoked from CTest
+    auto const isCTestExecution = pe.contains("CTEST_INTERACTIVE_DEBUG_MODE");
 
     // if dir not exists, create it
     if(QDir(anOutputDir).exists() == false)
@@ -135,7 +146,7 @@ void prepareEnv(int argc, char* argv[], QString& anOutputDir, QStringList& anArg
     anOutputDir.append(QDir::separator());
 
     // add our QTestLib arguments
-    anArgumentsList.append("-xunitxml"); // output as xUnit XML
+    anArgumentsList.append(isCTestExecution ? "-txt" : "-xunitxml");
     anArgumentsList.append("-o"); // output to file
-    anArgumentsList.append("will_be_replace_in_runTest.xml"); // will be overridden by each test
+    anArgumentsList.append(isCTestExecution ? "-" : "will_be_replace_in_runTest.xml");
 }
