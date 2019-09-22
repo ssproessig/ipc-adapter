@@ -18,7 +18,7 @@ set(TST
     tst/UdpSinkTest.h
     tst/AmqpExchangeSinkTest.cpp
     tst/AmqpExchangeSinkTest.h
-    tst/SinkTestMain.cpp
+    tst/TestMain.cpp
 )
 source_group("Sinks UnitTests" ${TST})
 
