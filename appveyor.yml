@@ -12,7 +12,11 @@ configuration:
 before_build:
 - mkdir build && cd build
 - set PATH=C:\Qt\5.13.0\msvc2017_64\bin;%PATH%
-- cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=$(CONFIGURATION) ..
+- cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=%CONFIGURATION% ..
 
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\IpcAdapter.sln
+
+test_script:
+- cd %APPVEYOR_BUILD_FOLDER%\build
+- ctest -C %CONFIGURATION% -V
