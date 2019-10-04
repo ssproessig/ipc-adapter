@@ -22,4 +22,4 @@ build:
 
 test_script:
 - cd %APPVEYOR_BUILD_FOLDER%\build
-- ctest -C %CONFIGURATION% -V
+- OpenCppCoverage.exe --export_type html:html --modules "*.exe" --cover_children --sources "*20_Sources*.cpp" --excluded_sources "%APPVEYOR_BUILD_FOLDER%\build\*" --excluded_sources "*qamqp*" -- ctest -C %CONFIGURATION% -V
