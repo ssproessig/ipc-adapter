@@ -145,7 +145,7 @@ UdpSource::~UdpSource() = default;
 
 
 
-IpcAdapter::Core::IConfigurable* UdpSource::getConfigurable()
+IpcAdapter::Core::IConfigurable* UdpSource::get() const
 {
     return d.get();
 }

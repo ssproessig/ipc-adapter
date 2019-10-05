@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/api/IProvider.h"
 #include "Core/api/ISink.h"
 
 FORWARD_DECLARE(QAmqpClient);
@@ -9,6 +10,8 @@ using AmqpClientPtr = std::shared_ptr<QAmqpClient>;
 
 namespace IpcAdapter
 {
+    FORWARD_DECLARE_NS(Core, IConfigurable)
+
     namespace Components
     {
         namespace AmqpComponents
@@ -21,6 +24,7 @@ namespace IpcAdapter
              */
             class AmqpExchangeSink
                 : public Core::ISink
+                , public Core::IProvider<Core::IConfigurable>
             {
                 NONCOPYABLE(AmqpExchangeSink);
                 PIMPLED_DATA(d);
@@ -37,7 +41,7 @@ namespace IpcAdapter
                  * Mandatory parameters:
                  *
                  */
-                Core::IConfigurable* getConfigurable() override;
+                Core::IConfigurable* get() const override;
                 /// @}
 
                 /// @name ISink realization

@@ -1,11 +1,14 @@
 #pragma once
 
 #include "Core/api/IConverter.h"
+#include "Core/api/IProvider.h"
 
 
 
 namespace IpcAdapter
 {
+    FORWARD_DECLARE_NS(Core, IConfigurable)
+
     namespace Components
     {
         namespace Converters
@@ -19,6 +22,7 @@ namespace IpcAdapter
              */
             class XmlToMetaDataConverter
                 : public Core::IConverter
+                , public Core::IProvider<Core::IConfigurable>
             {
                 NONCOPYABLE(XmlToMetaDataConverter);
                 PIMPLED_DATA(d);
@@ -27,7 +31,7 @@ namespace IpcAdapter
                 XmlToMetaDataConverter();
                 ~XmlToMetaDataConverter() override;
 
-                /// @name IComponent realization
+                /// @name IProvider&lt;IConfigurable&gt; realization
                 /// @{
                 /**
                  * Configures XmlToMetaDataConverter. Supported parameters
@@ -36,7 +40,7 @@ namespace IpcAdapter
                  *
                  * @return configurable for the XmlToMetaDataConverter
                  */
-                Core::IConfigurable* getConfigurable() override;
+                Core::IConfigurable* get() const override;
                 /// @}
 
                 /// @name IConverter realization

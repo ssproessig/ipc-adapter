@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Core/api/IProvider.h"
 #include "Core/api/ISource.h"
 
 
 
 namespace IpcAdapter
 {
+    FORWARD_DECLARE_NS(Core, IConfigurable)
+
     namespace Components
     {
         namespace NetworkComponents
@@ -18,6 +21,7 @@ namespace IpcAdapter
              */
             class UdpSource
                 : public Core::ISource
+                , public Core::IProvider<Core::IConfigurable>
             {
                 NONCOPYABLE(UdpSource);
                 PIMPLED_DATA(d);
@@ -26,7 +30,7 @@ namespace IpcAdapter
                 UdpSource();
                 ~UdpSource() override;
 
-                /// @name IComponent realization
+                /// @name IProvider&lt;IConfigurable&gt; realization
                 /// @{
                 /**
                  * Configures the UdpSource.
@@ -36,7 +40,7 @@ namespace IpcAdapter
                  * - `host` to listen for UDP data at (defaults to `127.0.0.1`)
                  * - `port` to listen for UDP data at (defaults to `6789`)
                  */
-                Core::IConfigurable* getConfigurable() override;
+                Core::IConfigurable* get() const override;
                 /// @}
 
                 /// @name ISource realization

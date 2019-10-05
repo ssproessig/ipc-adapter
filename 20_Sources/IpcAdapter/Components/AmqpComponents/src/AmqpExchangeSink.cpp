@@ -209,7 +209,7 @@ struct AmqpExchangeSink::Data : QObject
 };
 
 
-IpcAdapter::Core::IConfigurable* AmqpExchangeSink::getConfigurable()
+IpcAdapter::Core::IConfigurable* AmqpExchangeSink::get() const
 {
     return &d->configurable;
 }

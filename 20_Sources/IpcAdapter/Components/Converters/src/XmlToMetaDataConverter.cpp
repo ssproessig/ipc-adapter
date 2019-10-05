@@ -111,7 +111,7 @@ XmlToMetaDataConverter::~XmlToMetaDataConverter() = default;
 
 
 
-IpcAdapter::Core::IConfigurable* XmlToMetaDataConverter::getConfigurable()
+IpcAdapter::Core::IConfigurable* XmlToMetaDataConverter::get() const
 {
     return d.get();
 }
