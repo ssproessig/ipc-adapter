@@ -75,6 +75,8 @@ struct XmlToMetaDataConverter::Data
 
     bool doConfigure(QString const& aKey, QString const& aValue) override
     {
+        REALIZE_REQUIREMENT("R-IPCA-XML2METACNV-002");
+
         if (aKey == "forward-raw-data")
         {
             return parseBoolString(aValue, forwardRawData);
@@ -101,7 +103,10 @@ struct XmlToMetaDataConverter::Data
 
 
 
-XmlToMetaDataConverter::XmlToMetaDataConverter(): d(std::make_unique<Data>()) {}
+XmlToMetaDataConverter::XmlToMetaDataConverter(): d(std::make_unique<Data>())
+{
+    REALIZE_REQUIREMENT("R-IPCA-XML2METACNV-001");
+}
 XmlToMetaDataConverter::~XmlToMetaDataConverter() = default;
 
 

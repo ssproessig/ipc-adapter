@@ -23,7 +23,7 @@ namespace
     {
         auto uut = std::make_unique<XmlToMetaDataConverter>();
 
-        TEST_REQUIREMENT("R-IPCA-SINK-002");
+        TEST_REQUIREMENT("R-IPCA-XML2METACNV-002");
         auto& configurable = *uut->getConfigurable();
         {
             configurable.onConfigureBegin();
@@ -38,7 +38,7 @@ namespace
 XmlToMetaDataConverterTest::XmlToMetaDataConverterTest()
 {
     TEST_SPEC_META_INFORMATION("Soeren Sproessig");
-    TEST_REQUIREMENT("R-IPCA-CONVERTER-002");
+    TEST_REQUIREMENT("R-IPCA-XML2METACNV-001");
 }
 
 
