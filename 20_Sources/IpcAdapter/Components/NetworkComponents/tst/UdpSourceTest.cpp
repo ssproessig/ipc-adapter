@@ -36,7 +36,7 @@ namespace
     )
     {
         TEST_REQUIREMENT("R-IPCA-UDPSRC-002");
-        auto& configurable = *uut->getConfigurable();
+        auto& configurable = *uut->get();
         {
             configurable.onConfigureBegin();
             configurationCallback(configurable);

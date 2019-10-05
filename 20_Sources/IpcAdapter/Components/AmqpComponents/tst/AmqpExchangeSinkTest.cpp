@@ -64,7 +64,7 @@ namespace
     )
     {
         TEST_REQUIREMENT("R-IPCA-AMQPSNK-002");
-        auto& configurable = *uut->getConfigurable();
+        auto& configurable = *uut->get();
         {
             configurable.onConfigureBegin();
             configurationCallback(configurable);
@@ -101,7 +101,7 @@ void AmqpExchangeSinkTest::test_01_AmqpExchangeSink_default_parameters()
     AmqpExchangeSink sink;
     sink.setAmqpClient(spy);
 
-    auto configurable = sink.getConfigurable();
+    auto configurable = sink.get();
     VERIFY(configurable != nullptr, "ensure we have a configurable");
 
     configurable->onConfigureBegin();
@@ -199,7 +199,7 @@ void AmqpExchangeSinkTest::test_21_sending_with_default_parameters_succeeds()
     AmqpExchangeSink sink;
     sink.setAmqpClient(spy);
 
-    auto configurable = sink.getConfigurable();
+    auto configurable = sink.get();
     VERIFY(configurable != nullptr, "ensure we have a configurable");
 
     configurable->onConfigureBegin();
@@ -224,7 +224,7 @@ void AmqpExchangeSinkTest::test_22_sending_with_routing_key_replacement_works()
     AmqpExchangeSink sink;
     sink.setAmqpClient(spy);
 
-    auto configurable = sink.getConfigurable();
+    auto configurable = sink.get();
     VERIFY(configurable != nullptr, "ensure we have a configurable");
 
     configurable->onConfigureBegin();
