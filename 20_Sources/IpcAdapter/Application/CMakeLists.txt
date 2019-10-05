@@ -6,9 +6,9 @@ set(SRC
 
 source_group(Sources ${SRC})
 add_executable(${APP_NAME} ${SRC}
-    $<TARGET_OBJECTS:IpcAdapterConverters>
-    $<TARGET_OBJECTS:IpcAdapterSinks>
-    $<TARGET_OBJECTS:IpcAdapterSources>
+    $<TARGET_OBJECTS:AmqpComponents>
+    $<TARGET_OBJECTS:Converters>
+    $<TARGET_OBJECTS:NetworkComponents>
 )
 
 set(LNK_LIBS

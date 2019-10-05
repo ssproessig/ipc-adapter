@@ -11,7 +11,7 @@ namespace IpcAdapter
 {
     namespace Components
     {
-        namespace Sinks
+        namespace AmqpComponents
         {
             /**
              * An IpcAdapter component that forwards data received from the pipeline to an AMQP 0.9.1 exchange.

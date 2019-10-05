@@ -4,6 +4,6 @@
 (not yet)
 
 ## Components
+- [AmqpComponents_MRS.md](IpcAdapter/Components/AmqpComponents/doc/AmqpComponents_MRS.md)
 - [Converters_MRS.md](IpcAdapter/Components/Converters/doc/Converters_MRS.md)
-- [Sinks_MRS.md](IpcAdapter/Components/Sinks/doc/Sinks_MRS.md)
-- [Sources_MRS.md](IpcAdapter/Components/Sources/doc/Sources_MRS.md)
+- [NetworkComponents_MRS.md](IpcAdapter/Components/NetworkComponents/doc/NetworkComponents_MRS.md)

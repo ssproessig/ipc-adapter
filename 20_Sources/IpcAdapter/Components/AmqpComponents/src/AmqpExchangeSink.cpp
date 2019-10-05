@@ -13,7 +13,7 @@
 
 
 
-using IpcAdapter::Components::Sinks::AmqpExchangeSink;
+using IpcAdapter::Components::AmqpComponents::AmqpExchangeSink;
 using IpcAdapter::Core::IPipelineFrame;
 using AmqpExchangePtr = std::shared_ptr<QAmqpExchange>;
 
@@ -50,17 +50,17 @@ namespace
 
         void initDefaults()
         {
-            REALIZE_REQUIREMENT("R-IPCA-SINK-005");
+            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-003");
 
             host = QHostAddress("127.0.0.1");
             port = 5672;
 
-            REALIZE_REQUIREMENT("R-IPCA-SINK-006");
+            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-004");
             user = "guest";
             pwd = "guest";
             vhost = "/";
 
-            REALIZE_REQUIREMENT("R-IPCA-SINK-007");
+            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-005");
             exchangeName.clear();
             exchangeType = "direct";
 
@@ -101,6 +101,8 @@ namespace
             : configuration(aConfiguration)
             , callback(aCallback)
         {
+            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-002");
+
             PARAM_SETTER_VALIDATE("auth.vhost", vhost, !value.isEmpty());
             PARAM_SETTER_ALWAYS("auth.user", user);
             PARAM_SETTER_ALWAYS("auth.pwd", pwd);
@@ -223,7 +225,7 @@ bool AmqpExchangeSink::process(IPipelineFrame const& aPipelineFrame)
 
         QString routingKey = d->configuration.routingKey;
 
-        REALIZE_REQUIREMENT("R-IPCA-SINK-008");
+        REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-006");
         {
             for (auto const& key : metaData.keys())
             {
@@ -251,7 +253,10 @@ void AmqpExchangeSink::setAmqpClient(AmqpClientPtr const& anAmqpClient)
 
 
 
-AmqpExchangeSink::AmqpExchangeSink(): d(std::make_unique<Data>()) {}
+AmqpExchangeSink::AmqpExchangeSink(): d(std::make_unique<Data>())
+{
+    REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-001");
+}
 AmqpExchangeSink::~AmqpExchangeSink() = default;
 
 

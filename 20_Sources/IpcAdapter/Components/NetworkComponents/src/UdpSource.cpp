@@ -13,7 +13,7 @@
 
 
 
-using IpcAdapter::Components::Sources::UdpSource;
+using IpcAdapter::Components::NetworkComponents::UdpSource;
 
 
 
@@ -49,7 +49,7 @@ struct UdpSource::Data: Core::IConfigurable
 
             auto const pipelineFrame = std::make_shared<Core::SimplePipelineFrame>(dataReceived.data());
 
-            REALIZE_REQUIREMENT("R-IPCA-SOURCE-004");
+            REALIZE_REQUIREMENT("R-IPCA-UDPSRC-004");
             pipelineFrame->updateMetaData("UdpSource:host", dataReceived.senderAddress().toString());
             pipelineFrame->updateMetaData("UdpSource:port", dataReceived.senderPort());
 
@@ -61,6 +61,8 @@ struct UdpSource::Data: Core::IConfigurable
 
     void initializeDefaults()
     {
+        REALIZE_REQUIREMENT("R-IPCA-UDPSRC-003");
+
         hasValidHost = true;
         hasValidPort = true;
         targetHost = Defaults::host();
@@ -76,7 +78,7 @@ struct UdpSource::Data: Core::IConfigurable
 
     bool doConfigure(QString const& aKey, QString const& aValue) override
     {
-        REALIZE_REQUIREMENT("R-IPCA-SINK-002");
+        REALIZE_REQUIREMENT("R-IPCA-UDPSRC-002");
 
         LOG_DEBUG(this) << "doConfigure: " << aKey << ", " << aValue;
 
@@ -137,7 +139,7 @@ struct UdpSource::Data: Core::IConfigurable
 UdpSource::UdpSource()
     : d(std::make_unique<Data>())
 {
-    REALIZE_REQUIREMENT("R-IPCA-SOURCE-001");
+    REALIZE_REQUIREMENT("R-IPCA-UDPSRC-001");
 }
 UdpSource::~UdpSource() = default;
 

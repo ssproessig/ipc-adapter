@@ -1,6 +1,6 @@
 #include "UdpSinkTest.h"
 
-#include "Components/Sinks/src/UdpSink.h"
+#include "Components/NetworkComponents/src/UdpSink.h"
 #include "Core/api/IConfigurable.h"
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/SimplePipelineFrame.h"
@@ -12,8 +12,8 @@
 #include <functional>
 
 
-using IpcAdapter::Components::Sinks::UdpSinkTest;
-using IpcAdapter::Components::Sinks::UdpSink;
+using IpcAdapter::Components::NetworkComponents::UdpSinkTest;
+using IpcAdapter::Components::NetworkComponents::UdpSink;
 
 
 
@@ -27,7 +27,7 @@ namespace
     {
         auto uut = std::make_unique<UdpSink>();
 
-        TEST_REQUIREMENT("R-IPCA-SINK-002");
+        TEST_REQUIREMENT("R-IPCA-UDPSNK-002");
         auto& configurable = *uut->getConfigurable();
         {
             configurable.onConfigureBegin();
@@ -42,7 +42,7 @@ namespace
 UdpSinkTest::UdpSinkTest()
 {
     TEST_SPEC_META_INFORMATION("Soeren Sproessig");
-    TEST_REQUIREMENT("R-IPCA-SINK-001");
+    TEST_REQUIREMENT("R-IPCA-UDPSNK-001");
 }
 
 
@@ -108,7 +108,7 @@ void UdpSinkTest::test_05_configuration_fails_for_invalid_host()
 void UdpSinkTest::test_10_forwarding_pipeline_frame_succeeds_for_configured_sink()
 {
     TEST_ANNOTATION("Set up a local UDP listener and ensure that UdpSink forwards pipeline frames to it");
-    TEST_REQUIREMENT("R-IPCA-SINK-002");
+    TEST_REQUIREMENT("R-IPCA-UDPSNK-002");
 
     QUdpSocket udpSocket;
 
