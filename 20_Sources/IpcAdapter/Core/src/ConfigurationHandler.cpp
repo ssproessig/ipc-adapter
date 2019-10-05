@@ -5,6 +5,7 @@
 #include "Core/api/IConfigurable.h"
 #include "Core/api/IConfigurator.h"
 #include "Core/api/IConverter.h"
+#include "Core/api/IProvider.h"
 #include "Core/api/ISink.h"
 #include "Core/api/ISource.h"
 #include "Core/api/Logger.h"
@@ -51,8 +52,10 @@ namespace
 
         explicit ConfigurableInContext(std::shared_ptr<IComponent> const& aComponent, QString const& anId)
             : forId(anId)
-            , c(std::dynamic_pointer_cast<IConfigurable>(aComponent).get())
         {
+            auto const provider = std::dynamic_pointer_cast<IpcAdapter::Core::IProvider<IConfigurable>>(aComponent);
+            c = provider ? provider->get() : nullptr;
+
             ConfigurableInContext::onConfigureBegin();
         }
 
