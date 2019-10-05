@@ -2,7 +2,6 @@
 
 #include "Components/Converters/src/ReverseBytesConverter.h"
 #include "Core/api/GlobalComponentRegistry.h"
-#include "Core/api/IProvider.h"
 #include "Core/api/SimplePipelineFrame.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
 
@@ -27,15 +26,6 @@ void ReverseBytesConverterTest::test_00_ReverseBytesConverter_is_published()
         IpcAdapter::Core::GlobalComponentRegistry::get().getFactoryFor("ReverseBytesConverter") != nullptr,
         "Ensure the ReverseBytesConverter is published to global registry"
     );
-}
-
-
-void ReverseBytesConverterTest::test_01_ReverseBytesConverter_is_not_configurable()
-{
-    ReverseBytesConverter uut;
-
-    COMPARE(dynamic_cast<Core::IProvider<Core::IConfigurable>*>(&uut), nullptr,
-            "ReverseBytesConverter shall not be configurable");
 }
 
 
