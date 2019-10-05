@@ -23,14 +23,7 @@ namespace
         DECLARE_CONST(QString, componentId, ("SampleComponent"));
     }
 
-    class SampleComponent: public IpcAdapter::Core::IComponent
-    {
-    public:
-        IpcAdapter::Core::IConfigurable* getConfigurable() override
-        {
-            throw std::logic_error("...shall not be called from test anyway");
-        }
-    };
+    class SampleComponent: public IpcAdapter::Core::IComponent {};
 
     bool addSampleComponentFactoryTo(ComponentRegistry& aRegistry)
     {

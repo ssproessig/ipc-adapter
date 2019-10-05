@@ -26,11 +26,6 @@ namespace
         : IpcAdapter::Core::ISource
         , IPipelineStep
     {
-        IpcAdapter::Core::IConfigurable* getConfigurable() override
-        {
-            return nullptr;
-        }
-
         void sourceTo(IPipelineStep* aPipelineStep) override
         {
             targets.append(aPipelineStep);
