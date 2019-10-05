@@ -15,7 +15,7 @@ using IpcAdapter::Components::Converters::ReverseBytesConverter;
 ReverseBytesConverterTest::ReverseBytesConverterTest()
 {
     TEST_SPEC_META_INFORMATION("Soeren Sproessig");
-    TEST_REQUIREMENT("R-IPCA-CONVERTER-001");
+    TEST_REQUIREMENT("R-IPCA-REVERSECNV-001");
 }
 
 
