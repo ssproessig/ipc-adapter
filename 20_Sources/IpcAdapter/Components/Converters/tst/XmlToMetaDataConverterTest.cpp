@@ -24,7 +24,7 @@ namespace
         auto uut = std::make_unique<XmlToMetaDataConverter>();
 
         TEST_REQUIREMENT("R-IPCA-XML2METACNV-002");
-        auto& configurable = *uut->getConfigurable();
+        auto& configurable = *uut->get();
         {
             configurable.onConfigureBegin();
             configurationCallback(configurable);
@@ -130,7 +130,7 @@ void XmlToMetaDataConverterTest::test_12_overwrite_default_parameters_must_work(
 {
     auto uut = std::make_unique<XmlToMetaDataConverter>();
     {
-        auto configurable = uut->getConfigurable();
+        auto configurable = uut->get();
         configurable->onConfigureBegin();
         configurable->doConfigure("filter-on-broken-xml", "false");
         configurable->doConfigure("forward-raw-data", "true");

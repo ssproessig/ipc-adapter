@@ -28,7 +28,7 @@ namespace
         auto uut = std::make_unique<UdpSink>();
 
         TEST_REQUIREMENT("R-IPCA-UDPSNK-002");
-        auto& configurable = *uut->getConfigurable();
+        auto& configurable = *uut->get();
         {
             configurable.onConfigureBegin();
             configurationCallback(configurable);
@@ -124,7 +124,7 @@ void UdpSinkTest::test_10_forwarding_pipeline_frame_succeeds_for_configured_sink
         true, "binding to a random port must succeed");
 
     auto uut = std::make_unique<UdpSink>();
-    auto& configurable = *uut->getConfigurable();
+    auto& configurable = *uut->get();
     configurable.onConfigureBegin();
 
     COMPARE(
