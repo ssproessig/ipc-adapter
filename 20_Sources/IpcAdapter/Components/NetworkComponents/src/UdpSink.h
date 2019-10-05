@@ -8,7 +8,7 @@ namespace IpcAdapter
 {
     namespace Components
     {
-        namespace Sinks
+        namespace NetworkComponents
         {
             /**
              * An IpcAdapter component that forwards data received from the pipeline to a configured UDP target.

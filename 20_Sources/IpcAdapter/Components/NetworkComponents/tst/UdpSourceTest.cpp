@@ -1,6 +1,6 @@
 #include "UdpSourceTest.h"
 
-#include "Components/Sources/src/UdpSource.h"
+#include "Components/NetworkComponents/src/UdpSource.h"
 #include "Core/api/GlobalComponentRegistry.h"
 #include "Core/api/IConfigurable.h"
 #include "Core/api/IPipelineStep.h"
@@ -12,8 +12,8 @@
 
 
 
-using IpcAdapter::Components::Sources::UdpSourceTest;
-using IpcAdapter::Components::Sources::UdpSource;
+using IpcAdapter::Components::NetworkComponents::UdpSourceTest;
+using IpcAdapter::Components::NetworkComponents::UdpSource;
 
 using UdpSourcePtr = std::shared_ptr<UdpSource>;
 
@@ -35,7 +35,7 @@ namespace
         char const* const configurationCompleteErrorMessage
     )
     {
-        TEST_REQUIREMENT("R-IPCA-SOURCE-002");
+        TEST_REQUIREMENT("R-IPCA-UDPSRC-002");
         auto& configurable = *uut->getConfigurable();
         {
             configurable.onConfigureBegin();
@@ -74,6 +74,7 @@ namespace
 
         COMPARE(pipelineStep.metaData.count(), 1, "Ensure we received meta-data as well");
 
+        TEST_REQUIREMENT("R-IPCA-UDPSRC-004");
         auto const& metaData = pipelineStep.metaData.at(0);
         VERIFY(metaData.contains("UdpSource:host"), "Ensure the host was recorded");
         VERIFY(metaData.contains("UdpSource:port"), "Ensure the port was recorded");
@@ -88,7 +89,7 @@ namespace
 UdpSourceTest::UdpSourceTest()
 {
     TEST_SPEC_META_INFORMATION("Soeren Sproessig");
-    TEST_REQUIREMENT("R-IPCA-SOURCE-001");
+    TEST_REQUIREMENT("R-IPCA-UDPSRC-001");
 }
 
 
@@ -146,7 +147,7 @@ void UdpSourceTest::test_05_configuration_fails_for_invalid_host()
 
 void UdpSourceTest::test_10_forwarding_to_pipeline_succeeds_for_default_configuration()
 {
-    TEST_REQUIREMENT("R-IPCA-SOURCE-003");
+    TEST_REQUIREMENT("R-IPCA-UDPSRC-003");
 
     auto const uut = std::make_shared<UdpSource>();
     testConfiguration(uut, [](IpcAdapter::Core::IConfigurable&) {}, true, "");

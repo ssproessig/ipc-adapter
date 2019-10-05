@@ -8,7 +8,7 @@ namespace IpcAdapter
 {
     namespace Components
     {
-        namespace Sinks
+        namespace AmqpComponents
         {
             class AmqpExchangeSinkTest : public QObject
             {

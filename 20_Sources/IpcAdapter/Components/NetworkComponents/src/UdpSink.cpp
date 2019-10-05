@@ -10,7 +10,7 @@
 #include <QUdpSocket>
 
 
-using IpcAdapter::Components::Sinks::UdpSink;
+using IpcAdapter::Components::NetworkComponents::UdpSink;
 
 
 
@@ -38,7 +38,7 @@ struct UdpSink::Data
 
     bool doConfigure(QString const& aKey, QString const& aValue) override
     {
-        REALIZE_REQUIREMENT("R-IPCA-SINK-002");
+        REALIZE_REQUIREMENT("R-IPCA-UDPSNK-002");
 
         LOG_DEBUG(this) << "doConfigure: " << aKey << ", " << aValue;
 
@@ -87,7 +87,7 @@ struct UdpSink::Data
 UdpSink::UdpSink()
     : d(std::make_unique<Data>())
 {
-    REALIZE_REQUIREMENT("R-IPCA-SINK-001");
+    REALIZE_REQUIREMENT("R-IPCA-UDPSNK-001");
 }
 
 UdpSink::~UdpSink() = default;

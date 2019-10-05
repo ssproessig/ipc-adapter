@@ -1,26 +1,22 @@
-set(LIB_NAME IpcAdapterSinks)
+set(LIB_NAME AmqpComponents)
 
 set(SRC
-    src/UdpSink.cpp
-    src/UdpSink.h
     src/AmqpExchangeSink.cpp
     src/AmqpExchangeSink.h
 )
-source_group("Sinks Implementation" ${TST})
+source_group("Implementation" ${TST})
 
 set(DOC
-    doc/Sinks_MRS.md
+    doc/AmqpComponents_MRS.md
 )
-source_group("Sinks Documentation" ${DOC})
+source_group("Documentation" ${DOC})
 
 set(TST
-    tst/UdpSinkTest.cpp
-    tst/UdpSinkTest.h
     tst/AmqpExchangeSinkTest.cpp
     tst/AmqpExchangeSinkTest.h
     tst/TestMain.cpp
 )
-source_group("Sinks UnitTests" ${TST})
+source_group("UnitTests" ${TST})
 
 set(LNK
     qamqp-lib

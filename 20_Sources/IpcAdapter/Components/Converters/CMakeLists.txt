@@ -1,4 +1,4 @@
-set(LIB_NAME IpcAdapterConverters)
+set(LIB_NAME Converters)
 
 set(SRC
     src/ReverseBytesConverter.cpp
@@ -6,12 +6,12 @@ set(SRC
     src/XmlToMetaDataConverter.cpp
     src/XmlToMetaDataConverter.h
 )
-source_group("Converters Implementation" ${TST})
+source_group("Implementation" ${TST})
 
 set(DOC
     doc/Converters_MRS.md
 )
-source_group("Converters Documentation" ${DOC})
+source_group("Documentation" ${DOC})
 
 set(TST
     tst/ReverseBytesConverterTest.cpp
@@ -20,7 +20,7 @@ set(TST
     tst/XmlToMetaDataConverterTest.h
     tst/TestMain.cpp
 )
-source_group("Converters UnitTests" ${TST})
+source_group("UnitTests" ${TST})
 
 set(LNK
     Qt5::Core Qt5::Xml

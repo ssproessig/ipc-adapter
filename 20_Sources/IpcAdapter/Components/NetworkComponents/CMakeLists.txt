@@ -1,22 +1,26 @@
-set(LIB_NAME IpcAdapterSources)
+set(LIB_NAME NetworkComponents)
 
 set(SRC
+    src/UdpSink.cpp
+    src/UdpSink.h
     src/UdpSource.cpp
     src/UdpSource.h
 )
-source_group("Source Components Implementation" ${TST})
+source_group("Implementation" ${TST})
 
 set(DOC
-    doc/Sources_MRS.md
+    doc/NetworkComponents_MRS.md
 )
-source_group("Source Components Documentation" ${DOC})
+source_group("Documentation" ${DOC})
 
 set(TST
+    tst/UdpSinkTest.cpp
+    tst/UdpSinkTest.h
     tst/UdpSourceTest.cpp
     tst/UdpSourceTest.h
     tst/TestMain.cpp
 )
-source_group("Source Components UnitTests" ${TST})
+source_group("UnitTests" ${TST})
 
 set(LNK
     Qt5::Core
