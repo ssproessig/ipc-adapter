@@ -5,7 +5,8 @@ The system SHALL provide a converter called `ReverseBytes` that reverses the byt
 
 Example: processing `ABC123` SHALL convert to `321CBA`.
 
-## R-IPCA-CONVERTER-002: Provide XmlToMetaDataConverter converter
+
+## R-IPCA-XML2METACNV-001: Provide XmlToMetaDataConverter converter
 The system SHALL provide a converter called `XmlToMetaDataConverter` that parses the passed raw data as XML and forwards the elements and attributes as meta-data.
 
 Example:  receiving
@@ -25,7 +26,7 @@ root.element.another.info=here
 ```
 in the frame forwarded. The frame
 
-## R-IPCA-CONVERTER-003: Configure XmlToMetaDataConverter converter
+## R-IPCA-XML2METACNV-002: Configure XmlToMetaDataConverter converter
 The `XmlToMetaDataConverter` SHALL support the following parameters:
 
 - `filter-on-broken-xml` defaults to `true`:  if broken XML is received, the converter SHALL stop the pipeline and not forward the data
