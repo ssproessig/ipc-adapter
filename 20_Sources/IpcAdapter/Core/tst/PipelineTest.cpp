@@ -29,11 +29,6 @@ namespace
     {
         explicit RecordingSink(DataLog& aDataLog, QByteArray const& anId): dataLog(aDataLog), id(anId) {}
 
-        IConfigurable* getConfigurable() override
-        {
-            return nullptr;
-        }
-
         bool process(IPipelineFrame const& aPipelineFrame) override
         {
             QString metaDataStr;
@@ -55,11 +50,6 @@ namespace
 
     struct DummySource: IpcAdapter::Core::ISource
     {
-        IConfigurable* getConfigurable() override
-        {
-            return nullptr;
-        }
-
         void sourceTo(IpcAdapter::Core::IPipelineStep* aPipelineStep) override
         {
             target = aPipelineStep;

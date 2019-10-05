@@ -72,11 +72,6 @@ namespace
 
     struct TestSink : IpcAdapter::Core::ISink
     {
-        IConfigurable* getConfigurable() override
-        {
-            return nullptr;
-        }
-
         bool process(IpcAdapter::Core::IPipelineFrame const& aPipelineFrame) override
         {
             framesSeen.append(std::make_shared<SimplePipelineFrame>(aPipelineFrame.getData()));
@@ -89,11 +84,6 @@ namespace
 
     struct TestConverter : IpcAdapter::Core::IConverter
     {
-        IConfigurable* getConfigurable() override
-        {
-            return nullptr;
-        }
-
         PipelineFramePtr convert(PipelineFramePtr const& anInput, bool&) override
         {
             timesInvoked += 1;

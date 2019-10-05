@@ -25,16 +25,6 @@ namespace IpcAdapter
                 ReverseBytesConverter() = default;
                 ~ReverseBytesConverter() override = default;
 
-                /// @name IComponent realization
-                /// @{
-                /**
-                 * ReverseBytesConverter is not configurable
-                 *
-                 * @return nullptr  there is no configurable to call
-                 */
-                Core::IConfigurable* getConfigurable() override;
-                /// @}
-
                 /// @name IConverter realization
                 /// @{
                 /**

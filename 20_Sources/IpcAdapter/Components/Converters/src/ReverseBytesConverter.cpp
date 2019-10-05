@@ -15,13 +15,6 @@ using IpcAdapter::Core::PipelineFramePtr;
 
 
 
-IpcAdapter::Core::IConfigurable* ReverseBytesConverter::getConfigurable()
-{
-    return nullptr;
-}
-
-
-
 PipelineFramePtr ReverseBytesConverter::convert(PipelineFramePtr const& anInput, bool& aStopProcessingFlag)
 {
     REALIZE_REQUIREMENT("R-IPCA-REVERSECNV-001");
