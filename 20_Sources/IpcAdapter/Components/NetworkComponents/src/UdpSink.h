@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Core/api/IProvider.h"
 #include "Core/api/ISink.h"
 
 
 
 namespace IpcAdapter
 {
+    FORWARD_DECLARE_NS(Core, IConfigurable)
+
     namespace Components
     {
         namespace NetworkComponents
@@ -18,6 +21,7 @@ namespace IpcAdapter
              */
             class UdpSink
                 : public Core::ISink
+                , public Core::IProvider<Core::IConfigurable>
             {
                 NONCOPYABLE(UdpSink);
                 PIMPLED_DATA(d);
@@ -26,7 +30,7 @@ namespace IpcAdapter
                 UdpSink();
                 ~UdpSink() override;
 
-                /// @name IComponent realization
+                /// @name IProvider&lt;IConfigurable&gt; realization
                 /// @{
                 /**
                  * Configures the UdpSink.
@@ -36,7 +40,7 @@ namespace IpcAdapter
                  * - `host` to send the UDP data to
                  * - `port` to send the UDP data to
                  */
-                Core::IConfigurable* getConfigurable() override;
+                Core::IConfigurable* get() const override;
                 /// @}
 
                 /// @name ISink realization
