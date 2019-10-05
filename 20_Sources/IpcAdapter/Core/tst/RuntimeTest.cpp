@@ -280,7 +280,7 @@ void RuntimeTest::test_98_Runtime_initialization_succeeds()
 
     auto const c1 = std::dynamic_pointer_cast<TestComponent>(components["cmp"]);
     QVERIFY(c1 != nullptr);
-    auto const c = c1->configurable;
+    auto const& c = c1->configurable;
     COMPARE(c.paramsSeen.count(), 3, "expect two parameters to be configured");
     COMPARE(c.paramsSeen.at(0).first, QString("aKey"), "expect 1st parameter from param-list");
     COMPARE(c.paramsSeen.at(0).second, QString("paramListValue1"), "expect 1st parameter from param-list");
