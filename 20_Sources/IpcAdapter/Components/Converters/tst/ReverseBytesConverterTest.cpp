@@ -2,6 +2,7 @@
 
 #include "Components/Converters/src/ReverseBytesConverter.h"
 #include "Core/api/GlobalComponentRegistry.h"
+#include "Core/api/IProvider.h"
 #include "Core/api/SimplePipelineFrame.h"
 #include "Shared/tst/QTestConvenienceMacros.h"
 
@@ -33,7 +34,8 @@ void ReverseBytesConverterTest::test_01_ReverseBytesConverter_is_not_configurabl
 {
     ReverseBytesConverter uut;
 
-    COMPARE(uut.getConfigurable(), nullptr, "ReverseBytesConverter shall not return a configurable");
+    COMPARE(dynamic_cast<Core::IProvider<Core::IConfigurable>*>(&uut), nullptr,
+            "ReverseBytesConverter shall not be configurable");
 }
 
 
