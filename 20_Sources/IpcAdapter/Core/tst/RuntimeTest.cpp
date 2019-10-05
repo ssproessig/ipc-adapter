@@ -113,7 +113,6 @@ namespace
 RuntimeTest::RuntimeTest()
 {
     TEST_SPEC_META_INFORMATION("Soeren Sproessig");
-    TEST_REQUIREMENT("R-IPCA-SINK-001");
 }
 
 
