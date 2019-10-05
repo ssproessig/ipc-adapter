@@ -24,6 +24,8 @@ IpcAdapter::Core::IConfigurable* ReverseBytesConverter::getConfigurable()
 
 PipelineFramePtr ReverseBytesConverter::convert(PipelineFramePtr const& anInput, bool& aStopProcessingFlag)
 {
+    REALIZE_REQUIREMENT("R-IPCA-REVERSECNV-001");
+
     aStopProcessingFlag = false;
 
     auto reversedFrame = std::make_shared<Core::SimplePipelineFrame>(anInput);
