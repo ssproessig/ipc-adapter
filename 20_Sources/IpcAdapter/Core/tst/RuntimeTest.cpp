@@ -3,6 +3,7 @@
 #include "Core/api/IComponent.h"
 #include "Core/api/IConfigurable.h"
 #include "Core/api/IConverter.h"
+#include "Core/api/IProvider.h"
 #include "Core/api/IRuntimeConfiguration.h"
 #include "Core/api/ISink.h"
 #include "Core/api/ISource.h"
@@ -23,18 +24,12 @@ using IpcAdapter::Core::SimplePipelineFrame;
 
 namespace
 {
-    struct TestComponent
-        : IpcAdapter::Core::IComponent
-        , IpcAdapter::Core::IConfigurable
+    struct Configurable: IpcAdapter::Core::IConfigurable
     {
-        IConfigurable* getConfigurable() override
-        {
-            return isConfigurable ? this : nullptr;
-        }
         void onConfigureBegin() override {}
         bool doConfigure(QString const& aKey, QString const& aValue) override
         {
-            paramsSeen.append({aKey, aValue});
+            paramsSeen.append({ aKey, aValue });
             return acceptedParameter;
         }
         bool onConfigureEnd() override
@@ -42,25 +37,34 @@ namespace
             return acceptedConfiguration;
         }
 
+
         QList<QPair<QString, QString>> paramsSeen;
 
         static bool acceptedParameter;
         static bool acceptedConfiguration;
+    };
+    bool Configurable::acceptedConfiguration = true;
+    bool Configurable::acceptedParameter = true;
+
+    struct TestComponent
+        : IpcAdapter::Core::IComponent
+        , IpcAdapter::Core::IProvider<IpcAdapter::Core::IConfigurable>
+    {
+        IConfigurable* get() const override
+        {
+            return isConfigurable ? configurablePtr : nullptr;
+        }
+
+        Configurable configurable;
+        IConfigurable* configurablePtr = &configurable;
         static bool isConfigurable;
     };
-    REGISTER_COMPONENT_IMPL(TestComponent, TC1, tc1)
-
-    bool TestComponent::acceptedConfiguration = true;
-    bool TestComponent::acceptedParameter = true;
     bool TestComponent::isConfigurable = true;
+
+    REGISTER_COMPONENT_IMPL(TestComponent, TC1, tc1)
 
     struct TestSource : IpcAdapter::Core::ISource
     {
-        IConfigurable* getConfigurable() override
-        {
-            return nullptr;
-        }
-
         void sourceTo(IpcAdapter::Core::IPipelineStep* aPipelineStep) override
         {
             forwardTo = aPipelineStep;
@@ -94,7 +98,6 @@ namespace
 
         int timesInvoked = 0;
     };
-
     REGISTER_COMPONENT_IMPL(TestConverter, TC4, tc4)
 }
 
@@ -109,8 +112,8 @@ RuntimeTest::RuntimeTest()
 
 void RuntimeTest::init()
 {
-    TestComponent::acceptedConfiguration = true;
-    TestComponent::acceptedParameter = true;
+    Configurable::acceptedConfiguration = true;
+    Configurable::acceptedParameter = true;
     TestComponent::isConfigurable = true;
 }
 
@@ -195,7 +198,7 @@ void RuntimeTest::test_07_Runtime_initialization_fails_if_duplicate_component_sh
 
 void RuntimeTest::test_08_Runtime_initialization_fails_if_component_fails_to_configure()
 {
-    TestComponent::acceptedConfiguration = false;
+    Configurable::acceptedConfiguration = false;
 
     EXPECT_EXCEPTION(
         Runtime::createFrom(":/RuntimeTest_08_two_components.xml");,
@@ -208,7 +211,7 @@ void RuntimeTest::test_08_Runtime_initialization_fails_if_component_fails_to_con
 
 void RuntimeTest::test_09_Runtime_initialization_fails_if_component_rejects_parameter()
 {
-    TestComponent::acceptedParameter = false;
+    Configurable::acceptedParameter = false;
 
     EXPECT_EXCEPTION(
         Runtime::createFrom(":/RuntimeTest_08_two_components.xml");,
@@ -277,13 +280,14 @@ void RuntimeTest::test_98_Runtime_initialization_succeeds()
 
     auto const c1 = std::dynamic_pointer_cast<TestComponent>(components["cmp"]);
     QVERIFY(c1 != nullptr);
-    COMPARE(c1->paramsSeen.count(), 3, "expect two parameters to be configured");
-    COMPARE(c1->paramsSeen.at(0).first, QString("aKey"), "expect 1st parameter from param-list");
-    COMPARE(c1->paramsSeen.at(0).second, QString("paramListValue1"), "expect 1st parameter from param-list");
-    COMPARE(c1->paramsSeen.at(1).first, QString("2ndKey"), "expect 2nd parameter from param-list");
-    COMPARE(c1->paramsSeen.at(1).second, QString("paramListValue2"), "expect 2nd parameter from param-list");
-    COMPARE(c1->paramsSeen.at(2).first, QString("aKey"), "expect 3rd parameter from local param");
-    COMPARE(c1->paramsSeen.at(2).second, QString("aValue"), "expect 3rd parameter from local parameter");
+    auto const c = c1->configurable;
+    COMPARE(c.paramsSeen.count(), 3, "expect two parameters to be configured");
+    COMPARE(c.paramsSeen.at(0).first, QString("aKey"), "expect 1st parameter from param-list");
+    COMPARE(c.paramsSeen.at(0).second, QString("paramListValue1"), "expect 1st parameter from param-list");
+    COMPARE(c.paramsSeen.at(1).first, QString("2ndKey"), "expect 2nd parameter from param-list");
+    COMPARE(c.paramsSeen.at(1).second, QString("paramListValue2"), "expect 2nd parameter from param-list");
+    COMPARE(c.paramsSeen.at(2).first, QString("aKey"), "expect 3rd parameter from local param");
+    COMPARE(c.paramsSeen.at(2).second, QString("aValue"), "expect 3rd parameter from local parameter");
 
     COMPARE(configuration.getPipelines().count(), 2, "we shall have configured two pipelines");
 
