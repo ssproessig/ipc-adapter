@@ -22,16 +22,6 @@ namespace IpcAdapter
         {
         public:
             INTERFACE_DESTRUCTOR(IComponent);
-
-            /**
-             * Queries the component for its configuration means.
-             *
-             * May return `nullptr` if the component is not configurable.
-             *
-             * @retval !=nullptr    the component's configuration implementation
-             * @retval nullptr      the component's is not configurable
-             */
-            virtual IConfigurable* getConfigurable() = 0;
         };
     }
 }
