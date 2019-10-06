@@ -21,20 +21,20 @@ The `AmqpConfigurable` SHALL support configuring
 
 - `exchange.routing-key` the routing-key to use when publishing to a `topic` exchange
 
-## R-IPCA-AMQPCFG-002: AmqpExchangeSink default server values
+## R-IPCA-AMQPCFG-002: AMQP default server values
 The `AmqpConfigurable` SHALL use the following default server configuration values:
 
 - `amqp.host` shall default to `127.0.0.1`
 - `amqp.port` shall default to `5672`
 
-## R-IPCA-AMQPCFG-003: AmqpExchangeSink default authentication values
+## R-IPCA-AMQPCFG-003: AMQP default authentication values
 The `AmqpConfigurable` SHALL use the [default authentication values of RabbitMQ](https://www.rabbitmq.com/access-control.html#default-state):
 
 - `auth.user` shall default to `guest`
 - `auth.pwd` shall default to `guest`
 - `auth.vhost` shall default to `/`
 
-## R-IPCA-AMQPCFG-004: AmqpExchangeSink default exchange values
+## R-IPCA-AMQPCFG-004: AMQP default exchange values
 The `AmqpConfigurable` SHALL use the [default exchange value of RabbitMQ](https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-default):
 
 - `exchange.name` shall default to ` ` (empty string)
