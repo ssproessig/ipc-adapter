@@ -1,10 +1,9 @@
-# IpcAdapter Sink Components
+# AMQP Components
 
-## R-IPCA-AMQPSNK-001: Provide AmqpExchangeSink
-The system SHALL provide a sink called `AmqpExchangeSink` that provides means to send pipeline data to an AMQP exchange.
+## R-IPCA-AMQPCFG-001: Configuring AMQP parameters
+The module `AmqpComponents` SHALL provide an `IConfigurable` that supports shared configuring AMQP parameters. It SHALL be called `AmqpConfigurable`.
 
-## R-IPCA-AMQPSNK-002: Configuring AmqpExchangeSink
-The `AmqpExchangeSink` SHALL support configuring
+The `AmqpConfigurable` SHALL support configuring
 
 - `amqp.host`  the host as `QHostAddress` the AMQP server runs at
 - `amqp.port`  the port as `quint16` the AMQP server runs at
@@ -22,26 +21,30 @@ The `AmqpExchangeSink` SHALL support configuring
 
 - `exchange.routing-key` the routing-key to use when publishing to a `topic` exchange
 
-## R-IPCA-AMQPSNK-003: AmqpExchangeSink default server values
-The `AmqpExchangeSink` SHALL use the following default server configuration values:
+## R-IPCA-AMQPCFG-002: AmqpExchangeSink default server values
+The `AmqpConfigurable` SHALL use the following default server configuration values:
 
 - `amqp.host` shall default to `127.0.0.1`
 - `amqp.port` shall default to `5672`
 
-## R-IPCA-AMQPSNK-004: AmqpExchangeSink default authentication values
-The `AmqpExchangeSink` SHALL use the [default authentication values of RabbitMQ](https://www.rabbitmq.com/access-control.html#default-state):
+## R-IPCA-AMQPCFG-003: AmqpExchangeSink default authentication values
+The `AmqpConfigurable` SHALL use the [default authentication values of RabbitMQ](https://www.rabbitmq.com/access-control.html#default-state):
 
 - `auth.user` shall default to `guest`
 - `auth.pwd` shall default to `guest`
 - `auth.vhost` shall default to `/`
 
-## R-IPCA-AMQPSNK-005: AmqpExchangeSink default exchange values
-The `AmqpExchangeSink` SHALL use the [default exchange value of RabbitMQ](https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-default):
+## R-IPCA-AMQPCFG-004: AmqpExchangeSink default exchange values
+The `AmqpConfigurable` SHALL use the [default exchange value of RabbitMQ](https://www.rabbitmq.com/tutorials/amqp-concepts.html#exchange-default):
 
 - `exchange.name` shall default to ` ` (empty string)
 - `exchange.type` shall default to `direct`
 
-## R-IPCA-AMQPSNK-006: AmqpExchangeSink routing-key meta-data replacement
+
+## R-IPCA-AMQPSNK-001: Provide AmqpExchangeSink
+The system SHALL provide a sink called `AmqpExchangeSink` that provides means to send pipeline data to an AMQP exchange.
+
+## R-IPCA-AMQPSNK-002: AmqpExchangeSink routing-key meta-data replacement
 The `exchange.routing-key` SHALL support meta-data replacement. If a meta-data key occurs as escaped `${meta-data.key}` placeholer, the meta-data value SHALL be used.
 
 Example: 

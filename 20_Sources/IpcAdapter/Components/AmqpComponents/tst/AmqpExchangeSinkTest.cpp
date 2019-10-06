@@ -63,7 +63,7 @@ namespace
         char const* const configurationCompleteErrorMessage
     )
     {
-        TEST_REQUIREMENT("R-IPCA-AMQPSNK-002");
+        TEST_REQUIREMENT("R-IPCA-AMQPCFG-001");
         auto& configurable = *uut->get();
         {
             configurable.onConfigureBegin();
@@ -94,8 +94,8 @@ void AmqpExchangeSinkTest::test_00_AmqpExchangeSink_is_registered_in_global_fact
 
 void AmqpExchangeSinkTest::test_01_AmqpExchangeSink_default_parameters()
 {
-    TEST_REQUIREMENT("R-IPCA-AMQPSNK-003");
-    TEST_REQUIREMENT("R-IPCA-AMQPSNK-004");
+    TEST_REQUIREMENT("R-IPCA-AMQPCFG-002");
+    TEST_REQUIREMENT("R-IPCA-AMQPCFG-003");
 
     auto const spy = std::make_shared<QAmqpClientSpy>();
     AmqpExchangeSink sink;
@@ -109,7 +109,7 @@ void AmqpExchangeSinkTest::test_01_AmqpExchangeSink_default_parameters()
 
     COMPARE(spy->uriSeen, QString("amqp://guest:guest@127.0.0.1:5672/"), "ensure default parameters have been used");
 
-    TEST_REQUIREMENT("R-IPCA-AMQPSNK-005");
+    TEST_REQUIREMENT("R-IPCA-AMQPCFG-004");
     emit spy->connected();
     QTest::qWait(50);
 
@@ -218,7 +218,7 @@ void AmqpExchangeSinkTest::test_21_sending_with_default_parameters_succeeds()
 
 void AmqpExchangeSinkTest::test_22_sending_with_routing_key_replacement_works()
 {
-    TEST_REQUIREMENT("R-IPCA-AMQPSNK-006");
+    TEST_REQUIREMENT("R-IPCA-AMQPSNK-002");
 
     auto const spy = std::make_shared<QAmqpClientSpy>();
     AmqpExchangeSink sink;

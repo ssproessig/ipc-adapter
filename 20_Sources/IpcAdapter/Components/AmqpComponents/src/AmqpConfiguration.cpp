@@ -17,17 +17,17 @@ AmqpConfiguration::AmqpConfiguration()
 
 void AmqpConfiguration::initDefaults()
 {
-    REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-003");
+    REALIZE_REQUIREMENT("R-IPCA-AMQPCFG-002");
 
     host = QHostAddress("127.0.0.1");
     port = 5672;
 
-    REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-004");
+    REALIZE_REQUIREMENT("R-IPCA-AMQPCFG-003");
     user = "guest";
     pwd = "guest";
     vhost = "/";
 
-    REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-005");
+    REALIZE_REQUIREMENT("R-IPCA-AMQPCFG-004");
     exchangeName.clear();
     exchangeType = "direct";
 

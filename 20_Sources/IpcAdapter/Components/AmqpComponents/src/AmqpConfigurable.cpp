@@ -42,7 +42,7 @@ struct AmqpConfigurable::Data
         : configuration(aConfiguration)
         , callback(aCallback)
     {
-        REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-002");
+        REALIZE_REQUIREMENT("R-IPCA-AMQPCFG-001");
 
         PARAM_SETTER_VALIDATE("auth.vhost", vhost, !value.isEmpty());
         PARAM_SETTER_ALWAYS("auth.user", user);

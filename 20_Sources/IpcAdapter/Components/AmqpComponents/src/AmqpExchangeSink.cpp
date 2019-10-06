@@ -69,7 +69,7 @@ bool AmqpExchangeSink::process(IPipelineFrame const& aPipelineFrame)
 
         QString routingKey = d->configuration.routingKey;
 
-        REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-006");
+        REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-002");
         {
             for (auto const& key : metaData.keys())
             {
