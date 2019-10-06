@@ -116,6 +116,11 @@ T const& NAME()                             \
     clazz(clazz const&) = delete; \
     clazz& operator=(clazz const&) = delete
 
+// No move semantics
+#define NONMOVABLE(clazz) \
+    clazz(clazz const&&) = delete; \
+    clazz& operator=(clazz const&&) = delete
+
 // Static utility class. May not be instantiated
 #define STATIC_CLASS(clazz) \
     clazz() = delete;       \
