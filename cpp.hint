@@ -1,0 +1,6 @@
+// This file helps VisualStudio's IntelliSense to understand macros that look like function declarations
+// Info on cpp.hint: https://msdn.microsoft.com/en-us/library/dd997977.aspx
+// Note: If you modify or add a hint file, you must delete the .sdf file and/or VC.db file in the solution in order for the changes to take effect.
+#define NONCOPYABLE()
+#define NONMOVABLE()
+#define PIMPLED_DATA()
