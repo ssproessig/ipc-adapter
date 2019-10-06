@@ -1,4 +1,5 @@
 #include "AmqpExchangeSink.h"
+#include "AmqpConfiguration.h"
 
 #include "Core/api/IConfigurable.h"
 #include "Core/api/IPipelineFrame.h"
@@ -13,6 +14,7 @@
 
 
 
+using IpcAdapter::Components::AmqpComponents::AmqpConfiguration;
 using IpcAdapter::Components::AmqpComponents::AmqpExchangeSink;
 using IpcAdapter::Core::IPipelineFrame;
 using AmqpExchangePtr = std::shared_ptr<QAmqpExchange>;
@@ -26,63 +28,6 @@ namespace
         DECLARE_CONST_VARIADIC(QList<QString>, supportedExchangeTypes, {"topic", "direct", "fanout"});
     }
 
-    struct AmqpConfiguration
-    {
-        QHostAddress host;
-        quint16 port = 0;
-
-        QString user;
-        QString pwd;
-        QString vhost;
-
-        QString exchangeName;
-        QString exchangeType;
-
-        QString routingKey;
-
-        bool isOk = false;
-
-
-        AmqpConfiguration()
-        {
-            initDefaults();
-        }
-
-        void initDefaults()
-        {
-            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-003");
-
-            host = QHostAddress("127.0.0.1");
-            port = 5672;
-
-            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-004");
-            user = "guest";
-            pwd = "guest";
-            vhost = "/";
-
-            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-005");
-            exchangeName.clear();
-            exchangeType = "direct";
-
-            routingKey.clear();
-
-            isOk = true;
-        }
-
-        enum class UriStyle : bool
-        {
-            ForUsage,
-            LogSafe
-        };
-
-        QString getAmqpUri(UriStyle const anUriStyle) const
-        {
-            auto const password = anUriStyle == UriStyle::ForUsage ? pwd : "***";
-
-            return QStringLiteral("amqp://%1:%2@%3:%4%5")
-                   .arg(user).arg(password).arg(host.toString()).arg(port).arg(vhost);
-        }
-    };
 
 
     using ConfigurationFinishedCallback = std::function<void()>;
