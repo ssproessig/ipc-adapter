@@ -1,4 +1,5 @@
 #include "AmqpExchangeSink.h"
+#include "AmqpConfigurable.h"
 #include "AmqpConfiguration.h"
 
 #include "Core/api/IConfigurable.h"
@@ -9,11 +10,11 @@
 #include "github.com.mbroadst/qamqp/qamqpclient.h"
 #include "github.com.mbroadst/qamqp/qamqpexchange.h"
 
-#include <QHostAddress>
 #include <QString>
 
 
 
+using IpcAdapter::Components::AmqpComponents::AmqpConfigurable;
 using IpcAdapter::Components::AmqpComponents::AmqpConfiguration;
 using IpcAdapter::Components::AmqpComponents::AmqpExchangeSink;
 using IpcAdapter::Core::IPipelineFrame;
@@ -21,110 +22,8 @@ using AmqpExchangePtr = std::shared_ptr<QAmqpExchange>;
 
 
 
-namespace
-{
-    namespace Constants
-    {
-        DECLARE_CONST_VARIADIC(QList<QString>, supportedExchangeTypes, {"topic", "direct", "fanout"});
-    }
-
-
-
-    using ConfigurationFinishedCallback = std::function<void()>;
-
-
-    struct AmqpConfigurable: IpcAdapter::Core::IConfigurable
-    {
-        using SupportedParameters = QMap<QString, std::function<bool(AmqpConfiguration&, QString const&)>>;
-
-#define PARAM_START(NAME) parameterHandler.insert(NAME, [](AmqpConfiguration & c, auto const & value)
-#define PARAM_END )
-#define PARAM_SETTER_ALWAYS(NAME, FIELD) PARAM_START(NAME) { c.FIELD = value; return true; } PARAM_END
-#define PARAM_SETTER_VALIDATE(NAME, FIELD, VALIDATOR) PARAM_START(NAME) { c.FIELD = value; return VALIDATOR; } PARAM_END
-
-        explicit AmqpConfigurable(AmqpConfiguration& aConfiguration, ConfigurationFinishedCallback const& aCallback)
-            : configuration(aConfiguration)
-            , callback(aCallback)
-        {
-            REALIZE_REQUIREMENT("R-IPCA-AMQPSNK-002");
-
-            PARAM_SETTER_VALIDATE("auth.vhost", vhost, !value.isEmpty());
-            PARAM_SETTER_ALWAYS("auth.user", user);
-            PARAM_SETTER_ALWAYS("auth.pwd", pwd);
-            PARAM_SETTER_ALWAYS("exchange.name", exchangeName);
-            PARAM_SETTER_VALIDATE("exchange.routing-key", routingKey, !value.isEmpty());
-            PARAM_SETTER_VALIDATE("exchange.type", exchangeType, Constants::supportedExchangeTypes().contains(value));
-            PARAM_START("amqp.host")
-            {
-                return c.host.setAddress(value);
-            }
-            PARAM_END;
-            PARAM_START("amqp.port")
-            {
-                auto conversionOk = false;
-                auto const& port = value.toInt(&conversionOk);
-                conversionOk = conversionOk &&
-                               port >= std::numeric_limits<quint16>::min() && port <= std::numeric_limits<quint16>::max();
-
-                c.port = static_cast<quint16>(port);
-                return conversionOk;
-            }
-            PARAM_END;
-        }
-        ~AmqpConfigurable() override = default;
-
-
-        void onConfigureBegin() override
-        {
-            // FIXME: disconnectFromHost
-            configuration.initDefaults();
-        }
-
-        bool doConfigure(QString const& aKey, QString const& aValue) override
-        {
-            LOG_DEBUG(this) << "configuring " << aKey << "to" << aValue;
-
-            auto const& it = parameterHandler.constFind(aKey);
-
-            if (it != parameterHandler.constEnd())
-            {
-                auto const configured = it.value()(configuration, aValue);
-                LOG_DEBUG(this) << "result" << configured;
-
-                if (!configured)
-                {
-                    configuration.isOk = false;
-                }
-
-                return configured;
-            }
-
-            LOG_ERROR(this) << "unsupported parameter: " << aKey;
-            return false;
-        }
-
-        bool onConfigureEnd() override
-        {
-            if (configuration.isOk)
-            {
-                callback();
-            }
-
-            return configuration.isOk;
-        }
-
-        AmqpConfiguration& configuration;
-        ConfigurationFinishedCallback callback;
-        SupportedParameters parameterHandler;
-    };
-}
-
-
-
 struct AmqpExchangeSink::Data : QObject
 {
-    Data(): QObject() {}
-
     void amqpSetup()
     {
         readyToUse = false;

@@ -1,6 +1,8 @@
 set(LIB_NAME AmqpComponents)
 
 set(SRC
+    src/AmqpConfigurable.cpp
+    src/AmqpConfigurable.h
     src/AmqpConfiguration.cpp
     src/AmqpConfiguration.h
     src/AmqpExchangeSink.cpp
