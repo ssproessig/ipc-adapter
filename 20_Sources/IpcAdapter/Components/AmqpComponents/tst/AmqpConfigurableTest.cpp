@@ -102,3 +102,23 @@ void AmqpConfigurableTest::test_06_configuring_unsupported_parameter_must_fail()
         COMPARE(configurable.doConfigure("unknown", "value"), false, "using an unknown parameter must fail");
     }, true, "w/o configuring a known parameter wrongly we succeed");
 }
+
+
+
+void AmqpConfigurableTest::test_10_test_AmqpConfiguration_uri_getter()
+{
+    TEST_REQUIREMENT("R-IPCA-AMQPCFG-005");
+
+    AmqpConfiguration configuration;
+    configuration.host = QHostAddress::LocalHost;
+    configuration.port = 12345;
+    configuration.user = "user";
+    configuration.pwd = "pwd";
+    configuration.vhost = "vhost";
+
+    COMPARE(configuration.getAmqpUri(AmqpConfiguration::UriStyle::ForUsage), QString("amqp://user:pwd@127.0.0.1:12345/vhost"), "ensure AMQP URI is complete 'for usage'");
+    COMPARE(configuration.getAmqpUri(AmqpConfiguration::UriStyle::LogSafe), QString("amqp://user:***@127.0.0.1:12345/vhost"), "ensure AMQP URI is log-safe in 'log safe' mode");
+
+    configuration.vhost = "/";
+    COMPARE(configuration.getAmqpUri(AmqpConfiguration::UriStyle::ForUsage), QString("amqp://user:pwd@127.0.0.1:12345/"), "ensure AMQP URI does not carry duplicate '/'");
+}

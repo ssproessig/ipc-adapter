@@ -24,6 +24,8 @@ namespace IpcAdapter
                 static void test_04_configuring_unsupported_exchange_type_must_fail();
                 static void test_05_configuring_unsupported_routing_key_must_fail();
                 static void test_06_configuring_unsupported_parameter_must_fail();
+
+                static void test_10_test_AmqpConfiguration_uri_getter();
             };
         }
     }

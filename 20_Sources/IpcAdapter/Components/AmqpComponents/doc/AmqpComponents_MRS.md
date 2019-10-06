@@ -40,6 +40,9 @@ The `AmqpConfigurable` SHALL use the [default exchange value of RabbitMQ](https:
 - `exchange.name` shall default to ` ` (empty string)
 - `exchange.type` shall default to `direct`
 
+## R-IPCA-AMQPCFG-005: AMQP URI getter with logging support
+The `AmqpConfiguration` SHALL provide a getter for the configured AMQP URI. The getter SHALL provide a "save getter" that replaces the configured password with `***` for logging purposes.
+
 
 ## R-IPCA-AMQPSNK-001: Provide AmqpExchangeSink
 The system SHALL provide a sink called `AmqpExchangeSink` that provides means to send pipeline data to an AMQP exchange.

@@ -40,8 +40,10 @@ void AmqpConfiguration::initDefaults()
 
 QString AmqpConfiguration::getAmqpUri(UriStyle const anUriStyle) const
 {
+    REALIZE_REQUIREMENT("R-IPCA-AMQPCFG-005");
+
     auto const password = anUriStyle == UriStyle::ForUsage ? pwd : "***";
 
     return QStringLiteral("amqp://%1:%2@%3:%4%5")
-           .arg(user).arg(password).arg(host.toString()).arg(port).arg(vhost);
+           .arg(user).arg(password).arg(host.toString()).arg(port).arg(vhost.startsWith('/') ? vhost : "/" + vhost);
 }
