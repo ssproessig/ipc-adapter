@@ -16,8 +16,11 @@ set(DOC
 source_group("Documentation" ${DOC})
 
 set(TST
+    tst/AmqpConfigurableTest.cpp
+    tst/AmqpConfigurableTest.h
     tst/AmqpExchangeSinkTest.cpp
     tst/AmqpExchangeSinkTest.h
+    tst/QAmqpSpyObjects.h
     tst/TestMain.cpp
 )
 source_group("UnitTests" ${TST})
